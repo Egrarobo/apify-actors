@@ -1,0 +1,133 @@
+{
+  "title": "Document to Markdown input",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "urls": {
+      "title": "Document URLs",
+      "type": "array",
+      "editor": "requestListSources",
+      "description": "Links to PDF, DOCX, PPTX, XLSX, CSV, TSV, HTML, TXT or Markdown files. Google Drive, Google Docs/Sheets/Slides, Dropbox, OneDrive/SharePoint, Box and GitHub share links are converted to direct downloads automatically (files must be shared as 'Anyone with the link').",
+      "prefill": [{ "url": "https://arxiv.org/pdf/1706.03762" }],
+      "sectionCaption": "1. Documents"
+    },
+    "keyValueStoreKeys": {
+      "title": "…or files in a key-value store",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Keys of files uploaded to an Apify key-value store. Use 'storeIdOrName/key', or just 'key' together with the store below (default: this run's store)."
+    },
+    "keyValueStoreId": {
+      "title": "Key-value store ID or name",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Store that holds the keys above."
+    },
+    "datasetId": {
+      "title": "…or dataset with URLs",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Apify dataset (e.g. output of a crawler) whose items contain document URLs."
+    },
+    "datasetUrlField": {
+      "title": "Dataset URL field",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Field of the dataset items that holds the URL.",
+      "default": "url"
+    },
+    "outputFormat": {
+      "title": "Output format",
+      "type": "string",
+      "editor": "select",
+      "enum": ["markdown", "text"],
+      "enumTitles": ["Markdown (headings, lists, tables)", "Plain text"],
+      "default": "markdown",
+      "sectionCaption": "2. Output and chunking"
+    },
+    "chunking": {
+      "title": "Chunking",
+      "type": "string",
+      "editor": "select",
+      "enum": ["none", "heading", "fixed"],
+      "enumTitles": ["None: one item per document", "By heading: one section per chunk (large sections split)", "Fixed size with overlap"],
+      "description": "How to split documents into dataset items for embeddings / vector databases.",
+      "default": "none"
+    },
+    "chunkSize": {
+      "title": "Chunk size",
+      "type": "integer",
+      "description": "Maximum chunk size, in the unit below. Typical for embeddings: 300–1000 tokens.",
+      "minimum": 50,
+      "maximum": 100000,
+      "default": 800
+    },
+    "chunkSizeUnit": {
+      "title": "Chunk size unit",
+      "type": "string",
+      "editor": "select",
+      "enum": ["tokens", "characters"],
+      "enumTitles": ["Tokens (cl100k_base, as OpenAI embeddings)", "Characters"],
+      "default": "tokens"
+    },
+    "chunkOverlap": {
+      "title": "Chunk overlap",
+      "type": "integer",
+      "description": "How much text from the end of a chunk is repeated at the start of the next one (same unit). Max half of the chunk size.",
+      "minimum": 0,
+      "maximum": 50000,
+      "default": 100
+    },
+    "includePageNumbers": {
+      "title": "Insert page markers",
+      "type": "boolean",
+      "description": "Adds <!-- page: N --> (Markdown) or [Page N] (text) at every page/slide boundary. Page ranges are always in each item's metadata.",
+      "default": false
+    },
+    "includeSpeakerNotes": {
+      "title": "Include PowerPoint speaker notes",
+      "type": "boolean",
+      "default": true
+    },
+    "ocr": {
+      "title": "OCR scanned pages",
+      "type": "boolean",
+      "description": "Read image-only (scanned) PDF pages and image files (PNG, JPG, TIFF, WebP) with OCR. Only pages without a text layer are OCR'd, and only those are charged as OCR pages.",
+      "default": false,
+      "sectionCaption": "3. OCR and limits"
+    },
+    "ocrLanguages": {
+      "title": "OCR languages",
+      "type": "array",
+      "editor": "select",
+      "items": {
+        "type": "string",
+        "enum": ["eng", "ron", "rus"],
+        "enumTitles": ["English", "Romanian", "Russian"]
+      },
+      "description": "Languages present in the scanned documents. Fewer languages = faster and more accurate.",
+      "default": ["eng"]
+    },
+    "maxPagesPerDocument": {
+      "title": "Max pages per document",
+      "type": "integer",
+      "description": "Process only the first N pages/slides of each document (0 = all). For formats without pages the text is cut at N × 3,000 characters.",
+      "minimum": 0,
+      "default": 0
+    },
+    "maxDocuments": {
+      "title": "Max documents",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100000,
+      "default": 1000
+    },
+    "maxFileSizeMb": {
+      "title": "Max file size (MB)",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 500,
+      "default": 100
+    }
+  }
+}

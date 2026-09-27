@@ -1,0 +1,44 @@
+{
+  "actorSpecification": 1,
+  "name": "moldova-company-registry-lookup",
+  "title": "Moldova Company Registry Lookup (IDNO)",
+  "description": "Look up Moldovan companies by IDNO (13-digit fiscal code) or by name in the official open data of the State Register of Legal Entities (ASP). Returns legal form, status, registration date, address, directors, founders and CAEM activities. Filters and full export.",
+  "version": "1.0",
+  "buildTag": "latest",
+  "input": "./input_schema.json",
+  "dockerfile": "../Dockerfile",
+  "readme": "../README.md",
+  "defaultMemoryMbytes": 1024,
+  "minMemoryMbytes": 512,
+  "storages": {
+    "dataset": {
+      "actorSpecification": 1,
+      "fields": {},
+      "views": {
+        "overview": {
+          "title": "Companies",
+          "transformation": {
+            "fields": ["found", "idno", "name", "legalFormCode", "statusCategory", "registrationDate", "address", "directors", "activityCodes", "matchedQuery", "matchScore", "dataDate"]
+          },
+          "display": {
+            "component": "table",
+            "properties": {
+              "found": { "label": "Found", "format": "boolean" },
+              "idno": { "label": "IDNO" },
+              "name": { "label": "Name" },
+              "legalFormCode": { "label": "Form" },
+              "statusCategory": { "label": "Status" },
+              "registrationDate": { "label": "Registered", "format": "date" },
+              "address": { "label": "Address" },
+              "directors": { "label": "Directors", "format": "array" },
+              "activityCodes": { "label": "CAEM codes", "format": "array" },
+              "matchedQuery": { "label": "Query" },
+              "matchScore": { "label": "Score", "format": "number" },
+              "dataDate": { "label": "Data as of", "format": "date" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

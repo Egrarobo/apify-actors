@@ -1,0 +1,17 @@
+{
+  "urls": [
+    { "url": "http://127.0.0.1:8765/report.pdf" },
+    { "url": "http://127.0.0.1:8765/handbook.docx" },
+    { "url": "http://127.0.0.1:8765/launch.pptx" },
+    { "url": "http://127.0.0.1:8765/sales-recalc.xlsx" },
+    { "url": "http://127.0.0.1:8765/products.csv" },
+    { "url": "http://127.0.0.1:8765/article.html" },
+    { "url": "http://127.0.0.1:8765/notes.txt" },
+    { "url": "http://127.0.0.1:8765/scanned.pdf" },
+    { "url": "http://127.0.0.1:8765/handbook-libreoffice.pdf" },
+    { "url": "http://127.0.0.1:8765/does-not-exist.pdf" },
+    { "url": "https://nonexistent-host.invalid/unreachable.pdf" }
+  ],
+  "outputFormat": "markdown",
+  "chunking": "none"
+}

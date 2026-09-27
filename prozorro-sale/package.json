@@ -1,0 +1,23 @@
+{
+  "name": "prozorro-sale-auctions",
+  "version": "1.0.0",
+  "description": "Search, track and get alerts for Prozorro.Sale (Ukraine) public auctions: privatization, lease, land, bankruptcy and bank assets.",
+  "main": "src/main.js",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node src/main.js",
+    "test": "node test/scenarios.mjs",
+    "validate": "node scripts/validate-schema.mjs"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "apify": "^3.7.2"
+  },
+  "devDependencies": {
+    "@apify/input_schema": "^3.17.0",
+    "ajv": "^8.17.1"
+  }
+}

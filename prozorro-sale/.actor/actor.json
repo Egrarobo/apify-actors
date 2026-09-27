@@ -1,0 +1,42 @@
+{
+  "actorSpecification": 1,
+  "name": "prozorro-sale-auctions",
+  "title": "Prozorro.Sale Ukraine Auctions — privatization, lease, land & bankrupt assets",
+  "description": "Search and monitor Ukrainian state auctions from the official Prozorro.Sale open data: privatization, property lease, land rental and sale, bankruptcy and bank (NPL) assets. Filter by type, status, region, CAV code, price and dates. Get prices, deadlines, documents, winners and alerts on Telegram, Slack, email or webhook.",
+  "version": "1.0",
+  "buildTag": "latest",
+  "input": "./input_schema.json",
+  "dockerfile": "../Dockerfile",
+  "storages": {
+    "dataset": {
+      "actorSpecification": 1,
+      "fields": {},
+      "views": {
+        "overview": {
+          "title": "Auctions",
+          "transformation": {
+            "fields": ["auctionId", "url", "title", "status", "sellingMethod", "startingPrice", "currency", "region", "city", "auctionDate", "biddingEnd", "seller", "result"]
+          },
+          "display": {
+            "component": "table",
+            "properties": {
+              "auctionId": { "label": "Auction ID", "format": "text" },
+              "url": { "label": "Page", "format": "link" },
+              "title": { "label": "Title", "format": "text" },
+              "status": { "label": "Status", "format": "text" },
+              "sellingMethod": { "label": "Type", "format": "text" },
+              "startingPrice": { "label": "Starting price", "format": "number" },
+              "currency": { "label": "Currency", "format": "text" },
+              "region": { "label": "Region", "format": "text" },
+              "city": { "label": "City", "format": "text" },
+              "auctionDate": { "label": "Auction date", "format": "date" },
+              "biddingEnd": { "label": "Bids until", "format": "date" },
+              "seller": { "label": "Organizer", "format": "object" },
+              "result": { "label": "Result", "format": "object" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

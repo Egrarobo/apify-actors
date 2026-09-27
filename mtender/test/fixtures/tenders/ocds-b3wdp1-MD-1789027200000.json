@@ -1,0 +1,285 @@
+{
+  "uri": "https://public.mtender.gov.md/tenders/ocds-b3wdp1-MD-1789027200000",
+  "version": "1.1",
+  "extensions": [],
+  "publisher": {
+    "name": "M-Tender",
+    "uri": "https://www.mtender.gov.md"
+  },
+  "license": "http://opendefinition.org/licenses/",
+  "publicationPolicy": "http://opendefinition.org/licenses/",
+  "publishedDate": "2026-09-12T10:00:00Z",
+  "packages": [
+    "http://public.mtender.gov.md/tenders/ocds-b3wdp1-MD-1789027200000/ocds-b3wdp1-MD-1789027200000",
+    "http://public.mtender.gov.md/tenders/ocds-b3wdp1-MD-1789027200000/ocds-b3wdp1-MD-1789027200000-EV-1789027201000"
+  ],
+  "records": [
+    {
+      "ocid": "ocds-b3wdp1-MD-1789027200000",
+      "compiledRelease": {
+        "ocid": "ocds-b3wdp1-MD-1789027200000",
+        "id": "ocds-b3wdp1-MD-1789027200000-1789207200000",
+        "date": "2026-09-12T10:00:00Z",
+        "tag": [
+          "compiled"
+        ],
+        "initiationType": "tender",
+        "planning": {
+          "budget": {
+            "description": "Buget",
+            "amount": {
+              "amount": 1250000,
+              "currency": "MDL"
+            },
+            "isEuropeanUnionFunded": false
+          }
+        },
+        "tender": {
+          "id": "b7c1f3a2-0001",
+          "title": "Achiziționarea medicamentelor pentru anul 2027",
+          "description": "Medicamente și consumabile medicale pentru secțiile spitalului",
+          "classification": {
+            "scheme": "CPV",
+            "id": "33600000-6",
+            "description": "Produse farmaceutice"
+          },
+          "status": "active",
+          "statusDetails": "evaluation",
+          "value": {
+            "amount": 1250000,
+            "currency": "MDL"
+          },
+          "procurementMethod": "open",
+          "procurementMethodDetails": "openTender",
+          "mainProcurementCategory": "goods",
+          "procuringEntity": {
+            "id": "MD-IDNO-1003600012345",
+            "name": "IMSP Spitalul Clinic Republican „Timofei Moșneaga”"
+          },
+          "legalBasis": "NATIONAL_PROCUREMENT_LAW"
+        },
+        "parties": [
+          {
+            "id": "MD-IDNO-1003600012345",
+            "name": "IMSP Spitalul Clinic Republican „Timofei Moșneaga”",
+            "identifier": {
+              "scheme": "MD-IDNO",
+              "id": "1003600012345",
+              "legalName": "IMSP Spitalul Clinic Republican „Timofei Moșneaga”"
+            },
+            "address": {
+              "streetAddress": "str. Exemplu 1",
+              "postalCode": "MD-2001",
+              "addressDetails": {
+                "country": {
+                  "scheme": "iso-alpha2",
+                  "id": "MD",
+                  "description": "Moldova, Republica"
+                },
+                "region": {
+                  "scheme": "CUATM",
+                  "id": "0101000",
+                  "description": "mun.Chişinău"
+                },
+                "locality": {
+                  "scheme": "CUATM",
+                  "id": "0101000",
+                  "description": "mun.Chişinău"
+                }
+              }
+            },
+            "contactPoint": {
+              "name": "Persoana de contact",
+              "email": "achizitii@scr.md",
+              "telephone": "+37322000000"
+            },
+            "roles": [
+              "buyer",
+              "procuringEntity"
+            ]
+          }
+        ],
+        "relatedProcesses": []
+      }
+    },
+    {
+      "ocid": "ocds-b3wdp1-MD-1789027200000-EV-1789027201000",
+      "compiledRelease": {
+        "ocid": "ocds-b3wdp1-MD-1789027200000-EV-1789027201000",
+        "id": "ocds-b3wdp1-MD-1789027200000-EV-1789027201000-1789207200000",
+        "date": "2026-09-12T10:00:00Z",
+        "tag": [
+          "tender"
+        ],
+        "initiationType": "tender",
+        "tender": {
+          "id": "b7c1f3a2-0002",
+          "title": "Achiziționarea medicamentelor pentru anul 2027",
+          "description": "Lot 1 antibiotice, lot 2 analgezice",
+          "status": "active",
+          "statusDetails": "clarification",
+          "enquiryPeriod": {
+            "startDate": "2026-09-10T08:00:00Z",
+            "endDate": "2026-09-20T08:00:00Z"
+          },
+          "tenderPeriod": {
+            "startDate": "2026-09-10T08:00:00Z",
+            "endDate": "2026-09-30T08:00:00Z"
+          },
+          "auctionPeriod": {
+            "startDate": "2026-10-01T09:00:00Z"
+          },
+          "procurementMethodModalities": [
+            "electronicAuction"
+          ],
+          "lots": [
+            {
+              "id": "lot-1",
+              "title": "Antibiotice",
+              "description": "Amoxicilină, ceftriaxonă",
+              "status": "active",
+              "statusDetails": "empty",
+              "value": {
+                "amount": 750000,
+                "currency": "MDL"
+              },
+              "contractPeriod": {
+                "startDate": "2027-01-01T00:00:00Z",
+                "endDate": "2027-12-31T00:00:00Z"
+              },
+              "placeOfPerformance": {
+                "address": {
+                  "streetAddress": "str. Nicolae Testemițanu 29",
+                  "addressDetails": {
+                    "country": {
+                      "description": "Moldova, Republica"
+                    },
+                    "region": {
+                      "description": "mun.Chişinău"
+                    },
+                    "locality": {
+                      "description": "mun.Chişinău"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "id": "lot-2",
+              "title": "Analgezice",
+              "description": "Paracetamol",
+              "status": "active",
+              "value": {
+                "amount": 500000,
+                "currency": "MDL"
+              }
+            }
+          ],
+          "items": [
+            {
+              "id": "item-1",
+              "description": "Amoxicilină 500 mg",
+              "classification": {
+                "scheme": "CPV",
+                "id": "33651100-9",
+                "description": "Antibacteriene de uz sistemic"
+              },
+              "quantity": 10000,
+              "unit": {
+                "id": "120",
+                "name": "Bucată"
+              },
+              "relatedLot": "lot-1"
+            },
+            {
+              "id": "item-2",
+              "description": "Paracetamol 500 mg",
+              "classification": {
+                "scheme": "CPV",
+                "id": "33661000-5",
+                "description": "Medicamente pentru sistemul nervos"
+              },
+              "quantity": 20000,
+              "unit": {
+                "id": "120",
+                "name": "Bucată"
+              },
+              "relatedLot": "lot-2"
+            }
+          ],
+          "documents": [
+            {
+              "id": "t1-1-1757000000000",
+              "documentType": "biddingDocuments",
+              "title": "Caiet de sarcini.pdf",
+              "url": "https://storage.mtender.gov.md/get/t1-1-1757000000000",
+              "datePublished": "2026-09-10T08:05:00Z",
+              "relatedLots": []
+            },
+            {
+              "id": "t1-2-1757000000000",
+              "documentType": "technicalSpecifications",
+              "title": "Specificații lot 1.pdf",
+              "url": "https://storage.mtender.gov.md/get/t1-2-1757000000000",
+              "datePublished": "2026-09-10T08:05:00Z",
+              "relatedLots": [
+                "lot-1"
+              ]
+            }
+          ]
+        },
+        "parties": [
+          {
+            "id": "MD-IDNO-1003600012345",
+            "name": "IMSP Spitalul Clinic Republican „Timofei Moșneaga”",
+            "identifier": {
+              "scheme": "MD-IDNO",
+              "id": "1003600012345",
+              "legalName": "IMSP Spitalul Clinic Republican „Timofei Moșneaga”"
+            },
+            "address": {
+              "streetAddress": "str. Exemplu 1",
+              "postalCode": "MD-2001",
+              "addressDetails": {
+                "country": {
+                  "scheme": "iso-alpha2",
+                  "id": "MD",
+                  "description": "Moldova, Republica"
+                },
+                "region": {
+                  "scheme": "CUATM",
+                  "id": "0101000",
+                  "description": "mun.Chişinău"
+                },
+                "locality": {
+                  "scheme": "CUATM",
+                  "id": "0101000",
+                  "description": "mun.Chişinău"
+                }
+              }
+            },
+            "contactPoint": {
+              "name": "Persoana de contact",
+              "email": "achizitii@scr.md",
+              "telephone": "+37322000000"
+            },
+            "roles": [
+              "buyer",
+              "procuringEntity"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "actualReleases": [
+    {
+      "ocid": "ocds-b3wdp1-MD-1789027200000",
+      "uri": "http://public.mtender.gov.md/tenders/ocds-b3wdp1-MD-1789027200000/ocds-b3wdp1-MD-1789027200000"
+    },
+    {
+      "ocid": "ocds-b3wdp1-MD-1789027200000-EV-1789027201000",
+      "uri": "http://public.mtender.gov.md/tenders/ocds-b3wdp1-MD-1789027200000/ocds-b3wdp1-MD-1789027200000-EV-1789027201000"
+    }
+  ]
+}

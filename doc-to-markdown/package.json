@@ -1,0 +1,32 @@
+{
+  "name": "document-to-markdown-rag",
+  "version": "1.0.0",
+  "description": "Convert PDF, DOCX, PPTX, XLSX, CSV, HTML and TXT to clean Markdown chunks for LLMs and RAG.",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "node src/main.js",
+    "fixtures": "python3 scripts/make-fixtures.py"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@mixmark-io/domino": "^2.2.0",
+    "@napi-rs/canvas": "^1.0.9",
+    "@tesseract.js-data/eng": "^1.0.0",
+    "@tesseract.js-data/ron": "^1.0.0",
+    "@tesseract.js-data/rus": "^1.0.0",
+    "apify": "^3.7.2",
+    "exceljs": "^4.4.0",
+    "fast-xml-parser": "^5.11.1",
+    "js-tiktoken": "^1.0.21",
+    "jszip": "^3.10.2",
+    "mammoth": "^1.12.3",
+    "papaparse": "^5.7.0",
+    "pdfjs-dist": "^6.3.289",
+    "tesseract.js": "^7.0.0",
+    "turndown": "^7.2.4",
+    "turndown-plugin-gfm": "^1.0.2"
+  }
+}

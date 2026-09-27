@@ -1,0 +1,14 @@
+{
+  "urls": [
+    "http://127.0.0.1:8765/scanned.pdf",
+    "http://127.0.0.1:8765/handbook-libreoffice.pdf",
+    "http://127.0.0.1:8765/sales-recalc.xlsx"
+  ],
+  "outputFormat": "text",
+  "chunking": "fixed",
+  "chunkSize": 300,
+  "chunkSizeUnit": "characters",
+  "chunkOverlap": 50,
+  "ocr": true,
+  "ocrLanguages": ["eng", "ron"]
+}

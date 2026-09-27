@@ -1,0 +1,201 @@
+{
+  "title": "Dataset Change Monitor input",
+  "description": "Compare the latest scraper results with the previous run and output only new, changed and removed items.",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "datasetId": {
+      "title": "Dataset ID",
+      "type": "string",
+      "editor": "textfield",
+      "description": "ID or name of the Apify dataset to check, e.g. the default dataset of your scraper's latest run. Leave empty when this Actor runs as an integration after another Actor: the finished run's dataset is used automatically.",
+      "sectionCaption": "1. What to check"
+    },
+    "actorRunId": {
+      "title": "…or Actor run ID",
+      "type": "string",
+      "editor": "textfield",
+      "description": "ID of a finished Actor run. Its default dataset is compared."
+    },
+    "datasetUrl": {
+      "title": "…or JSON / CSV URL",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Public link to a JSON array, JSON Lines or CSV file, e.g. an Apify dataset export link (https://api.apify.com/v2/datasets/…/items?format=json)."
+    },
+    "items": {
+      "title": "…or items (JSON)",
+      "type": "array",
+      "editor": "json",
+      "description": "Array of objects to compare. Handy for testing or when calling the Actor from Make, Zapier or n8n."
+    },
+    "monitorName": {
+      "title": "Monitor name",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Each name keeps its own memory of the previous run. Use a different name for every scraper or search you track, e.g. \"amazon-laptops\". If empty, the name is taken from the source Actor or task (integration) or \"default\".",
+      "prefill": "my-monitor",
+      "sectionCaption": "2. How items are matched"
+    },
+    "idFields": {
+      "title": "Unique key fields",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Field(s) that identify the same item between runs, e.g. url, id or asin. Nested fields use dots (offer.id). If empty, the whole item is the key: items can then only be new or removed, never changed.",
+      "prefill": [
+        "url"
+      ]
+    },
+    "compareFields": {
+      "title": "Fields to watch",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Only these fields decide whether an item changed, e.g. price, stock, title. Leave empty to watch all fields except the ignored ones."
+    },
+    "ignoreFields": {
+      "title": "Fields to ignore",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Fields that change on every run and are not real changes, e.g. scrapedAt, timestamp, position. Used when \"Fields to watch\" is empty.",
+      "prefill": [
+        "scrapedAt",
+        "crawledAt",
+        "timestamp"
+      ]
+    },
+    "reportNew": {
+      "title": "Report new items",
+      "type": "boolean",
+      "description": "Items whose key did not exist in the previous run.",
+      "default": true,
+      "sectionCaption": "3. What to report"
+    },
+    "reportChanged": {
+      "title": "Report changed items",
+      "type": "boolean",
+      "description": "Items whose watched fields differ from the previous run.",
+      "default": true
+    },
+    "trackRemoved": {
+      "title": "Report removed items",
+      "type": "boolean",
+      "description": "Items that were in the previous run but are missing now.",
+      "default": true
+    },
+    "reportAllOnFirstRun": {
+      "title": "Report all items as new on the first run",
+      "type": "boolean",
+      "description": "By default the first run only saves a baseline and reports nothing.",
+      "default": false
+    },
+    "detailedDiff": {
+      "title": "Show which fields changed (before → after)",
+      "type": "boolean",
+      "description": "Keeps a compact copy of each item between runs. Turn off for very large datasets to use less memory; changed items are still detected.",
+      "default": true
+    },
+    "maxChangesPerItem": {
+      "title": "Max field changes listed per item",
+      "type": "integer",
+      "description": "Limits the size of the \"changes\" list for items with many modified fields.",
+      "minimum": 1,
+      "maximum": 200,
+      "default": 20
+    },
+    "maxItems": {
+      "title": "Max items to compare",
+      "type": "integer",
+      "description": "0 = no limit. When the limit is hit, removed items are not reported for that run.",
+      "minimum": 0,
+      "default": 0
+    },
+    "notifyMaxItems": {
+      "title": "Changes listed in a message",
+      "type": "integer",
+      "description": "How many changes Telegram, Slack and email messages list before \"…and N more\".",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 10,
+      "sectionCaption": "4. Notifications (optional, sent only when something changed)"
+    },
+    "notifyOnNoChanges": {
+      "title": "Also notify when nothing changed",
+      "type": "boolean",
+      "description": "Sends a short \"no changes\" message after every run, useful to know the monitor is alive.",
+      "default": false
+    },
+    "telegramBotToken": {
+      "title": "Telegram bot token",
+      "type": "string",
+      "editor": "textfield",
+      "isSecret": true,
+      "description": "Create a bot with @BotFather and paste its token."
+    },
+    "telegramChatId": {
+      "title": "Telegram chat ID",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Your user, group or channel ID (e.g. 123456789 or -1001234567890). Add the bot to the group or channel first."
+    },
+    "slackWebhookUrl": {
+      "title": "Slack incoming webhook URL",
+      "type": "string",
+      "editor": "textfield",
+      "isSecret": true,
+      "description": "https://hooks.slack.com/services/…"
+    },
+    "webhookUrl": {
+      "title": "Webhook URL",
+      "type": "string",
+      "editor": "textfield",
+      "isSecret": true,
+      "description": "Receives a POST with a JSON summary and the first changes. Works with Make, Zapier, n8n or your own server."
+    },
+    "webhookMaxItems": {
+      "title": "Changes included in the webhook",
+      "type": "integer",
+      "description": "Maximum number of change records included in the webhook JSON. The full list is always in the dataset.",
+      "minimum": 0,
+      "maximum": 1000,
+      "default": 100
+    },
+    "emailTo": {
+      "title": "Email to",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Sends a summary email through the apify/send-mail Actor (billed as a separate small run on your account). Several addresses: separate with commas."
+    },
+    "emailSubject": {
+      "title": "Email subject",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Default: \"<monitor>: 3 new, 1 changed, 0 removed\"."
+    },
+    "resetState": {
+      "title": "Start over",
+      "type": "boolean",
+      "description": "Forget the previous snapshot of this monitor and create a new baseline.",
+      "default": false,
+      "sectionCaption": "5. Advanced"
+    },
+    "allowEmptySource": {
+      "title": "Allow an empty source",
+      "type": "boolean",
+      "description": "By default an empty dataset is treated as a failed scrape: nothing is reported as removed and the snapshot is kept. Enable if an empty result can be real.",
+      "default": false
+    },
+    "stateStoreName": {
+      "title": "State storage name",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Named key-value store that keeps the snapshots between runs. Letters, digits and \"-\" only.",
+      "default": "change-monitor-state"
+    },
+    "payload": {
+      "title": "Integration payload",
+      "type": "object",
+      "editor": "json",
+      "description": "Filled automatically when this Actor runs as an integration after another Actor. Leave empty."
+    }
+  }
+}

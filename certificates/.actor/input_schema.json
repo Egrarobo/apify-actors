@@ -1,0 +1,167 @@
+{
+  "title": "Bulk certificate generator input",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "csvUrl": {
+      "title": "Google Sheet or CSV link",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Link to a Google Sheet (sharing: 'Anyone with the link can view') or to a CSV file. The first row must contain column names, e.g. name, course, date.",
+      "sectionCaption": "1. Your list of people"
+    },
+    "csvText": {
+      "title": "…or paste CSV",
+      "type": "string",
+      "editor": "textarea",
+      "description": "Paste rows directly. First row = column names.",
+      "prefill": "name,course,date\nMaria Popescu,Intro to Python,September 20 2026\nJohn Smith,Intro to Python,September 20 2026"
+    },
+    "records": {
+      "title": "…or JSON records",
+      "type": "array",
+      "editor": "json",
+      "description": "Array of objects, e.g. [{\"name\": \"Anna\", \"course\": \"Robotics\"}]. Used before CSV if both are given."
+    },
+    "datasetId": {
+      "title": "…or Apify dataset ID",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Use items from an existing Apify dataset (e.g. output of another Actor)."
+    },
+    "nameField": {
+      "title": "Name column",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Column that holds the person's name. Rows where it is empty are skipped.",
+      "default": "name"
+    },
+    "template": {
+      "title": "Design",
+      "type": "string",
+      "editor": "select",
+      "enum": ["certificate-classic", "certificate-modern", "diploma-kids", "custom"],
+      "enumTitles": ["Classic certificate", "Modern certificate", "Kids diploma", "Custom HTML"],
+      "default": "certificate-classic",
+      "sectionCaption": "2. Design and text"
+    },
+    "title": {
+      "title": "Title",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Supports {{column}} placeholders.",
+      "default": "Certificate"
+    },
+    "subtitle": {
+      "title": "Subtitle",
+      "type": "string",
+      "editor": "textfield",
+      "default": "of completion"
+    },
+    "body": {
+      "title": "Main text",
+      "type": "string",
+      "editor": "textarea",
+      "description": "Use {{column}} to insert any column from your list, e.g. {{course}}, {{hours}}, {{grade}}.",
+      "default": "This certificate is awarded for successfully completing {{course}}."
+    },
+    "date": {
+      "title": "Date line",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Fixed text or {{date}} to take it from your list."
+    },
+    "issuer": {
+      "title": "Organization",
+      "type": "string",
+      "editor": "textfield"
+    },
+    "logoUrl": {
+      "title": "Logo URL",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Public link to a PNG/JPG/SVG logo."
+    },
+    "accentColor": {
+      "title": "Accent color",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Hex color, e.g. #1f4e8c.",
+      "default": "#1f4e8c"
+    },
+    "signature1Name": { "title": "Signature 1 — name", "type": "string", "editor": "textfield" },
+    "signature1Title": { "title": "Signature 1 — role", "type": "string", "editor": "textfield" },
+    "signature2Name": { "title": "Signature 2 — name", "type": "string", "editor": "textfield" },
+    "signature2Title": { "title": "Signature 2 — role", "type": "string", "editor": "textfield" },
+    "pageSize": {
+      "title": "Paper size",
+      "type": "string",
+      "editor": "select",
+      "enum": ["A4", "Letter"],
+      "default": "A4"
+    },
+    "orientation": {
+      "title": "Orientation",
+      "type": "string",
+      "editor": "select",
+      "enum": ["landscape", "portrait"],
+      "default": "landscape"
+    },
+    "addQrCode": {
+      "title": "Add QR verification code",
+      "type": "boolean",
+      "description": "Adds a QR code and certificate ID in the corner.",
+      "default": false,
+      "sectionCaption": "3. Verification and files"
+    },
+    "verifyUrlTemplate": {
+      "title": "QR link",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Where the QR code points, e.g. https://yourschool.com/verify?id={{certificateId}}"
+    },
+    "certificateIdPrefix": {
+      "title": "Certificate ID prefix",
+      "type": "string",
+      "editor": "textfield",
+      "description": "IDs become PREFIX0001, PREFIX0002… A 'certificateId' column in your list overrides this."
+    },
+    "fileNameTemplate": {
+      "title": "File name",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Supports {{column}} placeholders.",
+      "default": "{{name}}"
+    },
+    "outputZip": {
+      "title": "Create ZIP of all PDFs",
+      "type": "boolean",
+      "default": true
+    },
+    "mergeIntoOnePdf": {
+      "title": "Also create one merged PDF (for printing)",
+      "type": "boolean",
+      "default": false
+    },
+    "maxDocuments": {
+      "title": "Max documents",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 20000,
+      "default": 1000
+    },
+    "customHtml": {
+      "title": "Custom HTML (design = Custom)",
+      "type": "string",
+      "editor": "textarea",
+      "description": "Your own page HTML with {{column}} placeholders. {{qrDataUrl}} gives the QR image. Wrap content in <div class=\"page\">…</div>.",
+      "sectionCaption": "4. Advanced: your own design"
+    },
+    "customCss": {
+      "title": "Custom CSS",
+      "type": "string",
+      "editor": "textarea",
+      "description": "Extra CSS. Fonts available: Montserrat, Playfair Display, Great Vibes, Lora."
+    }
+  }
+}

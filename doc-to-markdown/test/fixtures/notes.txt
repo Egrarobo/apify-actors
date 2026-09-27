@@ -1,0 +1,5 @@
+Meeting notes
+
+Attendees: Silvia, Dan
+
+Retrieval-augmented generation (RAG) combines a search step with a language model. Documents are split into chunks, embedded, and stored in a vector database. At query time the most relevant chunks are retrieved and added to the prompt. Retrieval-augmented generation (RAG) combines a search step with a language model. Documents are split into chunks, embedded, and stored in a vector database. At query time the most relevant chunks are retrieved and added to the prompt. 

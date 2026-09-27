@@ -1,0 +1,32 @@
+{
+  "actorSpecification": 1,
+  "name": "dataset-change-monitor",
+  "title": "Dataset Change Monitor — get only new, changed & removed items",
+  "description": "Compare every scraper run with the previous one and get only new, changed and removed items, with field-level before/after diffs. Alerts via Telegram, Slack, webhook or email. Works with any Apify Actor, dataset, JSON or CSV.",
+  "version": "1.0",
+  "buildTag": "latest",
+  "input": "./input_schema.json",
+  "dockerfile": "../Dockerfile",
+  "storages": {
+    "dataset": {
+      "actorSpecification": 1,
+      "fields": {},
+      "views": {
+        "overview": {
+          "title": "Changes",
+          "transformation": { "fields": ["changeType", "key", "changedFields", "changes", "item"] },
+          "display": {
+            "component": "table",
+            "properties": {
+              "changeType": { "label": "Change", "format": "text" },
+              "key": { "label": "Key", "format": "text" },
+              "changedFields": { "label": "Changed fields", "format": "array" },
+              "changes": { "label": "Before → after", "format": "array" },
+              "item": { "label": "Item", "format": "object" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

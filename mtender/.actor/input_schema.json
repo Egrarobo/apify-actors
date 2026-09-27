@@ -1,0 +1,272 @@
+{
+  "title": "MTender Moldova tenders input",
+  "description": "Search Moldova public procurement tenders on MTender, get full details for tender IDs, or monitor new tenders and get alerts. Leave everything empty to list tenders published in the last 3 days.",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "keywords": {
+      "title": "Keywords",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Words to find in the tender title, description, lots and items. Romanian diacritics and case are ignored (\"constructie\" finds \"Construcție\"); Russian text works too. Parts of words match, so \"medicament\" also finds \"medicamentelor\". Empty = no keyword filter.",
+      "prefill": ["medicamente"],
+      "sectionCaption": "1. What to search for"
+    },
+    "keywordsMatch": {
+      "title": "Keyword logic",
+      "type": "string",
+      "editor": "select",
+      "description": "\"any\": a tender matches if it contains at least one keyword. \"all\": it must contain every keyword.",
+      "enum": ["any", "all"],
+      "enumTitles": ["Any keyword", "All keywords"],
+      "default": "any"
+    },
+    "excludeKeywords": {
+      "title": "Exclude keywords",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Tenders containing any of these words are skipped, e.g. \"reparatie\"."
+    },
+    "cpvPrefixes": {
+      "title": "CPV codes (prefixes)",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Common Procurement Vocabulary code prefixes, e.g. \"33\" (medical equipment and pharmaceuticals), \"45\" (construction works), \"30200000\" (computer equipment). A tender matches if its main CPV code or any item's CPV code starts with one of them."
+    },
+    "statuses": {
+      "title": "Status",
+      "type": "array",
+      "editor": "select",
+      "description": "Overall status of the procurement process. Empty = any status. \"active\" = open or being evaluated, \"complete\" = awarded and finished, \"cancelled\", \"unsuccessful\" = no valid offers, \"planning\"/\"planned\" = announced plans.",
+      "items": {
+        "type": "string",
+        "enum": ["active", "complete", "cancelled", "unsuccessful", "planning", "planned", "withdrawn"],
+        "enumTitles": ["Active", "Complete", "Cancelled", "Unsuccessful", "Planning", "Planned", "Withdrawn"]
+      }
+    },
+    "methods": {
+      "title": "Procurement method",
+      "type": "array",
+      "editor": "stringList",
+      "description": "OCDS method (\"open\", \"selective\", \"limited\", \"direct\") or MTender method detail code as shown in the \"methodDetails\" output field (e.g. \"openTender\", \"smallValue\", \"microValue\"). Case-insensitive, exact match. Empty = any method."
+    },
+    "categories": {
+      "title": "Category",
+      "type": "array",
+      "editor": "select",
+      "description": "Main procurement category. Empty = any.",
+      "items": {
+        "type": "string",
+        "enum": ["goods", "works", "services"],
+        "enumTitles": ["Goods", "Works", "Services"]
+      }
+    },
+    "buyerNames": {
+      "title": "Buyer name contains",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Part of the contracting authority's name, e.g. \"Primaria\", \"Spitalul\", \"Ministerul Sanatatii\". Diacritics and case are ignored."
+    },
+    "buyerIdnos": {
+      "title": "Buyer IDNO",
+      "type": "array",
+      "editor": "stringList",
+      "description": "13-digit state registration number (IDNO / fiscal code) of the contracting authority."
+    },
+    "minValue": {
+      "title": "Minimum estimated value",
+      "type": "integer",
+      "editor": "number",
+      "description": "Estimated tender value, in the tender's currency (almost always MDL). Tenders without a published value are skipped when a value filter is set, unless you enable \"Keep tenders without a value\".",
+      "minimum": 0
+    },
+    "maxValue": {
+      "title": "Maximum estimated value",
+      "type": "integer",
+      "editor": "number",
+      "description": "Upper limit of the estimated tender value.",
+      "minimum": 0
+    },
+    "currency": {
+      "title": "Currency",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Only tenders whose estimated value is in this currency, e.g. MDL, EUR or USD. Empty = any."
+    },
+    "includeWithoutValue": {
+      "title": "Keep tenders without a value",
+      "type": "boolean",
+      "description": "With a minimum or maximum value or a currency set, also keep tenders whose value is not published.",
+      "default": false
+    },
+    "dateFrom": {
+      "title": "Published since",
+      "type": "string",
+      "editor": "datepicker",
+      "dateType": "absoluteOrRelative",
+      "description": "Start of the period: a date (2026-09-01), a date and time in UTC (2026-09-01T08:00:00Z) or a relative value such as \"7 days\" or \"12 hours\" (= ago). Default: 3 days ago. In monitor mode it is only used on the first run.",
+      "sectionCaption": "2. Period and source"
+    },
+    "dateTo": {
+      "title": "Published until",
+      "type": "string",
+      "editor": "datepicker",
+      "dateType": "absoluteOrRelative",
+      "description": "End of the period (inclusive). Empty = now. Ignored in monitor mode."
+    },
+    "onlyNewlyPublished": {
+      "title": "Only tenders published in the period",
+      "type": "boolean",
+      "description": "MTender lists tenders by their last update. When enabled, older tenders that were only updated in the period (e.g. awarded or amended) are skipped. Disable to also get updates of older tenders, e.g. to track awards.",
+      "default": true
+    },
+    "feed": {
+      "title": "MTender feed",
+      "type": "string",
+      "editor": "select",
+      "description": "\"All procedures\" covers everything. \"Contract notices\" are calls for competition. \"Plans\" are planned procurements announced ahead of the tender.",
+      "enum": ["all", "contractNotices", "plans"],
+      "enumTitles": ["All procedures", "Contract notices", "Procurement plans"],
+      "default": "all"
+    },
+    "tenderIds": {
+      "title": "Tender IDs (details mode)",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Get full details for these tenders only: OCIDs like \"ocds-b3wdp1-MD-1612345678901\" or MTender links. When filled, the search filters and the period are ignored.",
+      "sectionCaption": "3. Tender details by ID (optional)"
+    },
+    "monitorName": {
+      "title": "Monitor name",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Turns on monitor mode: the Actor remembers the tenders it has seen under this name and outputs (and alerts) only NEW matching tenders on each run. Use one name per saved search, e.g. \"medical-supplies\", and run it on a schedule. The first run only saves a baseline.",
+      "sectionCaption": "4. Monitor new tenders (optional)"
+    },
+    "reportAllOnFirstRun": {
+      "title": "Report current matches on the first run",
+      "type": "boolean",
+      "description": "By default the first monitor run only remembers the current matching tenders and reports nothing. Enable to get them as new on the first run.",
+      "default": false
+    },
+    "resetState": {
+      "title": "Start over",
+      "type": "boolean",
+      "description": "Forget the tenders this monitor has already seen and create a new baseline.",
+      "default": false
+    },
+    "notifyMaxItems": {
+      "title": "Tenders listed in a message",
+      "type": "integer",
+      "description": "How many new tenders Telegram, Slack and email messages list before \"…and N more\".",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 10,
+      "sectionCaption": "5. Alerts (monitor mode, sent only when there are new tenders)"
+    },
+    "notifyOnNoChanges": {
+      "title": "Also notify when nothing is new",
+      "type": "boolean",
+      "description": "Sends a short \"no new tenders\" message after every monitor run, so you know it is alive.",
+      "default": false
+    },
+    "telegramBotToken": {
+      "title": "Telegram bot token",
+      "type": "string",
+      "editor": "textfield",
+      "isSecret": true,
+      "description": "Create a bot with @BotFather and paste its token."
+    },
+    "telegramChatId": {
+      "title": "Telegram chat ID",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Your user, group or channel ID (e.g. 123456789 or -1001234567890). Add the bot to the group or channel first."
+    },
+    "slackWebhookUrl": {
+      "title": "Slack incoming webhook URL",
+      "type": "string",
+      "editor": "textfield",
+      "isSecret": true,
+      "description": "https://hooks.slack.com/services/…"
+    },
+    "webhookUrl": {
+      "title": "Webhook URL",
+      "type": "string",
+      "editor": "textfield",
+      "isSecret": true,
+      "description": "Receives a POST with JSON: event, summary, message and the new tenders. Works with n8n, Make, Zapier or your own server."
+    },
+    "webhookMaxItems": {
+      "title": "Tenders included in the webhook",
+      "type": "integer",
+      "description": "Maximum number of tenders in the webhook JSON. All of them are always in the dataset.",
+      "minimum": 0,
+      "maximum": 1000,
+      "default": 100
+    },
+    "emailTo": {
+      "title": "Email to",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Sends a summary email through the apify/send-mail Actor (a separate small run on your account). Several addresses: separate with commas."
+    },
+    "emailSubject": {
+      "title": "Email subject",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Default: \"<monitor>: 3 new MTender tender(s)\"."
+    },
+    "maxResults": {
+      "title": "Max results",
+      "type": "integer",
+      "description": "Maximum number of tenders to output (and pay for) in one run. 0 = no limit. In monitor mode, new tenders beyond the limit are reported on the next run.",
+      "minimum": 0,
+      "default": 100,
+      "sectionCaption": "6. Limits and advanced"
+    },
+    "maxScan": {
+      "title": "Max tenders to check",
+      "type": "integer",
+      "description": "MTender has no server-side search, so every tender updated in the period is loaded and filtered. This caps how many are checked per run. Checking is not charged; you pay only for results.",
+      "minimum": 1,
+      "maximum": 100000,
+      "default": 3000
+    },
+    "includeRaw": {
+      "title": "Include raw OCDS data",
+      "type": "boolean",
+      "description": "Adds the original MTender record package (OCDS JSON) to each tender as \"raw\". Makes results much larger.",
+      "default": false
+    },
+    "maxConcurrency": {
+      "title": "Parallel requests",
+      "type": "integer",
+      "description": "How many requests are sent to MTender at the same time. Keep it low to be polite to the public API.",
+      "minimum": 1,
+      "maximum": 8,
+      "default": 4
+    },
+    "requestDelayMs": {
+      "title": "Delay between requests (ms)",
+      "type": "integer",
+      "description": "Minimum gap between the start of two requests to MTender.",
+      "minimum": 0,
+      "maximum": 10000,
+      "default": 150
+    },
+    "stateStoreName": {
+      "title": "Monitor storage name",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Named key-value store that keeps what each monitor has seen. Letters, digits and \"-\" only.",
+      "default": "mtender-monitor-state"
+    },
+    "apiBaseUrl": {
+      "title": "API base URL",
+      "type": "string",
+      "editor": "textfield",
+      "description": "For testing only. Leave empty to use the official MTender API (https://public.mtender.gov.md)."
+    }
+  }
+}

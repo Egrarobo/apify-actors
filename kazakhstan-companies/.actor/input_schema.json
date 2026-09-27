@@ -1,0 +1,118 @@
+{
+  "title": "Kazakhstan company lookup input",
+  "description": "Look up Kazakh legal entities by BIN or by name in official public sources.",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "bins": {
+      "title": "BINs",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Kazakh business identification numbers (BIN, 12 digits), e.g. 971240001315. Spaces and dashes are ignored. Each BIN returns one item. Unknown BINs return \"found\": false and invalid BINs return \"lookupStatus\": \"invalid\". Neither is charged.",
+      "prefill": ["971240001315"],
+      "sectionCaption": "1. What to look up"
+    },
+    "names": {
+      "title": "Company names",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Company names or name fragments in Russian or Kazakh (Cyrillic), as registered, e.g. \"Казахтелеком\" or \"Каспи Банк\". Legal-form words such as ТОО, АО or LLP are ignored. Searches the state register on data.egov.kz. Up to \"Max results per name\" best matches are returned."
+    },
+    "maxResults": {
+      "title": "Max results per name",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 200,
+      "default": 10,
+      "description": "Maximum number of companies returned for each name query. Best matches come first."
+    },
+    "language": {
+      "title": "Language of values",
+      "type": "string",
+      "editor": "select",
+      "enum": ["ru", "kz", "en"],
+      "enumTitles": ["Russian", "Kazakh", "English (where the source provides it)"],
+      "default": "ru",
+      "description": "Language for the main name, status, address and classifier labels. Keys are always English, and both Russian and Kazakh names are always included. The state register publishes only Russian and Kazakh, so \"en\" gives English classifier labels (OKED, size) from stat.gov.kz and Russian for everything else."
+    },
+    "sources": {
+      "title": "Sources",
+      "type": "array",
+      "editor": "select",
+      "items": {
+        "type": "string",
+        "enum": ["registry", "statistics"],
+        "enumTitles": ["State register of legal entities (data.egov.kz)", "Statistical register (stat.gov.kz)"]
+      },
+      "default": ["registry", "statistics"],
+      "description": "registry: Ministry of Justice state register on data.egov.kz (name, status, registration date, address, director, activity). statistics: Bureau of National Statistics (OKED code, size class KRP, KATO code, ownership form, sector). Using both gives the most complete record.",
+      "sectionCaption": "2. Sources and output"
+    },
+    "includeOriginal": {
+      "title": "Include original records",
+      "type": "boolean",
+      "default": true,
+      "description": "Adds an \"original\" object with the records exactly as each official source returned them."
+    },
+    "validateChecksum": {
+      "title": "Validate BIN check digit",
+      "type": "boolean",
+      "default": true,
+      "description": "Rejects BINs whose 12th digit (check digit) or structure is wrong, without querying the sources. Turn off only if you are sure a BIN is correct but it fails the check."
+    },
+    "cacheDays": {
+      "title": "Cache results for (days)",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 365,
+      "default": 7,
+      "unit": "days",
+      "description": "Answers are cached in your account (key-value store \"kazakhstan-company-lookup-cache\") to be faster and to reduce load on government servers. \"Not found\" answers are cached for at most 1 day. 0 disables the cache.",
+      "sectionCaption": "3. Advanced"
+    },
+    "forceRefresh": {
+      "title": "Ignore cache",
+      "type": "boolean",
+      "default": false,
+      "description": "Always ask the official sources, then update the cache."
+    },
+    "proxyConfiguration": {
+      "title": "Proxy configuration",
+      "type": "object",
+      "editor": "proxy",
+      "default": { "useApifyProxy": false },
+      "prefill": { "useApifyProxy": false },
+      "description": "Off by default. Kazakh government portals sometimes block or drop connections from outside Kazakhstan. If the run reports that a source is not reachable, enable Apify Proxy and choose a RESIDENTIAL proxy with country Kazakhstan (KZ)."
+    },
+    "egovApiKey": {
+      "title": "data.egov.kz API key (optional)",
+      "type": "string",
+      "editor": "textfield",
+      "isSecret": true,
+      "description": "Optional free API key from the data.egov.kz developer cabinet (registration on the portal is required). With a key, the official API v4 is used for the state register; without it, the portal's public dataset viewer is used."
+    },
+    "maxConcurrency": {
+      "title": "Parallel lookups",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5,
+      "default": 2,
+      "description": "How many BINs are looked up at the same time. Keep it low to be polite to government servers."
+    },
+    "requestTimeoutSecs": {
+      "title": "Request timeout",
+      "type": "integer",
+      "minimum": 5,
+      "maximum": 120,
+      "default": 30,
+      "unit": "seconds",
+      "description": "Timeout for one request to an official source. Failed requests are retried 3 times with increasing delays."
+    },
+    "apiBaseUrl": {
+      "title": "API base URL (testing only)",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Leave empty. For testing against a mock server: all requests go to this origin (same paths as the official sources) instead of data.egov.kz and old.stat.gov.kz."
+    }
+  }
+}

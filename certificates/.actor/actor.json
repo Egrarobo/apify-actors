@@ -1,0 +1,30 @@
+{
+  "actorSpecification": 1,
+  "name": "bulk-certificate-pdf-generator",
+  "title": "Bulk Certificate & Diploma PDF Generator",
+  "description": "Turn a list of names (Google Sheet, CSV or JSON) into print-ready PDF certificates and diplomas. 3 designs or your own HTML, QR verification codes, ZIP and merged PDF output. Full Unicode: Latin, diacritics, Cyrillic.",
+  "version": "1.0",
+  "buildTag": "latest",
+  "input": "./input_schema.json",
+  "dockerfile": "../Dockerfile",
+  "storages": {
+    "dataset": {
+      "actorSpecification": 1,
+      "views": {
+        "overview": {
+          "title": "Generated documents",
+          "transformation": { "fields": ["name", "fileName", "certificateId", "pdfUrl"] },
+          "display": {
+            "component": "table",
+            "properties": {
+              "name": { "label": "Name" },
+              "fileName": { "label": "File" },
+              "certificateId": { "label": "Certificate ID" },
+              "pdfUrl": { "label": "PDF", "format": "link" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

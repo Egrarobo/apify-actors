@@ -1,0 +1,12 @@
+{
+  "urls": [
+    "http://127.0.0.1:8765/report.pdf",
+    "https://nonexistent-host.invalid/missing.pdf",
+    "http://127.0.0.1:8765/handbook.docx"
+  ],
+  "keyValueStoreKeys": ["uploads/my-deck"],
+  "chunking": "heading",
+  "chunkSize": 120,
+  "chunkOverlap": 20,
+  "includePageNumbers": true
+}

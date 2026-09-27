@@ -1,0 +1,146 @@
+{
+  "uri": "https://public.mtender.gov.md/tenders/ocds-b3wdp1-MD-1789120800000",
+  "version": "1.1",
+  "extensions": [],
+  "publisher": {
+    "name": "M-Tender",
+    "uri": "https://www.mtender.gov.md"
+  },
+  "license": "http://opendefinition.org/licenses/",
+  "publicationPolicy": "http://opendefinition.org/licenses/",
+  "publishedDate": "2026-09-13T09:00:00Z",
+  "packages": [
+    "http://public.mtender.gov.md/tenders/ocds-b3wdp1-MD-1789120800000/ocds-b3wdp1-MD-1789120800000",
+    "http://public.mtender.gov.md/tenders/ocds-b3wdp1-MD-1789120800000/ocds-b3wdp1-MD-1789120800000-EV-1789120801000"
+  ],
+  "records": [
+    {
+      "ocid": "ocds-b3wdp1-MD-1789120800000",
+      "compiledRelease": {
+        "ocid": "ocds-b3wdp1-MD-1789120800000",
+        "id": "ocds-b3wdp1-MD-1789120800000-1789290000000",
+        "date": "2026-09-13T09:00:00Z",
+        "tag": [
+          "compiled"
+        ],
+        "initiationType": "tender",
+        "planning": {
+          "budget": {
+            "description": "Buget",
+            "amount": {
+              "amount": 20000,
+              "currency": "EUR"
+            },
+            "isEuropeanUnionFunded": false
+          }
+        },
+        "tender": {
+          "id": "s1",
+          "title": "Servicii de consultanță IT pentru platforma MPass",
+          "description": "Consultanță tehnică",
+          "classification": {
+            "scheme": "CPV",
+            "id": "72220000-3",
+            "description": "Servicii de consultanță în sisteme și consultanță tehnică"
+          },
+          "status": "unsuccessful",
+          "statusDetails": "unsuccessful",
+          "value": {
+            "amount": 20000,
+            "currency": "EUR"
+          },
+          "procurementMethod": "open",
+          "procurementMethodDetails": "openTender",
+          "mainProcurementCategory": "services",
+          "procuringEntity": {
+            "id": "MD-IDNO-1006601000001",
+            "name": "Agenția de Guvernare Electronică"
+          }
+        },
+        "parties": [
+          {
+            "id": "MD-IDNO-1006601000001",
+            "name": "Agenția de Guvernare Electronică",
+            "identifier": {
+              "scheme": "MD-IDNO",
+              "id": "1006601000001",
+              "legalName": "Agenția de Guvernare Electronică"
+            },
+            "address": {
+              "streetAddress": "str. Exemplu 1",
+              "postalCode": "MD-2001",
+              "addressDetails": {
+                "country": {
+                  "scheme": "iso-alpha2",
+                  "id": "MD",
+                  "description": "Moldova, Republica"
+                },
+                "region": {
+                  "scheme": "CUATM",
+                  "id": "0101000",
+                  "description": "mun.Chişinău"
+                },
+                "locality": {
+                  "scheme": "CUATM",
+                  "id": "0101000",
+                  "description": "mun.Chişinău"
+                }
+              }
+            },
+            "contactPoint": {
+              "name": "Persoana de contact",
+              "email": "achizitii@example.md",
+              "telephone": "+37322000000"
+            },
+            "roles": [
+              "buyer",
+              "procuringEntity"
+            ]
+          }
+        ],
+        "relatedProcesses": []
+      }
+    },
+    {
+      "ocid": "ocds-b3wdp1-MD-1789120800000-EV-1789120801000",
+      "compiledRelease": {
+        "ocid": "ocds-b3wdp1-MD-1789120800000-EV-1789120801000",
+        "id": "ocds-b3wdp1-MD-1789120800000-EV-1789120801000-1789290000000",
+        "date": "2026-09-13T09:00:00Z",
+        "tag": [
+          "tender"
+        ],
+        "initiationType": "tender",
+        "tender": {
+          "id": "s2",
+          "status": "unsuccessful",
+          "tenderPeriod": {
+            "startDate": "2026-09-11T10:00:00Z",
+            "endDate": "2026-09-12T10:00:00Z"
+          },
+          "lots": [
+            {
+              "id": "l1",
+              "title": "Consultanță",
+              "status": "unsuccessful",
+              "value": {
+                "amount": 20000,
+                "currency": "EUR"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "actualReleases": [
+    {
+      "ocid": "ocds-b3wdp1-MD-1789120800000",
+      "uri": "http://public.mtender.gov.md/tenders/ocds-b3wdp1-MD-1789120800000/ocds-b3wdp1-MD-1789120800000"
+    },
+    {
+      "ocid": "ocds-b3wdp1-MD-1789120800000-EV-1789120801000",
+      "uri": "http://public.mtender.gov.md/tenders/ocds-b3wdp1-MD-1789120800000/ocds-b3wdp1-MD-1789120800000-EV-1789120801000"
+    }
+  ]
+}

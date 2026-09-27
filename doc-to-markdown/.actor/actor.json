@@ -1,0 +1,41 @@
+{
+  "actorSpecification": 1,
+  "name": "document-to-markdown-rag",
+  "title": "Document to Markdown for AI & RAG (PDF, DOCX, PPTX, XLSX)",
+  "description": "Convert PDF, Word, PowerPoint, Excel, CSV, HTML and TXT files into clean Markdown or plain text for LLMs and RAG. Keeps headings, lists and tables, splits into token-sized chunks with page and heading metadata, and OCRs scanned PDFs.",
+  "version": "1.0",
+  "buildTag": "latest",
+  "input": "./input_schema.json",
+  "dockerfile": "../Dockerfile",
+  "storages": {
+    "dataset": {
+      "actorSpecification": 1,
+      "fields": {},
+      "views": {
+        "overview": {
+          "title": "Chunks",
+          "transformation": {
+            "fields": ["fileName", "fileType", "chunkIndex", "metadata.pageStart", "metadata.pageEnd", "metadata.headingPath", "tokenCount", "text", "documentUrl", "status", "error"],
+            "flatten": ["metadata"]
+          },
+          "display": {
+            "component": "table",
+            "properties": {
+              "fileName": { "label": "File" },
+              "fileType": { "label": "Type" },
+              "chunkIndex": { "label": "Chunk", "format": "number" },
+              "metadata.pageStart": { "label": "Page from", "format": "number" },
+              "metadata.pageEnd": { "label": "Page to", "format": "number" },
+              "metadata.headingPath": { "label": "Section" },
+              "tokenCount": { "label": "Tokens", "format": "number" },
+              "text": { "label": "Text" },
+              "documentUrl": { "label": "Full Markdown", "format": "link" },
+              "status": { "label": "Status" },
+              "error": { "label": "Error" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

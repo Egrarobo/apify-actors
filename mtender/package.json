@@ -1,0 +1,19 @@
+{
+  "name": "mtender-moldova-tenders",
+  "version": "1.0.0",
+  "description": "Search, get details and monitor Moldova public procurement tenders from MTender (official OCDS API), with Telegram, Slack, webhook and email alerts for new tenders.",
+  "main": "src/main.js",
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node src/main.js",
+    "test": "node scripts/validate-input-schema.mjs && node --test --test-concurrency=1 test/*.test.mjs"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "apify": "^3.7.2"
+  },
+  "devDependencies": {
+    "@apify/input_schema": "*"
+  }
+}

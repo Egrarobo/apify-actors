@@ -1,0 +1,28 @@
+{
+  "name": "bulk-certificate-pdf-generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/main.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apify": "^3.7.2",
+    "jszip": "^3.10.2",
+    "papaparse": "^5.7.0",
+    "pdf-lib": "^1.17.1",
+    "playwright": "*",
+    "qrcode": "^1.5.4"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@fontsource/great-vibes": "^5",
+    "@fontsource/lora": "^5",
+    "@fontsource/montserrat": "^5",
+    "@fontsource/playfair-display": "^5"
+  }
+}

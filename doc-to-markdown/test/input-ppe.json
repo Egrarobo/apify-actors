@@ -1,0 +1,4 @@
+{
+  "urls": ["http://127.0.0.1:8765/report.pdf", "http://127.0.0.1:8765/big-300.pdf", "http://127.0.0.1:8765/launch.pptx"],
+  "chunking": "fixed", "chunkSize": 500
+}

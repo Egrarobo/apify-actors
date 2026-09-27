@@ -1,0 +1,32 @@
+{
+  "name": "moldova-company-registry-lookup",
+  "version": "1.0.0",
+  "description": "Look up Moldovan companies by IDNO or name using the official open data of the State Register of Legal Entities (ASP).",
+  "main": "src/main.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/main.js",
+    "fixture": "node scripts/make-fixture.js",
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": [
+    "moldova",
+    "idno",
+    "company registry",
+    "business register",
+    "apify"
+  ],
+  "license": "ISC",
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "apify": "^3.7.2",
+    "papaparse": "^5.7.0",
+    "saxes": "^6.0.0",
+    "yauzl": "^3.4.0"
+  },
+  "devDependencies": {
+    "exceljs": "^4.4.0"
+  }
+}

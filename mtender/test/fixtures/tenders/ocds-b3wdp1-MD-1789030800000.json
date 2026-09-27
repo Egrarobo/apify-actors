@@ -1,0 +1,467 @@
+{
+  "uri": "https://public.mtender.gov.md/tenders/ocds-b3wdp1-MD-1789030800000",
+  "version": "1.1",
+  "extensions": [],
+  "publisher": {
+    "name": "M-Tender",
+    "uri": "https://www.mtender.gov.md"
+  },
+  "license": "http://opendefinition.org/licenses/",
+  "publicationPolicy": "http://opendefinition.org/licenses/",
+  "publishedDate": "2026-09-14T12:00:00Z",
+  "packages": [
+    "http://public.mtender.gov.md/tenders/ocds-b3wdp1-MD-1789030800000/ocds-b3wdp1-MD-1789030800000",
+    "http://public.mtender.gov.md/tenders/ocds-b3wdp1-MD-1789030800000/ocds-b3wdp1-MD-1789030800000-EV-1789030801000",
+    "http://public.mtender.gov.md/tenders/ocds-b3wdp1-MD-1789030800000/ocds-b3wdp1-MD-1789030800000-AC-1789030802000"
+  ],
+  "records": [
+    {
+      "ocid": "ocds-b3wdp1-MD-1789030800000",
+      "compiledRelease": {
+        "ocid": "ocds-b3wdp1-MD-1789030800000",
+        "id": "ocds-b3wdp1-MD-1789030800000-1789387200000",
+        "date": "2026-09-14T12:00:00Z",
+        "tag": [
+          "compiled"
+        ],
+        "initiationType": "tender",
+        "planning": {
+          "budget": {
+            "description": "Buget",
+            "amount": {
+              "amount": 8500000,
+              "currency": "MDL"
+            },
+            "isEuropeanUnionFunded": false
+          }
+        },
+        "tender": {
+          "id": "r1",
+          "title": "Reparația capitală a drumului str. Ștefan cel Mare",
+          "description": "Lucrări de reparație capitală a carosabilului",
+          "classification": {
+            "scheme": "CPV",
+            "id": "45233140-2",
+            "description": "Lucrări de drumuri"
+          },
+          "status": "complete",
+          "statusDetails": "complete",
+          "value": {
+            "amount": 8500000,
+            "currency": "MDL"
+          },
+          "procurementMethod": "open",
+          "procurementMethodDetails": "openTender",
+          "mainProcurementCategory": "works",
+          "procuringEntity": {
+            "id": "MD-IDNO-1007601004785",
+            "name": "Primăria municipiului Chișinău"
+          }
+        },
+        "parties": [
+          {
+            "id": "MD-IDNO-1007601004785",
+            "name": "Primăria municipiului Chișinău",
+            "identifier": {
+              "scheme": "MD-IDNO",
+              "id": "1007601004785",
+              "legalName": "Primăria municipiului Chișinău"
+            },
+            "address": {
+              "streetAddress": "str. Exemplu 1",
+              "postalCode": "MD-2001",
+              "addressDetails": {
+                "country": {
+                  "scheme": "iso-alpha2",
+                  "id": "MD",
+                  "description": "Moldova, Republica"
+                },
+                "region": {
+                  "scheme": "CUATM",
+                  "id": "0101000",
+                  "description": "mun.Chişinău"
+                },
+                "locality": {
+                  "scheme": "CUATM",
+                  "id": "0101000",
+                  "description": "mun.Chişinău"
+                }
+              }
+            },
+            "contactPoint": {
+              "name": "Persoana de contact",
+              "email": "achizitii@example.md",
+              "telephone": "+37322000000"
+            },
+            "roles": [
+              "buyer",
+              "procuringEntity"
+            ]
+          }
+        ],
+        "relatedProcesses": []
+      }
+    },
+    {
+      "ocid": "ocds-b3wdp1-MD-1789030800000-EV-1789030801000",
+      "compiledRelease": {
+        "ocid": "ocds-b3wdp1-MD-1789030800000-EV-1789030801000",
+        "id": "ocds-b3wdp1-MD-1789030800000-EV-1789030801000-1789300800000",
+        "date": "2026-09-13T12:00:00Z",
+        "tag": [
+          "award"
+        ],
+        "initiationType": "tender",
+        "tender": {
+          "id": "r2",
+          "status": "complete",
+          "statusDetails": "complete",
+          "tenderPeriod": {
+            "startDate": "2026-09-10T09:00:00Z",
+            "endDate": "2026-09-11T09:00:00Z"
+          },
+          "awardPeriod": {
+            "startDate": "2026-09-11T09:00:00Z",
+            "endDate": "2026-09-13T12:00:00Z"
+          },
+          "lots": [
+            {
+              "id": "lot-1",
+              "title": "Str. Ștefan cel Mare",
+              "status": "complete",
+              "value": {
+                "amount": 8500000,
+                "currency": "MDL"
+              }
+            }
+          ],
+          "items": [
+            {
+              "id": "i1",
+              "description": "Asfaltare 10.000 m2",
+              "classification": {
+                "scheme": "CPV",
+                "id": "45233140-2",
+                "description": "Lucrări de drumuri"
+              },
+              "quantity": 10000,
+              "unit": {
+                "name": "Metru pătrat"
+              },
+              "relatedLot": "lot-1"
+            }
+          ],
+          "documents": [
+            {
+              "id": "t2-1-1757000000000",
+              "documentType": "contractNotice",
+              "title": "Anunț de participare.pdf",
+              "url": "https://storage.mtender.gov.md/get/t2-1-1757000000000",
+              "datePublished": "2026-09-10T08:05:00Z",
+              "relatedLots": []
+            }
+          ]
+        },
+        "awards": [
+          {
+            "id": "aw-1",
+            "status": "active",
+            "statusDetails": "active",
+            "date": "2026-09-13T12:00:00Z",
+            "value": {
+              "amount": 7950000,
+              "currency": "MDL"
+            },
+            "suppliers": [
+              {
+                "id": "MD-IDNO-1002600055555",
+                "name": "Drumuri-Construct SRL"
+              }
+            ],
+            "relatedLots": [
+              "lot-1"
+            ]
+          },
+          {
+            "id": "aw-0",
+            "status": "unsuccessful",
+            "statusDetails": "unsuccessful",
+            "date": "2026-09-12T12:00:00Z",
+            "value": {
+              "amount": 7800000,
+              "currency": "MDL"
+            },
+            "suppliers": [
+              {
+                "id": "MD-IDNO-1002600066666",
+                "name": "Asfalt Grup SA"
+              }
+            ],
+            "relatedLots": [
+              "lot-1"
+            ],
+            "description": "Oferta nu corespunde cerințelor"
+          }
+        ],
+        "bids": {
+          "details": [
+            {
+              "id": "b1",
+              "status": "valid"
+            },
+            {
+              "id": "b2",
+              "status": "disqualified"
+            },
+            {
+              "id": "b3",
+              "status": "valid"
+            }
+          ]
+        },
+        "parties": [
+          {
+            "id": "MD-IDNO-1007601004785",
+            "name": "Primăria municipiului Chișinău",
+            "identifier": {
+              "scheme": "MD-IDNO",
+              "id": "1007601004785",
+              "legalName": "Primăria municipiului Chișinău"
+            },
+            "address": {
+              "streetAddress": "str. Exemplu 1",
+              "postalCode": "MD-2001",
+              "addressDetails": {
+                "country": {
+                  "scheme": "iso-alpha2",
+                  "id": "MD",
+                  "description": "Moldova, Republica"
+                },
+                "region": {
+                  "scheme": "CUATM",
+                  "id": "0101000",
+                  "description": "mun.Chişinău"
+                },
+                "locality": {
+                  "scheme": "CUATM",
+                  "id": "0101000",
+                  "description": "mun.Chişinău"
+                }
+              }
+            },
+            "contactPoint": {
+              "name": "Persoana de contact",
+              "email": "achizitii@example.md",
+              "telephone": "+37322000000"
+            },
+            "roles": [
+              "buyer",
+              "procuringEntity"
+            ]
+          },
+          {
+            "id": "MD-IDNO-1002600055555",
+            "name": "Drumuri-Construct SRL",
+            "identifier": {
+              "scheme": "MD-IDNO",
+              "id": "1002600055555",
+              "legalName": "Drumuri-Construct SRL"
+            },
+            "address": {
+              "streetAddress": "str. Exemplu 1",
+              "postalCode": "MD-2001",
+              "addressDetails": {
+                "country": {
+                  "scheme": "iso-alpha2",
+                  "id": "MD",
+                  "description": "Moldova, Republica"
+                },
+                "region": {
+                  "scheme": "CUATM",
+                  "id": "0101000",
+                  "description": "mun.Chişinău"
+                },
+                "locality": {
+                  "scheme": "CUATM",
+                  "id": "0101000",
+                  "description": "mun.Chişinău"
+                }
+              }
+            },
+            "contactPoint": {
+              "name": "Persoana de contact",
+              "email": "office@drumuri.md",
+              "telephone": "+37322000000"
+            },
+            "roles": [
+              "supplier",
+              "tenderer"
+            ]
+          },
+          {
+            "id": "MD-IDNO-1002600066666",
+            "name": "Asfalt Grup SA",
+            "identifier": {
+              "scheme": "MD-IDNO",
+              "id": "1002600066666",
+              "legalName": "Asfalt Grup SA"
+            },
+            "address": {
+              "streetAddress": "str. Exemplu 1",
+              "postalCode": "MD-2001",
+              "addressDetails": {
+                "country": {
+                  "scheme": "iso-alpha2",
+                  "id": "MD",
+                  "description": "Moldova, Republica"
+                },
+                "region": {
+                  "scheme": "CUATM",
+                  "id": "0101000",
+                  "description": "mun.Chişinău"
+                },
+                "locality": {
+                  "scheme": "CUATM",
+                  "id": "0101000",
+                  "description": "mun.Chişinău"
+                }
+              }
+            },
+            "contactPoint": {
+              "name": "Persoana de contact",
+              "email": "achizitii@example.md",
+              "telephone": "+37322000000"
+            },
+            "roles": [
+              "tenderer"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "ocid": "ocds-b3wdp1-MD-1789030800000-AC-1789030802000",
+      "compiledRelease": {
+        "ocid": "ocds-b3wdp1-MD-1789030800000-AC-1789030802000",
+        "id": "ocds-b3wdp1-MD-1789030800000-AC-1789030802000-1789387200000",
+        "date": "2026-09-14T12:00:00Z",
+        "tag": [
+          "contract"
+        ],
+        "initiationType": "tender",
+        "contracts": [
+          {
+            "id": "c-1",
+            "awardID": "aw-1",
+            "title": "Contract nr. 12/2026",
+            "status": "active",
+            "statusDetails": "signed",
+            "value": {
+              "amount": 7950000,
+              "currency": "MDL"
+            },
+            "dateSigned": "2026-09-14T11:00:00Z",
+            "period": {
+              "startDate": "2026-09-15T00:00:00Z",
+              "endDate": "2026-12-31T00:00:00Z"
+            }
+          }
+        ],
+        "parties": [
+          {
+            "id": "MD-IDNO-1007601004785",
+            "name": "Primăria municipiului Chișinău",
+            "identifier": {
+              "scheme": "MD-IDNO",
+              "id": "1007601004785",
+              "legalName": "Primăria municipiului Chișinău"
+            },
+            "address": {
+              "streetAddress": "str. Exemplu 1",
+              "postalCode": "MD-2001",
+              "addressDetails": {
+                "country": {
+                  "scheme": "iso-alpha2",
+                  "id": "MD",
+                  "description": "Moldova, Republica"
+                },
+                "region": {
+                  "scheme": "CUATM",
+                  "id": "0101000",
+                  "description": "mun.Chişinău"
+                },
+                "locality": {
+                  "scheme": "CUATM",
+                  "id": "0101000",
+                  "description": "mun.Chişinău"
+                }
+              }
+            },
+            "contactPoint": {
+              "name": "Persoana de contact",
+              "email": "achizitii@example.md",
+              "telephone": "+37322000000"
+            },
+            "roles": [
+              "buyer",
+              "procuringEntity"
+            ]
+          },
+          {
+            "id": "MD-IDNO-1002600055555",
+            "name": "Drumuri-Construct SRL",
+            "identifier": {
+              "scheme": "MD-IDNO",
+              "id": "1002600055555",
+              "legalName": "Drumuri-Construct SRL"
+            },
+            "address": {
+              "streetAddress": "str. Exemplu 1",
+              "postalCode": "MD-2001",
+              "addressDetails": {
+                "country": {
+                  "scheme": "iso-alpha2",
+                  "id": "MD",
+                  "description": "Moldova, Republica"
+                },
+                "region": {
+                  "scheme": "CUATM",
+                  "id": "0101000",
+                  "description": "mun.Chişinău"
+                },
+                "locality": {
+                  "scheme": "CUATM",
+                  "id": "0101000",
+                  "description": "mun.Chişinău"
+                }
+              }
+            },
+            "contactPoint": {
+              "name": "Persoana de contact",
+              "email": "office@drumuri.md",
+              "telephone": "+37322000000"
+            },
+            "roles": [
+              "supplier",
+              "tenderer"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "actualReleases": [
+    {
+      "ocid": "ocds-b3wdp1-MD-1789030800000",
+      "uri": "http://public.mtender.gov.md/tenders/ocds-b3wdp1-MD-1789030800000/ocds-b3wdp1-MD-1789030800000"
+    },
+    {
+      "ocid": "ocds-b3wdp1-MD-1789030800000-EV-1789030801000",
+      "uri": "http://public.mtender.gov.md/tenders/ocds-b3wdp1-MD-1789030800000/ocds-b3wdp1-MD-1789030800000-EV-1789030801000"
+    },
+    {
+      "ocid": "ocds-b3wdp1-MD-1789030800000-AC-1789030802000",
+      "uri": "http://public.mtender.gov.md/tenders/ocds-b3wdp1-MD-1789030800000/ocds-b3wdp1-MD-1789030800000-AC-1789030802000"
+    }
+  ]
+}

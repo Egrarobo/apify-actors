@@ -1,0 +1,297 @@
+{
+  "title": "Prozorro.Sale Ukraine Auctions input",
+  "description": "Search public Prozorro.Sale auctions (privatization, lease, land, bankruptcy and bank assets), get full details for auction IDs, or monitor new auctions with alerts.",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "mode": {
+      "title": "What to do",
+      "type": "string",
+      "editor": "select",
+      "description": "\"search\" finds auctions matching the filters below (set \"Monitor name\" to get only new ones on every run). \"details\" returns full information for the auction IDs you list. \"types\" lists every selling method (auction type) with its ID prefix; it is free.",
+      "enum": ["search", "details", "types"],
+      "enumTitles": ["Search / monitor auctions", "Details for auction IDs", "List auction types"],
+      "default": "search",
+      "sectionCaption": "1. What to do"
+    },
+    "auctionIds": {
+      "title": "Auction IDs (details mode)",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Public auction IDs as shown on prozorro.sale, e.g. LRE001-UA-20260916-77195, or 24-character procedure IDs. Used in \"details\" mode; if you fill this and leave \"What to do\" empty, details mode is used."
+    },
+    "sellingMethods": {
+      "title": "Auction types (selling methods)",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Procedure families or exact selling methods. Examples: smallPrivatization, largePrivatization, legitimatePropertyLease (state/municipal property lease), landRental, landSell, basicSell, bankRuptcy, timber, subsoil, nonperformingLoans, dgf (bank assets). A family covers all its formats (english, dutch, …); an exact value like landRental-english matches only that. Run mode \"types\" to see the full list. Empty = all types.",
+      "prefill": ["smallPrivatization"],
+      "sectionCaption": "2. Filters (all optional, combined with AND)"
+    },
+    "statuses": {
+      "title": "Statuses",
+      "type": "array",
+      "editor": "select",
+      "description": "Only auctions in these statuses. Empty = any status.",
+      "items": {
+        "type": "string",
+        "enum": ["active_rectification", "active_tendering", "active_auction", "active_qualification", "qualification", "active_awarded", "pending_payment", "pending_admission", "complete", "unsuccessful", "cancelled"],
+        "enumTitles": ["Published, terms may change (rectification)", "Open for bids (tendering)", "Auction running", "Winner being verified", "Qualification", "Winner confirmed", "Awaiting payment", "Awaiting admission", "Completed (sold / leased)", "Unsuccessful", "Cancelled"]
+      }
+    },
+    "openForBidsOnly": {
+      "title": "Only auctions you can still bid on",
+      "type": "boolean",
+      "description": "Shortcut for statuses \"active_rectification\" and \"active_tendering\".",
+      "default": false
+    },
+    "keywords": {
+      "title": "Keywords",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Words that must all appear in the title, description, item descriptions or address. Ukrainian works best (e.g. \"нежитлове приміщення\"); English titles are searched too when the organizer provided them. Case and apostrophes are ignored."
+    },
+    "regions": {
+      "title": "Regions / cities",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Part of the oblast or settlement name in Ukrainian, e.g. \"Київ\", \"Львівська\", \"Одеса\". Matches the address of the auctioned items (the organizer's address only when items have none). Any value may match."
+    },
+    "classificationCodes": {
+      "title": "Classification codes (CAV / CPV)",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Code or code prefix of the auctioned items, e.g. \"04\" (real estate), \"06\" (land), \"04121\" or \"06121000-6\". Additional classifications are checked too. Any value may match."
+    },
+    "organizerCodes": {
+      "title": "Organizer / owner EDRPOU codes",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Ukrainian company registration codes (EDRPOU) of the organizer running the auction or, for lease auctions, the property owner. Leading zeros are optional."
+    },
+    "minPrice": {
+      "title": "Starting price from (UAH)",
+      "type": "number",
+      "description": "Minimum starting price. For lease auctions this is the monthly rent.",
+      "minimum": 0,
+      "unit": "UAH"
+    },
+    "maxPrice": {
+      "title": "Starting price up to (UAH)",
+      "type": "number",
+      "description": "Maximum starting price.",
+      "minimum": 0,
+      "unit": "UAH"
+    },
+    "publishedFrom": {
+      "title": "Published from",
+      "type": "string",
+      "editor": "datepicker",
+      "dateType": "absoluteOrRelative",
+      "description": "Only auctions published on or after this date, e.g. 2026-09-01 or \"7 days\" (ago). All auctions changed since this date are scanned, so the result is complete for the period (within \"Max pages to scan\")."
+    },
+    "publishedTo": {
+      "title": "Published up to",
+      "type": "string",
+      "editor": "datepicker",
+      "dateType": "absoluteOrRelative",
+      "description": "Only auctions published on or before this date (a plain date includes the whole day, UTC)."
+    },
+    "auctionDateFrom": {
+      "title": "Auction date from",
+      "type": "string",
+      "editor": "datepicker",
+      "dateType": "absoluteOrRelative",
+      "description": "Only auctions whose bidding session starts on or after this date, e.g. 2026-10-01 or \"+3 days\" (from now)."
+    },
+    "auctionDateTo": {
+      "title": "Auction date up to",
+      "type": "string",
+      "editor": "datepicker",
+      "dateType": "absoluteOrRelative",
+      "description": "Only auctions whose bidding session starts on or before this date, e.g. \"+30 days\"."
+    },
+    "maxResults": {
+      "title": "Max results",
+      "type": "integer",
+      "description": "Stop after this many matching auctions (search mode). 0 = no limit. Each returned auction is billed as one result.",
+      "minimum": 0,
+      "default": 200,
+      "prefill": 50,
+      "sectionCaption": "3. How much to scan and return"
+    },
+    "lookbackHours": {
+      "title": "Look back (hours)",
+      "type": "integer",
+      "description": "When no \"Published from\" date is set, scan auctions changed in this many past hours. Also used for the first run of a monitor.",
+      "minimum": 1,
+      "maximum": 8760,
+      "default": 24,
+      "unit": "hours"
+    },
+    "maxPages": {
+      "title": "Max pages to scan",
+      "type": "integer",
+      "description": "Safety limit for scanning the change feed. One page = up to 100 auctions. Busy days can have thousands of changes; if the scan is cut short, OUTPUT says so and a monitor continues where it stopped on the next run.",
+      "minimum": 1,
+      "maximum": 5000,
+      "default": 50
+    },
+    "scanMode": {
+      "title": "Scan method",
+      "type": "string",
+      "editor": "select",
+      "description": "\"auto\": if you picked auction types and no date, read the latest 100 auctions of each type (fast); otherwise read every auction changed in the period (complete). \"changeFeed\" always reads the full period. \"latestByType\" always reads the latest 100 per type. Monitors always use the change feed.",
+      "enum": ["auto", "changeFeed", "latestByType"],
+      "enumTitles": ["Auto", "Every change in the period (complete)", "Latest 100 per auction type (fast)"],
+      "default": "auto"
+    },
+    "includeItems": {
+      "title": "Include items (lots)",
+      "type": "boolean",
+      "description": "List every auctioned item with its classification, quantity, address and properties (area, cadastral number, …).",
+      "default": true
+    },
+    "includeDocuments": {
+      "title": "Include document links",
+      "type": "boolean",
+      "description": "List published documents (announcement, photos, contract, protocol …) with public download URLs.",
+      "default": true
+    },
+    "includeRaw": {
+      "title": "Include raw API record",
+      "type": "boolean",
+      "description": "Adds the original, untouched API record under \"raw\" (about 30 KB per auction).",
+      "default": false
+    },
+    "monitorName": {
+      "title": "Monitor name",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Turns search into a monitor: each run outputs (and notifies about) only auctions this monitor has not reported before. Use a different name for every search you track, e.g. \"kyiv-land-rental\". Leave empty for a normal search.",
+      "sectionCaption": "4. Monitor new auctions (optional)"
+    },
+    "alertOn": {
+      "title": "What counts as new",
+      "type": "string",
+      "editor": "select",
+      "description": "\"newlyPublished\": only auctions published after the monitor started. \"newlyMatching\": also older auctions that start to match your filters (e.g. when they open for bids).",
+      "enum": ["newlyPublished", "newlyMatching"],
+      "enumTitles": ["Newly published auctions", "Any auction that newly matches"],
+      "default": "newlyPublished"
+    },
+    "reportAllOnFirstRun": {
+      "title": "Report matches on the first run",
+      "type": "boolean",
+      "description": "By default the first run only remembers the current matches (baseline) and reports nothing. Enable to get them all as new on the first run.",
+      "default": false
+    },
+    "resetState": {
+      "title": "Start over",
+      "type": "boolean",
+      "description": "Forget everything this monitor remembered and start a new baseline.",
+      "default": false
+    },
+    "stateStoreName": {
+      "title": "State storage name",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Named key-value store where monitors keep their memory between runs. Letters, digits and \"-\" only.",
+      "default": "prozorro-sale-monitor"
+    },
+    "telegramBotToken": {
+      "title": "Telegram bot token",
+      "type": "string",
+      "editor": "textfield",
+      "isSecret": true,
+      "description": "Create a bot with @BotFather and paste its token.",
+      "sectionCaption": "5. Alerts about new auctions (monitor mode)"
+    },
+    "telegramChatId": {
+      "title": "Telegram chat ID",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Your user, group or channel ID (e.g. 123456789 or -1001234567890). Add the bot to the group or channel first."
+    },
+    "slackWebhookUrl": {
+      "title": "Slack incoming webhook URL",
+      "type": "string",
+      "editor": "textfield",
+      "isSecret": true,
+      "description": "https://hooks.slack.com/services/…"
+    },
+    "webhookUrl": {
+      "title": "Webhook URL",
+      "type": "string",
+      "editor": "textfield",
+      "isSecret": true,
+      "description": "Receives a POST with JSON (event, monitorName, newCount, message, auctions[]). Works with Make, Zapier, n8n or your own server."
+    },
+    "emailTo": {
+      "title": "Email to",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Sends a summary email through the apify/send-mail Actor (billed as a separate small run on your account). Several addresses: separate with commas."
+    },
+    "emailSubject": {
+      "title": "Email subject",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Default: \"<monitor>: 3 new Prozorro.Sale auctions\"."
+    },
+    "notifyMaxItems": {
+      "title": "Auctions listed in a message",
+      "type": "integer",
+      "description": "How many auctions Telegram, Slack and email messages list before \"…and N more\".",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 10
+    },
+    "webhookMaxItems": {
+      "title": "Auctions included in the webhook",
+      "type": "integer",
+      "description": "Maximum number of auction records in the webhook JSON. The full list is always in the dataset.",
+      "minimum": 0,
+      "maximum": 1000,
+      "default": 100
+    },
+    "notifyOnNoChanges": {
+      "title": "Also notify when nothing is new",
+      "type": "boolean",
+      "description": "Sends a short \"no new auctions\" message after every run, useful to know the monitor is alive.",
+      "default": false
+    },
+    "instance": {
+      "title": "Data source",
+      "type": "string",
+      "editor": "select",
+      "description": "\"main\": procedure.prozorro.sale (privatization, lease, land, bankruptcy, timber, …). \"dgf\": dgf-procedure.prozorro.sale (assets of failed banks sold by the Deposit Guarantee Fund).",
+      "enum": ["main", "dgf"],
+      "enumTitles": ["Main Prozorro.Sale database", "Deposit Guarantee Fund (bank assets)"],
+      "default": "main",
+      "sectionCaption": "6. Advanced"
+    },
+    "apiBaseUrl": {
+      "title": "API base URL",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Overrides the data source, e.g. https://procedure-staging.prozorro.sale (test data) or a local mock server. Leave empty."
+    },
+    "requestIntervalMs": {
+      "title": "Pause between API requests",
+      "type": "integer",
+      "description": "Minimum time between two requests to the Prozorro.Sale API, to stay polite. Requests are never sent in parallel.",
+      "minimum": 100,
+      "maximum": 10000,
+      "default": 300,
+      "unit": "ms"
+    },
+    "changedSince": {
+      "title": "Scan changes since",
+      "type": "string",
+      "editor": "datepicker",
+      "dateType": "absoluteOrRelative",
+      "description": "Start of the change-feed scan, overriding \"Published from\" and \"Look back\". Useful to find status changes (e.g. completed auctions) in a period."
+    }
+  }
+}
