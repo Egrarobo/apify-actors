@@ -1,0 +1,345 @@
+{
+  "title": "US building permits from Accela Citizen Access",
+  "description": "Get newly applied and issued building permits from any city or county that uses Accela Citizen Access: record number, type, status, dates, address, description and (optionally) valuation and contractor from the detail page. Leave everything as is to get the last 7 days of Pinellas County, FL building permits.",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "agencies": {
+      "title": "Cities / counties",
+      "type": "array",
+      "editor": "select",
+      "description": "Accela Citizen Access portals to search, by agency code (the part after aca-prod.accela.com/ in the portal address). Each one uses its usual permit module (Building, Permits or Development) unless you set \"Module\". Not in the list? Add it under \"Other agencies\".",
+      "items": {
+        "type": "string",
+        "enum": [
+          "PIMA",
+          "LANCASTER",
+          "OAKLAND",
+          "ONT",
+          "SACRAMENTO",
+          "SANDIEGO",
+          "SJCO",
+          "SANTACLARA",
+          "DENVER",
+          "CLEARWATER",
+          "FTL",
+          "HCFL",
+          "PASCO",
+          "PINELLAS",
+          "TAMPA",
+          "WESTON",
+          "ATLANTA_GA",
+          "INDY",
+          "LEXKY",
+          "LJCMG",
+          "AACO",
+          "CABARRUS",
+          "CLARKCO",
+          "OKC",
+          "CLACKAMAS",
+          "DALLASTX",
+          "FORTWORTH",
+          "PHARR",
+          "COSA",
+          "SLCREF",
+          "CVB",
+          "COWLITZ"
+        ],
+        "enumTitles": [
+          "Pima County, AZ (PIMA)",
+          "Lancaster, CA (LANCASTER, Permits)",
+          "Oakland, CA (OAKLAND)",
+          "Ontario, CA (ONT)",
+          "Sacramento, CA (SACRAMENTO)",
+          "San Diego County, CA (SANDIEGO)",
+          "San Joaquin County, CA (SJCO)",
+          "Santa Clara, CA (SANTACLARA)",
+          "Denver, CO (DENVER, Development)",
+          "Clearwater, FL (CLEARWATER)",
+          "Fort Lauderdale, FL (FTL, Permits)",
+          "Hillsborough County, FL (HCFL)",
+          "Pasco County, FL (PASCO)",
+          "Pinellas County, FL (PINELLAS)",
+          "Tampa, FL (TAMPA)",
+          "Weston, FL (WESTON)",
+          "Atlanta, GA (ATLANTA_GA)",
+          "Indianapolis, IN (INDY, Permits)",
+          "Lexington, KY (LEXKY)",
+          "Louisville / Jefferson County, KY (LJCMG)",
+          "Anne Arundel County, MD (AACO, Permits)",
+          "Cabarrus County, NC (CABARRUS, Permits)",
+          "Clark County, NV (CLARKCO)",
+          "Oklahoma City, OK (OKC, Permits)",
+          "Clackamas County, OR (CLACKAMAS)",
+          "Dallas (DallasNow), TX (DALLASTX)",
+          "Fort Worth, TX (FORTWORTH, Development)",
+          "Pharr, TX (PHARR)",
+          "San Antonio, TX (COSA)",
+          "Salt Lake City, UT (SLCREF)",
+          "Virginia Beach, VA (CVB, Permits)",
+          "Cowlitz County, WA (COWLITZ, Permits)"
+        ]
+      },
+      "prefill": [
+        "PINELLAS"
+      ],
+      "sectionCaption": "1. Where"
+    },
+    "customAgencies": {
+      "title": "Other agencies (code or portal URL)",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Any other Accela Citizen Access portal: an agency code such as \"SPOKANE\" or \"KERNCO\", or the full URL of its search page, e.g. \"https://aca-prod.accela.com/TAMPA/Cap/CapHome.aspx?module=Building\" or a self-hosted one like \"https://accela.fortworthtexas.gov/CitizenAccess/Cap/CapHome.aspx?module=Development\". A module in the URL is used for that portal."
+    },
+    "module": {
+      "title": "Module",
+      "type": "string",
+      "editor": "textfield",
+      "description": "ACA module to search, as in the portal address (\u2026/CapHome.aspx?module=Building). Empty = each agency's usual permit module (Building for most; Permits or Development for some). Other modules such as Enforcement or Planning also work if the portal offers a public date search."
+    },
+    "lastNDays": {
+      "title": "Last N days",
+      "type": "integer",
+      "editor": "number",
+      "description": "Permits opened (applied/filed) in the last N days, today included. Used when \"Opened from\" is empty. For a daily monitor keep 3\u20137 so permits the city enters late are still caught.",
+      "minimum": 1,
+      "maximum": 3650,
+      "default": 7,
+      "prefill": 7,
+      "sectionCaption": "2. When and what"
+    },
+    "dateFrom": {
+      "title": "Opened from",
+      "type": "string",
+      "editor": "datepicker",
+      "dateType": "absoluteOrRelative",
+      "description": "Start of the period (record opened/applied date, the date ACA's general search filters on), e.g. 2026-09-01 or \"30 days\". Overrides \"Last N days\"."
+    },
+    "dateTo": {
+      "title": "Opened until",
+      "type": "string",
+      "editor": "datepicker",
+      "dateType": "absoluteOrRelative",
+      "description": "End of the period (inclusive). Empty = today."
+    },
+    "permitTypes": {
+      "title": "Permit types / keywords",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Keep only matching permits. Trade names match the permit's category: roofing (or \"roof\"), solar, pool, hvac, electrical, plumbing, new-construction (or \"new\"), addition, remodel, demolition, windows, fence, sign, accessory-structure, mobile-home. Any other word is searched in record type, description and project name (word start, case-insensitive). Empty = all permits."
+    },
+    "excludeKeywords": {
+      "title": "Exclude keywords",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Skip permits whose record type, description or project name contains any of these words, e.g. \"commercial\" or \"fence\"."
+    },
+    "statuses": {
+      "title": "Statuses",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Keep only permits whose status contains one of these words, e.g. \"Issued\" or \"Finaled\" (case-insensitive). Statuses differ per city; see the \"status\" field of a first run. Empty = any status."
+    },
+    "recordTypes": {
+      "title": "Portal record types (server-side filter)",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Optional: search only these entries of the portal's \"Record Type\" dropdown (text contains, case-insensitive), e.g. \"Roof\" or \"Residential Solar\". Faster on busy portals because the portal filters. If nothing matches, the log lists the portal's record types and all types are searched."
+    },
+    "maxRecordsPerAgency": {
+      "title": "Max permits per agency",
+      "type": "integer",
+      "editor": "number",
+      "description": "Stop after saving this many matching permits per agency (newest first). 0 = no limit.",
+      "minimum": 0,
+      "default": 500,
+      "prefill": 50
+    },
+    "includeDetails": {
+      "title": "Include details (contractor, valuation, parcel)",
+      "type": "boolean",
+      "description": "Open each permit's detail page to add contractor name, license, phone and address, job valuation, parcel number, applicant company and extra fields. One extra request per permit and one extra \"permit details\" charge.",
+      "default": false,
+      "sectionCaption": "3. Details and privacy"
+    },
+    "includePersonalNames": {
+      "title": "Include owner and applicant names",
+      "type": "boolean",
+      "description": "With details on, also output the property owner's name and mailing address and the applicant's name when the portal publishes them. Off by default: these are private individuals; check the laws that apply to you (e.g. telemarketing and privacy rules) before using them for outreach.",
+      "default": false
+    },
+    "monitorName": {
+      "title": "Monitor name (only new permits)",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Turns on monitor mode: the Actor remembers which permits it has seen under this name and each run saves (and alerts about) only new ones. Schedule it daily. The first run only remembers the current permits unless \"Report all on first run\" is on.",
+      "sectionCaption": "4. Monitor and alerts"
+    },
+    "reportAllOnFirstRun": {
+      "title": "Report all on first run",
+      "type": "boolean",
+      "description": "In monitor mode, save and alert about all matching permits of the period on the first run too (normally the first run is a silent baseline).",
+      "default": false
+    },
+    "resetState": {
+      "title": "Start over",
+      "type": "boolean",
+      "description": "Forget everything this monitor has seen and create a new baseline.",
+      "default": false
+    },
+    "telegramBotToken": {
+      "title": "Telegram bot token",
+      "type": "string",
+      "editor": "textfield",
+      "isSecret": true,
+      "description": "Token of your Telegram bot (from @BotFather). Alerts are sent in monitor mode."
+    },
+    "telegramChatId": {
+      "title": "Telegram chat ID",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Chat, group or channel ID that receives the alerts (the bot must be a member)."
+    },
+    "slackWebhookUrl": {
+      "title": "Slack webhook URL",
+      "type": "string",
+      "editor": "textfield",
+      "isSecret": true,
+      "description": "Slack Incoming Webhook URL (https://hooks.slack.com/services/\u2026)."
+    },
+    "webhookUrl": {
+      "title": "Webhook URL (n8n, Make, Zapier)",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Receives a JSON POST with a summary and the new permits (event \"permits.new\"), ready for n8n, Make or Zapier."
+    },
+    "emailTo": {
+      "title": "Email to",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Email address(es) for alerts, comma-separated. Sent through the apify/send-mail Actor."
+    },
+    "emailSubject": {
+      "title": "Email subject",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Custom subject for email alerts. Empty = \"<monitor>: N new building permit(s)\"."
+    },
+    "notifyMaxItems": {
+      "title": "Permits listed per alert",
+      "type": "integer",
+      "editor": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 10,
+      "description": "How many new permits are listed in Telegram, Slack and email messages (the rest is summarised)."
+    },
+    "webhookMaxItems": {
+      "title": "Permits sent to the webhook",
+      "type": "integer",
+      "editor": "number",
+      "minimum": 0,
+      "maximum": 1000,
+      "default": 100,
+      "description": "How many new permits are included in the webhook JSON body."
+    },
+    "notifyOnNoChanges": {
+      "title": "Alert when nothing is new",
+      "type": "boolean",
+      "default": false,
+      "description": "Also send a message when a monitor run finds no new permits (useful as a heartbeat)."
+    },
+    "proxyConfiguration": {
+      "title": "Proxy",
+      "type": "object",
+      "editor": "proxy",
+      "description": "Apify Proxy is recommended. If a portal refuses datacenter IPs, choose RESIDENTIAL with country US.",
+      "prefill": {
+        "useApifyProxy": true
+      },
+      "default": {
+        "useApifyProxy": true
+      },
+      "sectionCaption": "5. Advanced"
+    },
+    "exportMode": {
+      "title": "How to read results",
+      "type": "string",
+      "editor": "select",
+      "enum": [
+        "auto",
+        "grid",
+        "csv"
+      ],
+      "enumTitles": [
+        "Auto (CSV export for big pulls without details)",
+        "Results grid (every permit has a link)",
+        "CSV export when available"
+      ],
+      "default": "auto",
+      "description": "\"grid\" reads the results table page by page (10 rows per request) and gives every permit a direct link. \"csv\" clicks the portal's \"Download results\" when available: one request for the whole list, but no per-permit links, so details cannot be fetched. \"auto\" uses CSV only for pulls above 100 permits without details and outside monitor mode, and falls back to the grid when the export does not work."
+    },
+    "searchWindowDays": {
+      "title": "Days per search",
+      "type": "integer",
+      "editor": "number",
+      "minimum": 1,
+      "maximum": 366,
+      "default": 7,
+      "description": "Long periods are searched in windows of this many days, newest first, so a portal's result limits are not hit."
+    },
+    "maxPagesPerAgency": {
+      "title": "Max result pages per search",
+      "type": "integer",
+      "editor": "number",
+      "minimum": 1,
+      "maximum": 2000,
+      "default": 100,
+      "description": "Safety limit of result pages (10 permits each) read per search window."
+    },
+    "browserFallback": {
+      "title": "Use a real browser when blocked",
+      "type": "boolean",
+      "default": true,
+      "description": "If a portal blocks plain HTTP requests, retry with cookies from a real Chrome, then fully inside Chrome."
+    },
+    "forceBrowser": {
+      "title": "Always use a real browser",
+      "type": "boolean",
+      "default": false,
+      "description": "Do every request inside Chrome from the start (slower; for portals known to need JavaScript)."
+    },
+    "requestDelayMs": {
+      "title": "Delay between requests (ms)",
+      "type": "integer",
+      "editor": "number",
+      "minimum": 0,
+      "maximum": 20000,
+      "default": 700,
+      "description": "Pause between requests to one portal, to be polite to city servers."
+    },
+    "maxRetries": {
+      "title": "Retries",
+      "type": "integer",
+      "editor": "number",
+      "minimum": 0,
+      "maximum": 8,
+      "default": 3,
+      "description": "How often a failed request or blocked session is retried (with a new session and IP) before an agency is given up."
+    },
+    "saveDebugPages": {
+      "title": "Save pages when something fails",
+      "type": "boolean",
+      "default": true,
+      "description": "Store unexpected portal pages in the key-value store (DEBUG-\u2026) so problems can be diagnosed."
+    },
+    "stateStoreName": {
+      "title": "Monitor state store",
+      "type": "string",
+      "editor": "textfield",
+      "default": "accela-permits-monitor",
+      "description": "Named key-value store that keeps monitor memory between runs."
+    }
+  },
+  "required": []
+}

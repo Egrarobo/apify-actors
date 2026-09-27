@@ -1,0 +1,22 @@
+{
+  "name": "accela-building-permits",
+  "version": "1.0.0",
+  "description": "US building permits from any Accela Citizen Access portal: newly applied/issued permits by type with address, valuation, contractor and dates, plus monitor mode with alerts.",
+  "main": "src/main.js",
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node src/main.js",
+    "test": "node scripts/validate-input-schema.mjs && node --test --test-concurrency=1 test/*.test.mjs"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "apify": "^3.7.2",
+    "cheerio": "^1.0.0",
+    "got-scraping": "^4.2.1",
+    "playwright": "*"
+  },
+  "devDependencies": {
+    "@apify/input_schema": "*"
+  }
+}

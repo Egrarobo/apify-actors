@@ -1,0 +1,1151 @@
+{
+ "platformSample": {
+  "sku": "000000000000525709",
+  "name": "Milch Drink",
+  "brandName": "RETOUR AUX SOURCES",
+  "urlSlugText": "retour-aux-sources-milch-drink",
+  "urlSlugTextAlternatives": {
+   "de-CH": "retour-aux-sources-milch-drink",
+   "fr-CH": "retour-aux-sources-lait-drink-bio",
+   "it-CH": "retour-aux-sources-drink-di-latte-bio"
+  },
+  "ageRestriction": null,
+  "alcohol": null,
+  "discontinued": false,
+  "discontinuedNote": null,
+  "notForSale": true,
+  "notForSaleReason": null,
+  "quantityMin": 1,
+  "quantityMax": 99,
+  "quantityInterval": 1,
+  "quantityDefault": 1,
+  "quantityUnit": "ea",
+  "weightType": "0",
+  "sellingSize": "1 l",
+  "energyClass": null,
+  "onSaleDateDisplay": null,
+  "isAbstract": false,
+  "abstractSku": "000000000000525709A",
+  "price": {
+   "amount": 185,
+   "amountRelevant": 185,
+   "amountRelevantDisplay": "CHF 1.85",
+   "bottleDeposit": 0,
+   "bottleDepositDisplay": "CHF 0.00",
+   "comparison": null,
+   "comparisonDisplay": null,
+   "currencyCode": "CHF",
+   "currencySymbol": "CHF",
+   "perUnit": null,
+   "perUnitDisplay": null,
+   "wasPriceDisplay": null,
+   "additionalInfo": null,
+   "savingsDisplay": null,
+   "bottleDepositType": null,
+   "feeText": null
+  },
+  "countryExtensions": null,
+  "categories": [
+   {
+    "id": "1588161418433052",
+    "name": "Retour aux sources (Bio)",
+    "urlSlugText": "retour-aux-sources-bio-"
+   },
+   {
+    "id": "158816141843305204",
+    "name": "Milch & Milchprodukte",
+    "urlSlugText": "retour-aux-sources-bio-/milch-milchprodukte"
+   }
+  ],
+  "assets": [
+   {
+    "url": "https://dm.emea.cms.aldi.cx/is/image/aldiprodeu/product/jpg/scaleWidth/{width}/95625f16-a901-453b-853d-3c19b9d3cb4c/{slug}",
+    "maxWidth": 2000,
+    "maxHeight": 2000,
+    "mimeType": "image/*",
+    "assetType": "FR01",
+    "alt": null,
+    "displayName": null
+   }
+  ],
+  "badges": [
+   {
+    "position": "4",
+    "items": [
+     {
+      "url": null,
+      "alt": null,
+      "displayText": "Gekühlt",
+      "color": "cyan",
+      "mimeType": "text/plain"
+     }
+    ]
+   }
+  ]
+ },
+ "meta": {
+  "spellingSuggestion": null,
+  "pinned": [],
+  "keywordRedirect": null,
+  "pagination": {
+   "offset": 0,
+   "limit": 16,
+   "totalCount": 70
+  },
+  "debug": null,
+  "facets": [
+   {
+    "name": "brand-name",
+    "localizedName": "Marken",
+    "docCount": 72,
+    "activeValue": [],
+    "config": {
+     "parameterName": "brandName",
+     "type": "value",
+     "isMultiValue": true,
+     "componentName": "multi-select",
+     "component": {
+      "name": "multiSelect",
+      "valueActive": null,
+      "valueInactive": null
+     }
+    },
+    "stats": null,
+    "values": [
+     {
+      "key": "SAVEURS SUISSES",
+      "docCount": 3,
+      "label": "SAVEURS SUISSES",
+      "isSelected": null,
+      "thumbnail": null,
+      "children": []
+     },
+     {
+      "key": "RETOUR AUX SOURCES",
+      "docCount": 15,
+      "label": "RETOUR AUX SOURCES",
+      "isSelected": null,
+      "thumbnail": null,
+      "children": []
+     },
+     {
+      "key": "PANETTERIA",
+      "docCount": 25,
+      "label": "PANETTERIA",
+      "isSelected": null,
+      "thumbnail": null,
+      "children": []
+     },
+     {
+      "key": "MEINE KUCHENWELT",
+      "docCount": 2,
+      "label": "MEINE KUCHENWELT",
+      "isSelected": null,
+      "thumbnail": null,
+      "children": []
+     },
+     {
+      "key": "LACURA",
+      "docCount": 1,
+      "label": "LACURA",
+      "isSelected": null,
+      "thumbnail": null,
+      "children": []
+     },
+     {
+      "key": "HAPPY HARVEST",
+      "docCount": 7,
+      "label": "HAPPY HARVEST",
+      "isSelected": null,
+      "thumbnail": null,
+      "children": []
+     },
+     {
+      "key": "FINEST BAKERY",
+      "docCount": 2,
+      "label": "FINEST BAKERY",
+      "isSelected": null,
+      "thumbnail": null,
+      "children": []
+     },
+     {
+      "key": "CUCINA NOBILE",
+      "docCount": 2,
+      "label": "CUCINA NOBILE",
+      "isSelected": null,
+      "thumbnail": null,
+      "children": []
+     },
+     {
+      "key": "CHOCEUR",
+      "docCount": 3,
+      "label": "CHOCEUR",
+      "isSelected": null,
+      "thumbnail": null,
+      "children": []
+     },
+     {
+      "key": "CAILLER",
+      "docCount": 5,
+      "label": "CAILLER",
+      "isSelected": null,
+      "thumbnail": null,
+      "children": []
+     },
+     {
+      "key": "BACKBOX",
+      "docCount": 3,
+      "label": "BACKBOX",
+      "isSelected": null,
+      "thumbnail": null,
+      "children": []
+     },
+     {
+      "key": "AMERICAN",
+      "docCount": 2,
+      "label": "AMERICAN",
+      "isSelected": null,
+      "thumbnail": null,
+      "children": []
+     }
+    ]
+   },
+   {
+    "name": "country-origin",
+    "localizedName": "Herkunftsland",
+    "docCount": 72,
+    "activeValue": [],
+    "config": {
+     "parameterName": "countryOrigin",
+     "type": "value",
+     "isMultiValue": true,
+     "componentName": "multi-select",
+     "component": {
+      "name": "multiSelect",
+      "valueActive": null,
+      "valueInactive": null
+     }
+    },
+    "stats": null,
+    "values": []
+   }
+  ],
+  "sort": [
+   {
+    "parameterName": "sort",
+    "parameterValue": "relevance",
+    "localizedName": "Relevanz",
+    "isActive": true
+   },
+   {
+    "parameterName": "sort",
+    "parameterValue": "name_asc",
+    "localizedName": "A - Z",
+    "isActive": false
+   },
+   {
+    "parameterName": "sort",
+    "parameterValue": "name_desc",
+    "localizedName": "Z - A",
+    "isActive": false
+   },
+   {
+    "parameterName": "sort",
+    "parameterValue": "price_asc",
+    "localizedName": "Preis (Niedrig bis Hoch)",
+    "isActive": false
+   },
+   {
+    "parameterName": "sort",
+    "parameterValue": "price_desc",
+    "localizedName": "Preis (Hoch bis Niedrig)",
+    "isActive": false
+   }
+  ]
+ },
+ "products": [
+  {
+   "sku": "000000000000399451",
+   "name": "Cage Eggs 700g",
+   "brandName": "LODGE FARMS",
+   "urlSlugText": "lodge-farms-cage-eggs-700g",
+   "urlSlugTextAlternatives": {
+    "en-AU": "lodge-farms-cage-eggs-700g"
+   },
+   "ageRestriction": null,
+   "alcohol": null,
+   "discontinued": false,
+   "discontinuedNote": null,
+   "notForSale": true,
+   "notForSaleReason": null,
+   "quantityMin": 1,
+   "quantityMax": 99,
+   "quantityInterval": 1,
+   "quantityDefault": 1,
+   "quantityUnit": "ea",
+   "weightType": "0",
+   "sellingSize": "700g",
+   "energyClass": null,
+   "onSaleDateDisplay": null,
+   "isAbstract": false,
+   "abstractSku": "000000000000399451A",
+   "price": {
+    "amount": 500,
+    "amountRelevant": 500,
+    "amountRelevantDisplay": "$5.00",
+    "bottleDeposit": 0,
+    "bottleDepositDisplay": "CHF 0.00",
+    "comparison": 71,
+    "comparisonDisplay": "$0.71 per 100g",
+    "currencyCode": "AUD",
+    "currencySymbol": "$",
+    "perUnit": null,
+    "perUnitDisplay": null,
+    "wasPriceDisplay": null,
+    "additionalInfo": null,
+    "savingsDisplay": null,
+    "bottleDepositType": null,
+    "feeText": null
+   },
+   "countryExtensions": null,
+   "categories": [
+    {
+     "id": "960000000",
+     "name": "Dairy, Eggs & Fridge",
+     "urlSlugText": "dairy-eggs-fridge"
+    },
+    {
+     "id": "1111111162",
+     "name": "Eggs",
+     "urlSlugText": "dairy-eggs-fridge/eggs"
+    }
+   ],
+   "assets": [
+    {
+     "url": "https://dm.apac.cms.aldi.cx/is/image/aldiprodapac/product/jpg/scaleWidth/{width}/95625f16-a901-453b-853d-3c19b9d3cb4c/{slug}",
+     "maxWidth": 2000,
+     "maxHeight": 2000,
+     "mimeType": "image/*",
+     "assetType": "FR01",
+     "alt": null,
+     "displayName": null
+    }
+   ],
+   "badges": []
+  },
+  {
+   "sku": "000000000000403353",
+   "name": "Barn Laid Eggs 18 Pack 900g",
+   "brandName": "LODGE FARMS",
+   "urlSlugText": "lodge-farms-barn-laid-eggs-18-pack-900g",
+   "urlSlugTextAlternatives": {
+    "en-AU": "lodge-farms-barn-laid-eggs-18-pack-900g"
+   },
+   "ageRestriction": null,
+   "alcohol": null,
+   "discontinued": false,
+   "discontinuedNote": null,
+   "notForSale": true,
+   "notForSaleReason": null,
+   "quantityMin": 1,
+   "quantityMax": 99,
+   "quantityInterval": 1,
+   "quantityDefault": 1,
+   "quantityUnit": "ea",
+   "weightType": "0",
+   "sellingSize": "900g",
+   "energyClass": null,
+   "onSaleDateDisplay": null,
+   "isAbstract": false,
+   "abstractSku": "000000000000403353A",
+   "price": {
+    "amount": 739,
+    "amountRelevant": 739,
+    "amountRelevantDisplay": "$7.39",
+    "bottleDeposit": 0,
+    "bottleDepositDisplay": "CHF 0.00",
+    "comparison": 82,
+    "comparisonDisplay": "$0.82 per 100g",
+    "currencyCode": "AUD",
+    "currencySymbol": "$",
+    "perUnit": null,
+    "perUnitDisplay": null,
+    "wasPriceDisplay": null,
+    "additionalInfo": null,
+    "savingsDisplay": null,
+    "bottleDepositType": null,
+    "feeText": null
+   },
+   "countryExtensions": null,
+   "categories": [
+    {
+     "id": "960000000",
+     "name": "Dairy, Eggs & Fridge",
+     "urlSlugText": "dairy-eggs-fridge"
+    },
+    {
+     "id": "1111111162",
+     "name": "Eggs",
+     "urlSlugText": "dairy-eggs-fridge/eggs"
+    }
+   ],
+   "assets": [
+    {
+     "url": "https://dm.apac.cms.aldi.cx/is/image/aldiprodapac/product/jpg/scaleWidth/{width}/95625f16-a901-453b-853d-3c19b9d3cb4c/{slug}",
+     "maxWidth": 2000,
+     "maxHeight": 2000,
+     "mimeType": "image/*",
+     "assetType": "FR01",
+     "alt": null,
+     "displayName": null
+    }
+   ],
+   "badges": []
+  },
+  {
+   "sku": "000000000000405616",
+   "name": "Free Range Eggs 600g",
+   "brandName": "LODGE FARMS",
+   "urlSlugText": "lodge-farms-free-range-eggs-600g",
+   "urlSlugTextAlternatives": {
+    "en-AU": "lodge-farms-free-range-eggs-600g"
+   },
+   "ageRestriction": null,
+   "alcohol": null,
+   "discontinued": false,
+   "discontinuedNote": null,
+   "notForSale": true,
+   "notForSaleReason": null,
+   "quantityMin": 1,
+   "quantityMax": 99,
+   "quantityInterval": 1,
+   "quantityDefault": 1,
+   "quantityUnit": "ea",
+   "weightType": "0",
+   "sellingSize": "600g",
+   "energyClass": null,
+   "onSaleDateDisplay": null,
+   "isAbstract": false,
+   "abstractSku": "000000000000405616A",
+   "price": {
+    "amount": 599,
+    "amountRelevant": 599,
+    "amountRelevantDisplay": "$5.99",
+    "bottleDeposit": 0,
+    "bottleDepositDisplay": "CHF 0.00",
+    "comparison": 100,
+    "comparisonDisplay": "$1.00 per 100g",
+    "currencyCode": "AUD",
+    "currencySymbol": "$",
+    "perUnit": null,
+    "perUnitDisplay": null,
+    "wasPriceDisplay": null,
+    "additionalInfo": null,
+    "savingsDisplay": null,
+    "bottleDepositType": null,
+    "feeText": null
+   },
+   "countryExtensions": null,
+   "categories": [
+    {
+     "id": "960000000",
+     "name": "Dairy, Eggs & Fridge",
+     "urlSlugText": "dairy-eggs-fridge"
+    },
+    {
+     "id": "1111111162",
+     "name": "Eggs",
+     "urlSlugText": "dairy-eggs-fridge/eggs"
+    }
+   ],
+   "assets": [
+    {
+     "url": "https://dm.apac.cms.aldi.cx/is/image/aldiprodapac/product/jpg/scaleWidth/{width}/95625f16-a901-453b-853d-3c19b9d3cb4c/{slug}",
+     "maxWidth": 2000,
+     "maxHeight": 2000,
+     "mimeType": "image/*",
+     "assetType": "FR01",
+     "alt": null,
+     "displayName": null
+    }
+   ],
+   "badges": []
+  },
+  {
+   "sku": "000000000000405617",
+   "name": "Free Range Eggs 700g",
+   "brandName": "LODGE FARMS",
+   "urlSlugText": "lodge-farms-free-range-eggs-700g",
+   "urlSlugTextAlternatives": {
+    "en-AU": "lodge-farms-free-range-eggs-700g"
+   },
+   "ageRestriction": null,
+   "alcohol": null,
+   "discontinued": false,
+   "discontinuedNote": null,
+   "notForSale": true,
+   "notForSaleReason": null,
+   "quantityMin": 1,
+   "quantityMax": 99,
+   "quantityInterval": 1,
+   "quantityDefault": 1,
+   "quantityUnit": "ea",
+   "weightType": "0",
+   "sellingSize": "700g",
+   "energyClass": null,
+   "onSaleDateDisplay": null,
+   "isAbstract": false,
+   "abstractSku": "000000000000405617A",
+   "price": {
+    "amount": 619,
+    "amountRelevant": 619,
+    "amountRelevantDisplay": "$6.19",
+    "bottleDeposit": 0,
+    "bottleDepositDisplay": "CHF 0.00",
+    "comparison": 88,
+    "comparisonDisplay": "$0.88 per 100g",
+    "currencyCode": "AUD",
+    "currencySymbol": "$",
+    "perUnit": null,
+    "perUnitDisplay": null,
+    "wasPriceDisplay": null,
+    "additionalInfo": null,
+    "savingsDisplay": null,
+    "bottleDepositType": null,
+    "feeText": null
+   },
+   "countryExtensions": null,
+   "categories": [
+    {
+     "id": "960000000",
+     "name": "Dairy, Eggs & Fridge",
+     "urlSlugText": "dairy-eggs-fridge"
+    },
+    {
+     "id": "1111111162",
+     "name": "Eggs",
+     "urlSlugText": "dairy-eggs-fridge/eggs"
+    }
+   ],
+   "assets": [
+    {
+     "url": "https://dm.apac.cms.aldi.cx/is/image/aldiprodapac/product/jpg/scaleWidth/{width}/95625f16-a901-453b-853d-3c19b9d3cb4c/{slug}",
+     "maxWidth": 2000,
+     "maxHeight": 2000,
+     "mimeType": "image/*",
+     "assetType": "FR01",
+     "alt": null,
+     "displayName": null
+    }
+   ],
+   "badges": []
+  },
+  {
+   "sku": "000000000000405620",
+   "name": "Barn Laid Eggs 700g",
+   "brandName": "LODGE FARMS",
+   "urlSlugText": "lodge-farms-barn-laid-eggs-700g",
+   "urlSlugTextAlternatives": {
+    "en-AU": "lodge-farms-barn-laid-eggs-700g"
+   },
+   "ageRestriction": null,
+   "alcohol": null,
+   "discontinued": false,
+   "discontinuedNote": null,
+   "notForSale": true,
+   "notForSaleReason": null,
+   "quantityMin": 1,
+   "quantityMax": 99,
+   "quantityInterval": 1,
+   "quantityDefault": 1,
+   "quantityUnit": "ea",
+   "weightType": "0",
+   "sellingSize": "700g",
+   "energyClass": null,
+   "onSaleDateDisplay": null,
+   "isAbstract": false,
+   "abstractSku": "000000000000405620A",
+   "price": {
+    "amount": 529,
+    "amountRelevant": 529,
+    "amountRelevantDisplay": "$5.29",
+    "bottleDeposit": 0,
+    "bottleDepositDisplay": "CHF 0.00",
+    "comparison": 76,
+    "comparisonDisplay": "$0.76 per 100g",
+    "currencyCode": "AUD",
+    "currencySymbol": "$",
+    "perUnit": null,
+    "perUnitDisplay": null,
+    "wasPriceDisplay": null,
+    "additionalInfo": null,
+    "savingsDisplay": null,
+    "bottleDepositType": null,
+    "feeText": null
+   },
+   "countryExtensions": null,
+   "categories": [
+    {
+     "id": "960000000",
+     "name": "Dairy, Eggs & Fridge",
+     "urlSlugText": "dairy-eggs-fridge"
+    },
+    {
+     "id": "1111111162",
+     "name": "Eggs",
+     "urlSlugText": "dairy-eggs-fridge/eggs"
+    }
+   ],
+   "assets": [
+    {
+     "url": "https://dm.apac.cms.aldi.cx/is/image/aldiprodapac/product/jpg/scaleWidth/{width}/95625f16-a901-453b-853d-3c19b9d3cb4c/{slug}",
+     "maxWidth": 2000,
+     "maxHeight": 2000,
+     "mimeType": "image/*",
+     "assetType": "FR01",
+     "alt": null,
+     "displayName": null
+    }
+   ],
+   "badges": []
+  },
+  {
+   "sku": "000000000000398596",
+   "name": "Pork, Pepper and Oregano Gourmet Sausages 500g",
+   "brandName": "SPECIALLY SELECTED",
+   "urlSlugText": "specially-selected-pork-pepper-and-oregano-gourmet-sausages-500g",
+   "urlSlugTextAlternatives": {
+    "en-AU": "specially-selected-pork-pepper-and-oregano-gourmet-sausages-500g"
+   },
+   "ageRestriction": null,
+   "alcohol": null,
+   "discontinued": false,
+   "discontinuedNote": null,
+   "notForSale": true,
+   "notForSaleReason": null,
+   "quantityMin": 1,
+   "quantityMax": 99,
+   "quantityInterval": 1,
+   "quantityDefault": 1,
+   "quantityUnit": "ea",
+   "weightType": "0",
+   "sellingSize": "500g",
+   "energyClass": null,
+   "onSaleDateDisplay": null,
+   "isAbstract": false,
+   "abstractSku": "000000000000398596A",
+   "price": {
+    "amount": 749,
+    "amountRelevant": 749,
+    "amountRelevantDisplay": "$7.49",
+    "bottleDeposit": 0,
+    "bottleDepositDisplay": "CHF 0.00",
+    "comparison": 1498,
+    "comparisonDisplay": "$14.98 per 1 kg",
+    "currencyCode": "AUD",
+    "currencySymbol": "$",
+    "perUnit": null,
+    "perUnitDisplay": null,
+    "wasPriceDisplay": null,
+    "additionalInfo": null,
+    "savingsDisplay": null,
+    "bottleDepositType": null,
+    "feeText": null
+   },
+   "countryExtensions": null,
+   "categories": [
+    {
+     "id": "940000000",
+     "name": "Meat & Seafood",
+     "urlSlugText": "meat-seafood"
+    }
+   ],
+   "assets": [
+    {
+     "url": "https://dm.apac.cms.aldi.cx/is/image/aldiprodapac/product/jpg/scaleWidth/{width}/95625f16-a901-453b-853d-3c19b9d3cb4c/{slug}",
+     "maxWidth": 2000,
+     "maxHeight": 2000,
+     "mimeType": "image/*",
+     "assetType": "FR01",
+     "alt": null,
+     "displayName": null
+    }
+   ],
+   "badges": []
+  },
+  {
+   "sku": "000000000000398905",
+   "name": "Extra Lean Beef Mince 500g",
+   "brandName": "JINDURRA STATION",
+   "urlSlugText": "jindurra-station-extra-lean-beef-mince-500g",
+   "urlSlugTextAlternatives": {
+    "en-AU": "jindurra-station-extra-lean-beef-mince-500g"
+   },
+   "ageRestriction": null,
+   "alcohol": null,
+   "discontinued": false,
+   "discontinuedNote": null,
+   "notForSale": true,
+   "notForSaleReason": null,
+   "quantityMin": 1,
+   "quantityMax": 99,
+   "quantityInterval": 1,
+   "quantityDefault": 1,
+   "quantityUnit": "ea",
+   "weightType": "0",
+   "sellingSize": "500g",
+   "energyClass": null,
+   "onSaleDateDisplay": null,
+   "isAbstract": false,
+   "abstractSku": "000000000000398905A",
+   "price": {
+    "amount": 899,
+    "amountRelevant": 899,
+    "amountRelevantDisplay": "$8.99",
+    "bottleDeposit": 0,
+    "bottleDepositDisplay": "CHF 0.00",
+    "comparison": 1798,
+    "comparisonDisplay": "$17.98 per 1 kg",
+    "currencyCode": "AUD",
+    "currencySymbol": "$",
+    "perUnit": null,
+    "perUnitDisplay": null,
+    "wasPriceDisplay": null,
+    "additionalInfo": null,
+    "savingsDisplay": null,
+    "bottleDepositType": null,
+    "feeText": null
+   },
+   "countryExtensions": null,
+   "categories": [
+    {
+     "id": "940000000",
+     "name": "Meat & Seafood",
+     "urlSlugText": "meat-seafood"
+    }
+   ],
+   "assets": [
+    {
+     "url": "https://dm.apac.cms.aldi.cx/is/image/aldiprodapac/product/jpg/scaleWidth/{width}/95625f16-a901-453b-853d-3c19b9d3cb4c/{slug}",
+     "maxWidth": 2000,
+     "maxHeight": 2000,
+     "mimeType": "image/*",
+     "assetType": "FR01",
+     "alt": null,
+     "displayName": null
+    }
+   ],
+   "badges": []
+  },
+  {
+   "sku": "000000000000399018",
+   "name": "RSPCA Approved Chicken Drumsticks Bulk Pack 2kg",
+   "brandName": "BROAD OAK FARMS",
+   "urlSlugText": "broad-oak-farms-rspca-approved-chicken-drumsticks-bulk-pack-2kg",
+   "urlSlugTextAlternatives": {
+    "en-AU": "broad-oak-farms-rspca-approved-chicken-drumsticks-bulk-pack-2kg"
+   },
+   "ageRestriction": null,
+   "alcohol": null,
+   "discontinued": false,
+   "discontinuedNote": null,
+   "notForSale": true,
+   "notForSaleReason": null,
+   "quantityMin": 1,
+   "quantityMax": 99,
+   "quantityInterval": 1,
+   "quantityDefault": 1,
+   "quantityUnit": "ea",
+   "weightType": "0",
+   "sellingSize": "2kg",
+   "energyClass": null,
+   "onSaleDateDisplay": null,
+   "isAbstract": false,
+   "abstractSku": "000000000000399018A",
+   "price": {
+    "amount": 699,
+    "amountRelevant": 699,
+    "amountRelevantDisplay": "$6.99",
+    "bottleDeposit": 0,
+    "bottleDepositDisplay": "CHF 0.00",
+    "comparison": 350,
+    "comparisonDisplay": "$3.50 per 1 kg",
+    "currencyCode": "AUD",
+    "currencySymbol": "$",
+    "perUnit": null,
+    "perUnitDisplay": null,
+    "wasPriceDisplay": null,
+    "additionalInfo": null,
+    "savingsDisplay": null,
+    "bottleDepositType": null,
+    "feeText": null
+   },
+   "countryExtensions": null,
+   "categories": [
+    {
+     "id": "940000000",
+     "name": "Meat & Seafood",
+     "urlSlugText": "meat-seafood"
+    }
+   ],
+   "assets": [
+    {
+     "url": "https://dm.apac.cms.aldi.cx/is/image/aldiprodapac/product/jpg/scaleWidth/{width}/95625f16-a901-453b-853d-3c19b9d3cb4c/{slug}",
+     "maxWidth": 2000,
+     "maxHeight": 2000,
+     "mimeType": "image/*",
+     "assetType": "FR01",
+     "alt": null,
+     "displayName": null
+    }
+   ],
+   "badges": []
+  },
+  {
+   "sku": "000000000000657233",
+   "name": "Solar Spot Light",
+   "brandName": "GARDENLINE",
+   "urlSlugText": "gardenline-solar-spot-light",
+   "urlSlugTextAlternatives": {
+    "en-AU": "gardenline-solar-spot-light"
+   },
+   "ageRestriction": null,
+   "alcohol": null,
+   "discontinued": false,
+   "discontinuedNote": null,
+   "notForSale": true,
+   "notForSaleReason": null,
+   "quantityMin": 1,
+   "quantityMax": 99,
+   "quantityInterval": 1,
+   "quantityDefault": 1,
+   "quantityUnit": "ea",
+   "weightType": "0",
+   "sellingSize": null,
+   "energyClass": null,
+   "onSaleDateDisplay": "Available from Sat 26th September",
+   "isAbstract": false,
+   "abstractSku": "000000000000657233A",
+   "price": {
+    "amount": 1299,
+    "amountRelevant": 1299,
+    "amountRelevantDisplay": "$12.99",
+    "bottleDeposit": 0,
+    "bottleDepositDisplay": "CHF 0.00",
+    "comparison": null,
+    "comparisonDisplay": null,
+    "currencyCode": "AUD",
+    "currencySymbol": "$",
+    "perUnit": null,
+    "perUnitDisplay": null,
+    "wasPriceDisplay": null,
+    "additionalInfo": null,
+    "savingsDisplay": null,
+    "bottleDepositType": null,
+    "feeText": null
+   },
+   "countryExtensions": null,
+   "categories": [],
+   "assets": [
+    {
+     "url": "https://dm.apac.cms.aldi.cx/is/image/aldiprodapac/product/jpg/scaleWidth/{width}/95625f16-a901-453b-853d-3c19b9d3cb4c/{slug}",
+     "maxWidth": 2000,
+     "maxHeight": 2000,
+     "mimeType": "image/*",
+     "assetType": "FR01",
+     "alt": null,
+     "displayName": null
+    }
+   ],
+   "badges": [
+    {
+     "position": "1",
+     "items": [
+      {
+       "url": null,
+       "alt": null,
+       "displayText": "While Stocks Last",
+       "color": "red",
+       "mimeType": "text/plain"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "sku": "000000000000670932",
+   "name": "Triple Head Security Light",
+   "brandName": "CASALUX",
+   "urlSlugText": "casalux-triple-head-security-light",
+   "urlSlugTextAlternatives": {
+    "en-AU": "casalux-triple-head-security-light"
+   },
+   "ageRestriction": null,
+   "alcohol": null,
+   "discontinued": false,
+   "discontinuedNote": null,
+   "notForSale": true,
+   "notForSaleReason": null,
+   "quantityMin": 1,
+   "quantityMax": 99,
+   "quantityInterval": 1,
+   "quantityDefault": 1,
+   "quantityUnit": "ea",
+   "weightType": "0",
+   "sellingSize": null,
+   "energyClass": null,
+   "onSaleDateDisplay": "Available from Sat 26th September",
+   "isAbstract": false,
+   "abstractSku": "000000000000670932A",
+   "price": {
+    "amount": 2699,
+    "amountRelevant": 2699,
+    "amountRelevantDisplay": "$26.99",
+    "bottleDeposit": 0,
+    "bottleDepositDisplay": "CHF 0.00",
+    "comparison": null,
+    "comparisonDisplay": null,
+    "currencyCode": "AUD",
+    "currencySymbol": "$",
+    "perUnit": null,
+    "perUnitDisplay": null,
+    "wasPriceDisplay": null,
+    "additionalInfo": null,
+    "savingsDisplay": null,
+    "bottleDepositType": null,
+    "feeText": null
+   },
+   "countryExtensions": null,
+   "categories": [],
+   "assets": [
+    {
+     "url": "https://dm.apac.cms.aldi.cx/is/image/aldiprodapac/product/jpg/scaleWidth/{width}/95625f16-a901-453b-853d-3c19b9d3cb4c/{slug}",
+     "maxWidth": 2000,
+     "maxHeight": 2000,
+     "mimeType": "image/*",
+     "assetType": "FR01",
+     "alt": null,
+     "displayName": null
+    }
+   ],
+   "badges": [
+    {
+     "position": "1",
+     "items": [
+      {
+       "url": null,
+       "alt": null,
+       "displayText": "While Stocks Last",
+       "color": "red",
+       "mimeType": "text/plain"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "sku": "000000000000690123",
+   "name": "Seaweed Concentrate 2L",
+   "brandName": "GARDENLIFE",
+   "urlSlugText": "gardenlife-seaweed-concentrate-2l",
+   "urlSlugTextAlternatives": {
+    "en-AU": "gardenlife-seaweed-concentrate-2l"
+   },
+   "ageRestriction": null,
+   "alcohol": null,
+   "discontinued": false,
+   "discontinuedNote": null,
+   "notForSale": true,
+   "notForSaleReason": null,
+   "quantityMin": 1,
+   "quantityMax": 99,
+   "quantityInterval": 1,
+   "quantityDefault": 1,
+   "quantityUnit": "ea",
+   "weightType": "0",
+   "sellingSize": "2L",
+   "energyClass": null,
+   "onSaleDateDisplay": "Available from Sat 26th September",
+   "isAbstract": false,
+   "abstractSku": "000000000000690123A",
+   "price": {
+    "amount": 999,
+    "amountRelevant": 999,
+    "amountRelevantDisplay": "$9.99",
+    "bottleDeposit": 0,
+    "bottleDepositDisplay": "CHF 0.00",
+    "comparison": null,
+    "comparisonDisplay": null,
+    "currencyCode": "AUD",
+    "currencySymbol": "$",
+    "perUnit": null,
+    "perUnitDisplay": null,
+    "wasPriceDisplay": null,
+    "additionalInfo": null,
+    "savingsDisplay": null,
+    "bottleDepositType": null,
+    "feeText": null
+   },
+   "countryExtensions": null,
+   "categories": [],
+   "assets": [
+    {
+     "url": "https://dm.apac.cms.aldi.cx/is/image/aldiprodapac/product/jpg/scaleWidth/{width}/95625f16-a901-453b-853d-3c19b9d3cb4c/{slug}",
+     "maxWidth": 2000,
+     "maxHeight": 2000,
+     "mimeType": "image/*",
+     "assetType": "FR01",
+     "alt": null,
+     "displayName": null
+    }
+   ],
+   "badges": [
+    {
+     "position": "1",
+     "items": [
+      {
+       "url": null,
+       "alt": null,
+       "displayText": "While Stocks Last",
+       "color": "red",
+       "mimeType": "text/plain"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "sku": "000000000000704511",
+   "name": "Choc Tim Tam Original Biscuits 200g",
+   "brandName": "BELMONT",
+   "urlSlugText": "belmont-choc-tim-tam-original-biscuits-200g",
+   "urlSlugTextAlternatives": {
+    "en-AU": "belmont-choc-tim-tam-original-biscuits-200g"
+   },
+   "ageRestriction": null,
+   "alcohol": null,
+   "discontinued": false,
+   "discontinuedNote": null,
+   "notForSale": true,
+   "notForSaleReason": null,
+   "quantityMin": 1,
+   "quantityMax": 99,
+   "quantityInterval": 1,
+   "quantityDefault": 1,
+   "quantityUnit": "ea",
+   "weightType": "0",
+   "sellingSize": "200g",
+   "energyClass": null,
+   "onSaleDateDisplay": null,
+   "isAbstract": false,
+   "abstractSku": "000000000000704511A",
+   "price": {
+    "amount": 349,
+    "amountRelevant": 349,
+    "amountRelevantDisplay": "$3.49",
+    "bottleDeposit": 0,
+    "bottleDepositDisplay": "CHF 0.00",
+    "comparison": 175,
+    "comparisonDisplay": "$1.75 per 100 g",
+    "currencyCode": "AUD",
+    "currencySymbol": "$",
+    "perUnit": null,
+    "perUnitDisplay": null,
+    "wasPriceDisplay": "$3.99",
+    "additionalInfo": null,
+    "savingsDisplay": "$0.50",
+    "bottleDepositType": null,
+    "feeText": null
+   },
+   "countryExtensions": null,
+   "categories": [
+    {
+     "id": "1588161408332087",
+     "name": "Snacks & Confectionery",
+     "urlSlugText": "snacks-confectionery"
+    }
+   ],
+   "assets": [
+    {
+     "url": "https://dm.apac.cms.aldi.cx/is/image/aldiprodapac/product/jpg/scaleWidth/{width}/95625f16-a901-453b-853d-3c19b9d3cb4c/{slug}",
+     "maxWidth": 2000,
+     "maxHeight": 2000,
+     "mimeType": "image/*",
+     "assetType": "FR01",
+     "alt": null,
+     "displayName": null
+    }
+   ],
+   "badges": []
+  },
+  {
+   "sku": "000000000000403354",
+   "name": "Barn Laid Eggs 18 Pack 900g",
+   "brandName": "LODGE FARMS",
+   "urlSlugText": "lodge-farms-barn-laid-eggs-18-pack-900g",
+   "urlSlugTextAlternatives": {
+    "en-AU": "lodge-farms-barn-laid-eggs-18-pack-900g"
+   },
+   "ageRestriction": null,
+   "alcohol": null,
+   "discontinued": true,
+   "discontinuedNote": null,
+   "notForSale": true,
+   "notForSaleReason": null,
+   "quantityMin": 1,
+   "quantityMax": 99,
+   "quantityInterval": 1,
+   "quantityDefault": 1,
+   "quantityUnit": "ea",
+   "weightType": "0",
+   "sellingSize": "900g",
+   "energyClass": null,
+   "onSaleDateDisplay": null,
+   "isAbstract": false,
+   "abstractSku": "000000000000403353A",
+   "price": {
+    "amount": 739,
+    "amountRelevant": 739,
+    "amountRelevantDisplay": "$7.39",
+    "bottleDeposit": 0,
+    "bottleDepositDisplay": "CHF 0.00",
+    "comparison": 82,
+    "comparisonDisplay": "$0.82 per 100g",
+    "currencyCode": "AUD",
+    "currencySymbol": "$",
+    "perUnit": null,
+    "perUnitDisplay": null,
+    "wasPriceDisplay": null,
+    "additionalInfo": null,
+    "savingsDisplay": null,
+    "bottleDepositType": null,
+    "feeText": null
+   },
+   "countryExtensions": null,
+   "categories": [
+    {
+     "id": "960000000",
+     "name": "Dairy, Eggs & Fridge",
+     "urlSlugText": "dairy-eggs-fridge"
+    },
+    {
+     "id": "1111111162",
+     "name": "Eggs",
+     "urlSlugText": "dairy-eggs-fridge/eggs"
+    }
+   ],
+   "assets": [
+    {
+     "url": "https://dm.apac.cms.aldi.cx/is/image/aldiprodapac/product/jpg/scaleWidth/{width}/95625f16-a901-453b-853d-3c19b9d3cb4c/{slug}",
+     "maxWidth": 2000,
+     "maxHeight": 2000,
+     "mimeType": "image/*",
+     "assetType": "FR01",
+     "alt": null,
+     "displayName": null
+    }
+   ],
+   "badges": []
+  }
+ ]
+}

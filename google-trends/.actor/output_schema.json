@@ -1,0 +1,24 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "title": "Output",
+  "properties": {
+    "results": {
+      "type": "string",
+      "title": "Results",
+      "description": "All result items of this run.",
+      "template": "{{links.apiDefaultDatasetUrl}}/items?view=overview"
+    },
+    "trending": {
+      "type": "string",
+      "title": "Trending now",
+      "description": "Trending Now searches stored in this run (when enabled).",
+      "template": "{{links.apiDefaultDatasetUrl}}/items?view=trending"
+    },
+    "summary": {
+      "type": "string",
+      "title": "Run summary",
+      "description": "Summary of the run with per-term status, anchor scaling and request statistics.",
+      "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/OUTPUT"
+    }
+  }
+}

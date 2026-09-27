@@ -1,0 +1,18 @@
+{
+  "_note": "Where each fixture comes from. 'recorded' = a real Google response recorded by an open-source project's test suite (VCR cassette or fixture-recording script). Recorded pytrends cassettes are from March-April 2023 (keywords pizza/bagel, hl=en-US, tz=360).",
+  "warmup-404.html": "recorded: GeneralMills/pytrends tests/cassettes/test_request/test_tokens.yaml (GET /trends/explore/?geo=US, HTTP 404 that still sets the NID cookie)",
+  "multiline-pizza-bagel-5y.txt": "recorded: pytrends test_interest_over_time_partial.yaml (/trends/api/widgetdata/multiline, 260 weekly points, last one isPartial)",
+  "explore-pizza-bagel-2021.txt": "recorded: pytrends test_tokens.yaml (explore for 2021-01-01 2021-12-31, 2 terms: TIMESERIES, GEO_MAP, GEO_MAP_0/1, RELATED_QUERIES_0/1, no RELATED_TOPICS)",
+  "multiline-pizza-bagel-days.txt": "recorded: pytrends test_interest_over_time_ok.yaml (5 daily points)",
+  "explore-pizza-2021.txt": "recorded: pytrends test_related_topics_result_top.yaml (explore with ONE term: TIMESERIES, GEO_MAP, RELATED_TOPICS, RELATED_QUERIES)",
+  "relatedsearches-queries-pizza.txt": "recorded: pytrends test_related_queries_result_top.yaml (/widgetdata/relatedsearches, top 25 + rising 11 incl. Breakout)",
+  "relatedsearches-queries-bagel.txt": "recorded: pytrends test_related_queries_result_top.yaml (second term)",
+  "relatedsearches-topics-pizza.txt": "recorded: pytrends test_related_topics_result_top.yaml (topics with mid/title/type)",
+  "comparedgeo-compared-countries.txt": "recorded: pytrends test_interest_by_region_ok.yaml (/widgetdata/comparedgeo for the multi-term GEO_MAP, 250 countries, 2 values each)",
+  "trending-rss-recorded.xml": "recorded + sanitized by the project: DobroslavRadosavljevic/trendsearch tests/fixtures/raw/trending-rss/ok.xml (June 2026; example.com URLs)",
+  "batchexecute-i0OFE-recorded.txt": "recorded + sanitized by the project: trendsearch tests/fixtures/raw/trending-now/ok.txt (Trending Now batchexecute RPC i0OFE)",
+  "comparedgeo-single-regions.json": "recorded + trimmed by the project: trendsearch tests/fixtures/raw/interest-by-region/ok.json (single-term, US regions)",
+  "relatedsearches-topics-string-value.json": "trendsearch fixture: rising topic whose value is the string 'Breakout'",
+  "_synthesized_in_mock_server": "CITY resolution (coordinates instead of geoCode), a multi-item Trending RSS feed, the /trends/embed/explore HTML page, EU consent page, 429 'Too Many Requests' page and /sorry/ captcha page are built in test/mock-server.mjs from the shapes documented in pytrends, trendspy and trendsearch source code.",
+  "_licenses": "pytrends: Apache-2.0 (GeneralMills/pytrends); trendsearch: MIT (DobroslavRadosavljevic/trendsearch)."
+}

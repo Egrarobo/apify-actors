@@ -1,0 +1,24 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "title": "Output",
+  "properties": {
+    "results": {
+      "type": "string",
+      "title": "Permits",
+      "description": "All permits saved by this run.",
+      "template": "{{links.apiDefaultDatasetUrl}}/items?view=overview"
+    },
+    "contractors": {
+      "type": "string",
+      "title": "Contractors & valuation",
+      "description": "Permits with contractor and valuation columns (filled when details are on).",
+      "template": "{{links.apiDefaultDatasetUrl}}/items?view=contractors"
+    },
+    "summary": {
+      "type": "string",
+      "title": "Run summary",
+      "description": "Per-agency counts, how each portal was read (HTTP/browser, CSV/grid) and errors.",
+      "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/OUTPUT"
+    }
+  }
+}

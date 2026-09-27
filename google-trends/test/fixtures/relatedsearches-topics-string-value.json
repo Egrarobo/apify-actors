@@ -1,0 +1,36 @@
+{
+  "default": {
+    "rankedList": [
+      {
+        "rankedKeyword": [
+          {
+            "topic": {
+              "mid": "/m/07c1v",
+              "title": "TypeScript",
+              "type": "Programming language"
+            },
+            "value": 100,
+            "formattedValue": "100",
+            "hasData": true,
+            "link": "/trends/explore?q=/m/07c1v"
+          }
+        ]
+      },
+      {
+        "rankedKeyword": [
+          {
+            "topic": {
+              "mid": "/m/0jg24",
+              "title": "JavaScript",
+              "type": "Programming language"
+            },
+            "value": "Breakout",
+            "formattedValue": "Breakout",
+            "hasData": true,
+            "link": "/trends/explore?q=/m/0jg24"
+          }
+        ]
+      }
+    ]
+  }
+}

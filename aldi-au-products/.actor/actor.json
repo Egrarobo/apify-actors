@@ -1,0 +1,207 @@
+{
+  "actorSpecification": 1,
+  "name": "aldi-au-products",
+  "title": "ALDI Australia Scraper – Products, Prices & Special Buys",
+  "description": "Scrape ALDI Australia (aldi.com.au) by keyword, category, Special Buys date or product: prices, unit prices, price drops, Super Savers, Special Buys, categories and images in a clean format. Fast JSON API, automatic retries and clear per-search errors.",
+  "version": "1.0",
+  "buildTag": "latest",
+  "input": "./input_schema.json",
+  "dockerfile": "../Dockerfile",
+  "minMemoryMbytes": 512,
+  "defaultMemoryMbytes": 1024,
+  "storages": {
+    "dataset": {
+      "actorSpecification": 1,
+      "fields": {},
+      "views": {
+        "overview": {
+          "title": "Products",
+          "transformation": {
+            "fields": [
+              "name",
+              "size",
+              "price",
+              "wasPrice",
+              "unitPriceText",
+              "isOnSpecial",
+              "promoText",
+              "category",
+              "searchTerm",
+              "url",
+              "imageUrl"
+            ]
+          },
+          "display": {
+            "component": "table",
+            "properties": {
+              "name": {
+                "label": "Product",
+                "format": "text"
+              },
+              "size": {
+                "label": "Size",
+                "format": "text"
+              },
+              "price": {
+                "label": "Price (AUD)",
+                "format": "number"
+              },
+              "wasPrice": {
+                "label": "Was",
+                "format": "number"
+              },
+              "unitPriceText": {
+                "label": "Unit price",
+                "format": "text"
+              },
+              "isOnSpecial": {
+                "label": "Special",
+                "format": "boolean"
+              },
+              "promoText": {
+                "label": "Promotion",
+                "format": "text"
+              },
+              "category": {
+                "label": "Category",
+                "format": "text"
+              },
+              "searchTerm": {
+                "label": "Search",
+                "format": "text"
+              },
+              "url": {
+                "label": "Link",
+                "format": "link"
+              },
+              "imageUrl": {
+                "label": "Image",
+                "format": "image"
+              }
+            }
+          }
+        },
+        "specials": {
+          "title": "Specials & savings",
+          "transformation": {
+            "fields": [
+              "name",
+              "size",
+              "price",
+              "wasPrice",
+              "savings",
+              "promoType",
+              "promoText",
+              "availableFrom",
+              "unitPriceText",
+              "url"
+            ]
+          },
+          "display": {
+            "component": "table",
+            "properties": {
+              "name": {
+                "label": "Product",
+                "format": "text"
+              },
+              "size": {
+                "label": "Size",
+                "format": "text"
+              },
+              "price": {
+                "label": "Now (AUD)",
+                "format": "number"
+              },
+              "wasPrice": {
+                "label": "Was",
+                "format": "number"
+              },
+              "savings": {
+                "label": "Saving",
+                "format": "number"
+              },
+              "promoType": {
+                "label": "Type",
+                "format": "text"
+              },
+              "promoText": {
+                "label": "Promotion",
+                "format": "text"
+              },
+              "availableFrom": {
+                "label": "Available from",
+                "format": "text"
+              },
+              "unitPriceText": {
+                "label": "Unit price",
+                "format": "text"
+              },
+              "url": {
+                "label": "Link",
+                "format": "link"
+              }
+            }
+          }
+        },
+        "errors": {
+          "title": "Errors",
+          "transformation": {
+            "fields": [
+              "isError",
+              "searchTerm",
+              "categoryUrl",
+              "productId",
+              "error",
+              "errorStep",
+              "httpStatus",
+              "blocked",
+              "blockMarkers"
+            ]
+          },
+          "display": {
+            "component": "table",
+            "properties": {
+              "isError": {
+                "label": "Error row",
+                "format": "boolean"
+              },
+              "searchTerm": {
+                "label": "Search",
+                "format": "text"
+              },
+              "categoryUrl": {
+                "label": "Category",
+                "format": "text"
+              },
+              "productId": {
+                "label": "Product",
+                "format": "text"
+              },
+              "error": {
+                "label": "Error",
+                "format": "text"
+              },
+              "errorStep": {
+                "label": "Step",
+                "format": "text"
+              },
+              "httpStatus": {
+                "label": "HTTP",
+                "format": "number"
+              },
+              "blocked": {
+                "label": "Anti-bot block",
+                "format": "boolean"
+              },
+              "blockMarkers": {
+                "label": "Detected",
+                "format": "array"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "output": "./output_schema.json"
+}

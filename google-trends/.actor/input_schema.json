@@ -1,0 +1,263 @@
+{
+  "title": "Google Trends input",
+  "description": "Compare up to 5 search terms on Google Trends (or hundreds, batched into groups with a common anchor term): interest over time, interest by region, related queries and topics. Optionally get today's Trending Now searches for a country.",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "searchTerms": {
+      "title": "Search terms",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Words or phrases to look up, one per line, e.g. \"coffee\", \"iphone 17\". Up to 5 terms are compared together on one 0-100 scale, exactly like on trends.google.com. More terms are split automatically into groups of 5 (see \"Anchor term\" to keep them comparable). A Google Knowledge Graph topic ID such as \"/m/0663v\" (Pizza, the topic) also works. Leave empty if you only want Trending Now.",
+      "prefill": ["coffee", "tea"],
+      "sectionCaption": "1. What to compare"
+    },
+    "comparisonMode": {
+      "title": "Comparison mode",
+      "type": "string",
+      "editor": "select",
+      "description": "\"groups\": terms are compared together in groups of up to 5 (values are relative to the most popular term of the group). \"separate\": every term is looked up alone and gets its own 0-100 scale (100 = that term's own peak).",
+      "enum": ["groups", "separate"],
+      "enumTitles": ["Compare together (groups of up to 5)", "Each term separately (own 0-100 scale)"],
+      "default": "groups"
+    },
+    "anchorTerm": {
+      "title": "Anchor term (for more than 5 terms)",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Optional. When you have more than 5 terms, this term is added to every group of 4 other terms. The Actor then rescales all groups onto one scale and adds \"comparableValue\" / \"comparableAverage\" (0-100 across ALL terms). Pick a stable term roughly as popular as your terms, e.g. \"weather\" or a well-known brand in your market. The anchor is returned (and charged) once as a normal term."
+    },
+    "geo": {
+      "title": "Location",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Country or region code as used by Google Trends: \"US\", \"GB\", \"DE\", \"IN\", a US state like \"US-CA\", or a region like \"GB-ENG\". Leave empty for worldwide.",
+      "prefill": "US",
+      "default": "",
+      "sectionCaption": "2. Where and when"
+    },
+    "timeRange": {
+      "title": "Time range",
+      "type": "string",
+      "editor": "select",
+      "description": "Period to analyse. Short ranges give hourly or minute points (past hour: 1 minute, past day: 8 minutes, past 7 days: 1 hour); up to 9 months daily; up to 5 years weekly; longer monthly. Choose \"Custom\" to use \"Custom time range\".",
+      "enum": ["now 1-H", "now 4-H", "now 1-d", "now 7-d", "today 1-m", "today 3-m", "today 12-m", "today 5-y", "all", "custom"],
+      "enumTitles": ["Past hour", "Past 4 hours", "Past day", "Past 7 days", "Past 30 days", "Past 90 days", "Past 12 months", "Past 5 years", "2004 - present", "Custom (use the field below)"],
+      "default": "today 12-m"
+    },
+    "customTimeRange": {
+      "title": "Custom time range",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Used when \"Time range\" is \"Custom\". Formats: \"2025-01-01 2025-06-30\" (dates, from 2004-01-01), \"2026-09-20T00 2026-09-26T23\" (hourly, at most 7 days, UTC), \"today 2-y\" (last 2 years) or \"now 3-d\" (last 3 days)."
+    },
+    "category": {
+      "title": "Category",
+      "type": "string",
+      "editor": "select",
+      "description": "Limit the search interest to one Google Trends category, e.g. \"jaguar\" in Autos & Vehicles vs Pets & Animals. Use \"Category ID\" for sub-categories.",
+      "enum": ["0", "3", "47", "44", "22", "12", "5", "7", "71", "8", "45", "65", "11", "13", "958", "19", "16", "299", "14", "66", "29", "533", "174", "18", "20", "67"],
+      "enumTitles": ["All categories", "Arts & Entertainment", "Autos & Vehicles", "Beauty & Fitness", "Books & Literature", "Business & Industrial", "Computers & Electronics", "Finance", "Food & Drink", "Games", "Health", "Hobbies & Leisure", "Home & Garden", "Internet & Telecom", "Jobs & Education", "Law & Government", "News", "Online Communities", "People & Society", "Pets & Animals", "Real Estate", "Reference", "Science", "Shopping", "Sports", "Travel"],
+      "default": "0"
+    },
+    "categoryId": {
+      "title": "Category ID (advanced)",
+      "type": "integer",
+      "description": "Any Google Trends category number, including sub-categories. Overrides \"Category\". Find it in the \"cat=\" part of a trends.google.com/trends/explore link after picking the category there.",
+      "minimum": 0
+    },
+    "gprop": {
+      "title": "Google property",
+      "type": "string",
+      "editor": "select",
+      "description": "Which Google search to measure: web search (default), image search, news search, Google Shopping or YouTube search.",
+      "enum": ["", "images", "news", "froogle", "youtube"],
+      "enumTitles": ["Web Search", "Image Search", "News Search", "Google Shopping", "YouTube Search"],
+      "default": ""
+    },
+    "language": {
+      "title": "Language",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Google Trends interface language (hl), e.g. \"en-US\", \"de\", \"fr\", \"pt-BR\". Affects names of regions and topics and the Trending Now data, not which searches are counted.",
+      "default": "en-US"
+    },
+    "timezoneOffset": {
+      "title": "Timezone offset (minutes)",
+      "type": "integer",
+      "description": "Google's \"tz\" parameter: minutes BEHIND UTC, like JavaScript getTimezoneOffset(). 0 = UTC (default), 300 = US Eastern standard time (UTC-5), -120 = UTC+2. Mainly affects hourly data. Dates in the output are always UTC.",
+      "minimum": -840,
+      "maximum": 720,
+      "default": 0
+    },
+    "interestOverTime": {
+      "title": "Interest over time",
+      "type": "boolean",
+      "description": "Timeline of search interest (0-100) for every term: [{date, value, isPartial}], plus average, peak and latest value.",
+      "default": true,
+      "sectionCaption": "3. What data to collect"
+    },
+    "interestByRegion": {
+      "title": "Interest by region",
+      "type": "boolean",
+      "description": "Where each term is most popular (0-100 per country, state, city or US metro area). Adds \"regions\" and \"topRegion\" to every term.",
+      "default": false
+    },
+    "regionResolution": {
+      "title": "Region level",
+      "type": "string",
+      "editor": "select",
+      "description": "Level of detail for interest by region. Auto = countries when Location is worldwide, otherwise sub-regions (states/provinces). CITY returns city names with latitude/longitude. DMA (metro areas) exists only for the US.",
+      "enum": ["", "COUNTRY", "REGION", "CITY", "DMA"],
+      "enumTitles": ["Auto", "Countries (worldwide only)", "Regions / states", "Cities", "US metro areas (DMA)"],
+      "default": ""
+    },
+    "includeLowSearchVolumeRegions": {
+      "title": "Include low search volume regions",
+      "type": "boolean",
+      "description": "Also list regions with little search volume (Google's \"Include low search volume regions\" checkbox).",
+      "default": false
+    },
+    "relatedQueries": {
+      "title": "Related queries",
+      "type": "boolean",
+      "description": "Top and rising searches related to each term (rising ones show growth like \"+250%\" or \"Breakout\").",
+      "default": false
+    },
+    "relatedTopics": {
+      "title": "Related topics",
+      "type": "boolean",
+      "description": "Top and rising topics (entities such as brands, people, places) related to each term. With several terms this needs one extra request per term.",
+      "default": false
+    },
+    "maxRelatedItems": {
+      "title": "Max related items per list",
+      "type": "integer",
+      "description": "Keep at most this many items in each related queries/topics list (Google returns up to 25). 0 = keep all.",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 25
+    },
+    "flattenTimeline": {
+      "title": "Flat rows for spreadsheets",
+      "type": "boolean",
+      "description": "Instead of one item per term with nested arrays, store one row per term + date (rowType \"timeline\"), plus rows for regions (\"region\"), related queries (\"relatedQuery\") and topics (\"relatedTopic\") and one summary row per term (\"term\"). Best for Excel, Google Sheets and BI tools. Pricing is the same.",
+      "default": false
+    },
+    "trendingNow": {
+      "title": "Get Trending Now searches",
+      "type": "boolean",
+      "description": "Also store the searches that are trending right now in a country (Google Trends \"Trending now\"), with approximate search volume and news articles. Charged per trending search stored. Works without search terms.",
+      "prefill": true,
+      "default": false,
+      "sectionCaption": "4. Trending now"
+    },
+    "trendingGeo": {
+      "title": "Trending country",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Country code for Trending Now, e.g. \"US\", \"GB\", \"DE\", \"IN\", \"BR\". Empty = the country of \"Location\", or US when Location is worldwide."
+    },
+    "trendingSource": {
+      "title": "Trending data source",
+      "type": "string",
+      "editor": "select",
+      "description": "\"rss\": Google's official Trending Now RSS feed (most reliable; top searches with approximate traffic, start time, picture and news articles). \"trendingPage\": the data behind trends.google.com/trending (more searches, exact start/end time, active flag, growth %, categories, related queries; news added from the RSS feed where available). Falls back to RSS if it fails.",
+      "enum": ["rss", "trendingPage"],
+      "enumTitles": ["RSS feed (reliable, with news)", "Trending Now page (more searches and details)"],
+      "default": "rss"
+    },
+    "trendingHours": {
+      "title": "Trending time window",
+      "type": "string",
+      "editor": "select",
+      "description": "Only for the \"trendingPage\" source: searches that started trending in the past 4 hours, 24 hours, 48 hours or 7 days.",
+      "enum": ["4", "24", "48", "168"],
+      "enumTitles": ["Past 4 hours", "Past 24 hours", "Past 48 hours", "Past 7 days"],
+      "default": "24"
+    },
+    "maxTrendingItems": {
+      "title": "Max trending searches",
+      "type": "integer",
+      "description": "Store at most this many trending searches (in Google's order).",
+      "minimum": 1,
+      "maximum": 1000,
+      "prefill": 10,
+      "default": 50
+    },
+    "includeNews": {
+      "title": "Include news articles",
+      "type": "boolean",
+      "description": "Add the news articles Google links to each trending search (title, URL, source, picture).",
+      "default": true
+    },
+    "proxyConfiguration": {
+      "title": "Proxy",
+      "type": "object",
+      "editor": "proxy",
+      "description": "Google Trends rate-limits IP addresses (HTTP 429). The default Apify datacenter proxy works for small runs; each retry uses a new IP. For large or frequent runs use the RESIDENTIAL group (paid Apify plans). Do not use GOOGLE_SERP: it only serves Google Search pages.",
+      "prefill": { "useApifyProxy": true },
+      "default": { "useApifyProxy": true },
+      "sectionCaption": "5. Reliability (advanced)"
+    },
+    "useBrowser": {
+      "title": "Real browser",
+      "type": "string",
+      "editor": "select",
+      "description": "\"fallback\": fast HTTP requests with a Chrome fingerprint first; if Google keeps refusing them, switch to a real Chrome browser for the rest of the run. \"always\": use the browser from the start (slower, more memory). \"never\": HTTP only.",
+      "enum": ["fallback", "always", "never"],
+      "enumTitles": ["Only when HTTP is blocked", "Always", "Never"],
+      "default": "fallback"
+    },
+    "useEmbedFallback": {
+      "title": "Use embeddable widgets as backup",
+      "type": "boolean",
+      "description": "If Google's explore endpoint is rate-limited, get the chart tokens from Google Trends' embeddable widget pages instead (one request per chart). Recommended.",
+      "default": true
+    },
+    "maxRetries": {
+      "title": "Retries per request",
+      "type": "integer",
+      "description": "How many times a rate-limited (429) or failed request is retried, each time after an exponential backoff (about 2, 4, 8, 16, 30 s) and with a new session: new proxy IP and new Google cookies.",
+      "minimum": 0,
+      "maximum": 10,
+      "default": 5
+    },
+    "maxConcurrency": {
+      "title": "Parallel groups",
+      "type": "integer",
+      "description": "How many comparison groups are fetched at the same time. Keep 1 unless you use residential proxies: Google Trends punishes parallel requests with 429 errors.",
+      "minimum": 1,
+      "maximum": 5,
+      "default": 1
+    },
+    "requestDelayMs": {
+      "title": "Delay between requests (ms)",
+      "type": "integer",
+      "description": "Minimum pause between two requests to Google (with random jitter). Higher = fewer 429 errors, slower runs.",
+      "minimum": 0,
+      "maximum": 60000,
+      "default": 1500
+    },
+    "requestTimeoutSecs": {
+      "title": "Request timeout (seconds)",
+      "type": "integer",
+      "description": "Timeout for one request to Google.",
+      "minimum": 5,
+      "maximum": 180,
+      "default": 30
+    },
+    "saveDebugPages": {
+      "title": "Save debug pages",
+      "type": "boolean",
+      "description": "When Google returns something unexpected (429 page, captcha, consent page, bad data), save up to 5 of those responses to the key-value store (keys DEBUG-...) for inspection.",
+      "default": true
+    },
+    "baseUrl": {
+      "title": "Base URL (testing)",
+      "type": "string",
+      "editor": "textfield",
+      "description": "For testing only: send all requests to this address instead of https://trends.google.com (e.g. a local mock server). Leave empty."
+    }
+  }
+}

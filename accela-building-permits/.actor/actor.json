@@ -1,0 +1,175 @@
+{
+  "actorSpecification": 1,
+  "name": "accela-building-permits",
+  "title": "US Building Permits — Accela Citizen Access (any city)",
+  "description": "Get new building permits from any US city or county on Accela Citizen Access: roofing, solar, pool, HVAC, new construction and remodel permits with address, dates, status, valuation and contractor. Daily monitor mode with Telegram, Slack, webhook (n8n/Make) and email alerts.",
+  "version": "1.0",
+  "buildTag": "latest",
+  "input": "./input_schema.json",
+  "dockerfile": "../Dockerfile",
+  "minMemoryMbytes": 512,
+  "defaultMemoryMbytes": 1024,
+  "storages": {
+    "dataset": {
+      "actorSpecification": 1,
+      "fields": {},
+      "views": {
+        "overview": {
+          "title": "Permits",
+          "transformation": {
+            "fields": [
+              "agency",
+              "recordNumber",
+              "recordType",
+              "category",
+              "status",
+              "openedDate",
+              "address",
+              "city",
+              "zip",
+              "description",
+              "valuation",
+              "contractorName",
+              "detailUrl"
+            ]
+          },
+          "display": {
+            "component": "table",
+            "properties": {
+              "agency": {
+                "label": "Agency",
+                "format": "text"
+              },
+              "recordNumber": {
+                "label": "Record #",
+                "format": "text"
+              },
+              "recordType": {
+                "label": "Type",
+                "format": "text"
+              },
+              "category": {
+                "label": "Category",
+                "format": "text"
+              },
+              "status": {
+                "label": "Status",
+                "format": "text"
+              },
+              "openedDate": {
+                "label": "Opened",
+                "format": "date"
+              },
+              "address": {
+                "label": "Address",
+                "format": "text"
+              },
+              "city": {
+                "label": "City",
+                "format": "text"
+              },
+              "zip": {
+                "label": "ZIP",
+                "format": "text"
+              },
+              "description": {
+                "label": "Description",
+                "format": "text"
+              },
+              "valuation": {
+                "label": "Valuation",
+                "format": "number"
+              },
+              "contractorName": {
+                "label": "Contractor",
+                "format": "text"
+              },
+              "detailUrl": {
+                "label": "Record",
+                "format": "link"
+              }
+            }
+          }
+        },
+        "contractors": {
+          "title": "Contractors & valuation",
+          "transformation": {
+            "fields": [
+              "recordNumber",
+              "category",
+              "openedDate",
+              "address",
+              "city",
+              "valuation",
+              "contractorName",
+              "contractorLicense",
+              "contractorLicenseType",
+              "contractorPhone",
+              "contractorAddress",
+              "applicantCompany",
+              "detailUrl"
+            ]
+          },
+          "display": {
+            "component": "table",
+            "properties": {
+              "recordNumber": {
+                "label": "Record #",
+                "format": "text"
+              },
+              "category": {
+                "label": "Category",
+                "format": "text"
+              },
+              "openedDate": {
+                "label": "Opened",
+                "format": "date"
+              },
+              "address": {
+                "label": "Address",
+                "format": "text"
+              },
+              "city": {
+                "label": "City",
+                "format": "text"
+              },
+              "valuation": {
+                "label": "Valuation",
+                "format": "number"
+              },
+              "contractorName": {
+                "label": "Contractor",
+                "format": "text"
+              },
+              "contractorLicense": {
+                "label": "License",
+                "format": "text"
+              },
+              "contractorLicenseType": {
+                "label": "License type",
+                "format": "text"
+              },
+              "contractorPhone": {
+                "label": "Phone",
+                "format": "text"
+              },
+              "contractorAddress": {
+                "label": "Contractor address",
+                "format": "text"
+              },
+              "applicantCompany": {
+                "label": "Applicant company",
+                "format": "text"
+              },
+              "detailUrl": {
+                "label": "Record",
+                "format": "link"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "output": "./output_schema.json"
+}

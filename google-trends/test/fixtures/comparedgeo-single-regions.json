@@ -1,0 +1,22 @@
+{
+  "default": {
+    "geoMapData": [
+      {
+        "geoCode": "US-CA",
+        "geoName": "California",
+        "value": [100],
+        "formattedValue": ["100"],
+        "hasData": [true],
+        "maxValueIndex": 0
+      },
+      {
+        "geoCode": "US-TX",
+        "geoName": "Texas",
+        "value": [84],
+        "formattedValue": ["84"],
+        "hasData": [true],
+        "maxValueIndex": 0
+      }
+    ]
+  }
+}

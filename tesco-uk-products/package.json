@@ -1,0 +1,21 @@
+{
+  "name": "tesco-uk-products",
+  "version": "1.0.0",
+  "description": "Tesco UK grocery search, categories and products: prices, Clubcard Prices, unit prices, offers and availability in a unified schema.",
+  "main": "src/main.js",
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node src/main.js",
+    "test": "node scripts/validate-input-schema.mjs && node --test --test-concurrency=1 test/*.test.mjs"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "apify": "^3.7.2",
+    "got-scraping": "^4.2.1",
+    "playwright": "*"
+  },
+  "devDependencies": {
+    "@apify/input_schema": "*"
+  }
+}

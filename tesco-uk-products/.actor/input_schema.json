@@ -1,0 +1,124 @@
+{
+  "title": "Tesco UK product search, categories and Clubcard Prices",
+  "description": "Search Tesco UK groceries by keyword, category or product, and get prices, Clubcard Prices, unit prices, offers and availability in one clean format.",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "searchTerms": {
+      "title": "Search terms",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Keywords to search on tesco.com, e.g. \"milk\", \"semi skimmed milk\", \"nappies\". Each term returns up to \"Max products per search\" products.",
+      "prefill": ["milk"],
+      "sectionCaption": "1. What to search for"
+    },
+    "categoryUrls": {
+      "title": "Category URLs",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Category pages copied from tesco.com, e.g. https://www.tesco.com/shop/en-GB/browse/fresh-food/all or https://www.tesco.com/groceries/en-GB/shop/fresh-food/milk-butter-and-eggs/milk. Links that contain a facet=… parameter work too."
+    },
+    "productIds": {
+      "title": "Products (links or IDs)",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Specific products to check, e.g. for daily price tracking: product links (https://www.tesco.com/shop/en-GB/products/254656543) or Tesco product IDs (254656543)."
+    },
+    "onlySpecials": {
+      "title": "Only offers",
+      "type": "boolean",
+      "description": "Keep only products with an offer (Clubcard Price, multibuy, price cut). With no search terms, categories or products, the Actor scans every department for offers (up to \"Max products per search\" per department).",
+      "default": false
+    },
+    "onlyClubcardPrices": {
+      "title": "Only Clubcard Prices",
+      "type": "boolean",
+      "description": "Keep only products that have a Clubcard Price (the member price is in \"loyaltyPrice\"). Works like \"Only offers\", including the all-departments scan when nothing else is filled in.",
+      "default": false
+    },
+    "maxItemsPerSearch": {
+      "title": "Max products per search",
+      "type": "integer",
+      "description": "Maximum number of products saved for each search term, category or department. You pay only for products saved.",
+      "default": 100,
+      "minimum": 1,
+      "maximum": 20000
+    },
+    "proxyConfiguration": {
+      "title": "Proxy",
+      "type": "object",
+      "editor": "proxy",
+      "description": "Proxy used for all requests. The default Apify Proxy works in most cases, because the Actor reads Tesco's product API rather than the bot-protected website. If the log says requests are BLOCKED, switch to the RESIDENTIAL group with country United Kingdom (GB).",
+      "prefill": { "useApifyProxy": true },
+      "default": { "useApifyProxy": true },
+      "sectionCaption": "2. Connection"
+    },
+    "useBrowserForCookies": {
+      "title": "Start with browser cookies",
+      "type": "boolean",
+      "description": "Open tesco.com once in a real Chrome browser and send its cookies with the API requests. Not needed normally (the product API answers plain requests) — turn on only if the log shows blocks. The tesco.com website blocks many datacenter IPs, so this works best with residential UK proxies.",
+      "default": false
+    },
+    "browserFallback": {
+      "title": "Switch to in-browser requests when blocked",
+      "type": "boolean",
+      "description": "If fast requests keep getting blocked, load the data from inside a real browser that has tesco.com open (slower, needs the website to load). Also used to read a new API key from tesco.com if Tesco changes it. Recommended.",
+      "default": true
+    },
+    "apiKey": {
+      "title": "Tesco API key (optional)",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Public key that tesco.com sends to its product API (request header x-apikey). Leave empty: the Actor uses the current key and, if Tesco rotates it, reads the new one from tesco.com automatically.",
+      "sectionCaption": "3. Advanced"
+    },
+    "maxPagesPerSearch": {
+      "title": "Max pages per search",
+      "type": "integer",
+      "description": "Safety limit on result pages read per search term or category (48 products per page). Mostly matters with \"Only offers\", where many pages may be checked to find enough offers.",
+      "default": 30,
+      "minimum": 1,
+      "maximum": 500
+    },
+    "maxRetries": {
+      "title": "Retries per request",
+      "type": "integer",
+      "description": "How many times a failed or blocked request is retried (with a new IP when blocked) before that search is reported as failed.",
+      "default": 4,
+      "minimum": 0,
+      "maximum": 10
+    },
+    "requestDelayMs": {
+      "title": "Delay between requests (ms)",
+      "type": "integer",
+      "description": "Average pause between two requests. Tesco rate-limits bursts; about one request per second is safe.",
+      "default": 1000,
+      "minimum": 0,
+      "maximum": 30000
+    },
+    "saveDebugPages": {
+      "title": "Save block pages for diagnosis",
+      "type": "boolean",
+      "description": "When Tesco answers with a block/captcha page, save up to 4 such pages (and a browser screenshot) to the run's key-value store as DEBUG-* records. Free; helps report problems.",
+      "default": true
+    },
+    "includeRaw": {
+      "title": "Include raw Tesco data",
+      "type": "boolean",
+      "description": "Add the original product object from Tesco's API as a \"raw\" field on every product (large; for debugging or fields not in the unified format).",
+      "default": false
+    },
+    "apiBaseUrl": {
+      "title": "API base URL (testing)",
+      "type": "string",
+      "editor": "textfield",
+      "description": "For testing only: send API requests to this address instead of https://xapi.tesco.com (e.g. a local mock server). Leave empty."
+    },
+    "siteBaseUrl": {
+      "title": "Website base URL (testing)",
+      "type": "string",
+      "editor": "textfield",
+      "description": "For testing only: use this address instead of https://www.tesco.com for the browser and API-key lookup. Leave empty."
+    }
+  }
+}

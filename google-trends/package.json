@@ -1,0 +1,21 @@
+{
+  "name": "google-trends",
+  "version": "1.0.0",
+  "description": "Google Trends scraper: interest over time for up to 5 terms compared together (or many terms batched with an anchor), interest by region, related queries and topics, and Trending Now searches.",
+  "main": "src/main.js",
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node src/main.js",
+    "test": "node scripts/validate-input-schema.mjs && node --test --test-concurrency=1 test/*.test.mjs"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "apify": "^3.7.2",
+    "impit": "^0.14.5",
+    "playwright": "*"
+  },
+  "devDependencies": {
+    "@apify/input_schema": "*"
+  }
+}

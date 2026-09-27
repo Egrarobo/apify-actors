@@ -1,0 +1,127 @@
+{
+  "title": "ALDI Australia product search, categories and Special Buys",
+  "description": "Search the ALDI Australia product range by keyword, category, Special Buys date or product, and get prices, unit prices, price drops and specials in one clean format.",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "searchTerms": {
+      "title": "Search terms",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Keywords to search on aldi.com.au, e.g. \"milk\", \"coffee pods\", \"nappies\". Each term returns up to \"Max products per search\" products.",
+      "prefill": ["milk"],
+      "sectionCaption": "1. What to search for"
+    },
+    "categoryUrls": {
+      "title": "Category or Special Buys URLs",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Pages copied from aldi.com.au: categories (https://www.aldi.com.au/products/dairy-eggs-fridge/k/960000000 — sub-categories work too), Special Buys dates (https://www.aldi.com.au/special-buys/2026-09-30), Super Savers (https://www.aldi.com.au/products/super-savers/k/1588161426952145) or Lower Prices (https://www.aldi.com.au/products/lower-prices/k/1588161425841179)."
+    },
+    "productIds": {
+      "title": "Products (links or product numbers)",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Specific products to check, e.g. for daily price tracking: product links (https://www.aldi.com.au/product/lodge-farms-cage-eggs-700g-000000000000399451) or ALDI product numbers (399451 or 000000000000399451)."
+    },
+    "onlySpecials": {
+      "title": "Only specials",
+      "type": "boolean",
+      "description": "Keep only products on special: Special Buys, Super Savers, Lower Prices and price drops. With no search terms, links or products, the Actor returns the current and upcoming Special Buys plus the Super Savers and Lower Prices lists.",
+      "default": false
+    },
+    "maxItemsPerSearch": {
+      "title": "Max products per search",
+      "type": "integer",
+      "description": "Maximum number of products saved for each search term, category or Special Buys list. You pay only for products saved.",
+      "default": 100,
+      "minimum": 1,
+      "maximum": 20000
+    },
+    "sortBy": {
+      "title": "Sort by",
+      "type": "string",
+      "editor": "select",
+      "description": "Order of search and category results, as on the website. Matters when \"Max products per search\" is lower than the number of results.",
+      "enum": ["relevance", "price_asc", "price_desc", "name_asc", "name_desc"],
+      "enumTitles": ["Relevance", "Price: low to high", "Price: high to low", "Name: A to Z", "Name: Z to A"],
+      "default": "relevance"
+    },
+    "storeId": {
+      "title": "ALDI store ID (optional)",
+      "type": "string",
+      "editor": "textfield",
+      "description": "ALDI store code sent with API requests. Leave empty: the Actor picks a store automatically (ALDI shelf prices are national). Only set it if you know a store code, e.g. from the store finder."
+    },
+    "proxyConfiguration": {
+      "title": "Proxy",
+      "type": "object",
+      "editor": "proxy",
+      "description": "Proxy used for all requests. The default Apify Proxy works in most cases. If the log says requests are BLOCKED, switch to the RESIDENTIAL group with country Australia (AU).",
+      "prefill": { "useApifyProxy": true },
+      "default": { "useApifyProxy": true },
+      "sectionCaption": "2. Connection"
+    },
+    "useBrowserForCookies": {
+      "title": "Start with browser cookies",
+      "type": "boolean",
+      "description": "Open aldi.com.au once in a real Chrome browser and send its cookies with the API requests. Not needed normally (the ALDI API answers plain requests) — turn on only if the log shows blocks.",
+      "default": false
+    },
+    "browserFallback": {
+      "title": "Switch to in-browser requests when blocked",
+      "type": "boolean",
+      "description": "If fast requests keep getting blocked, load the data from inside a real browser that has aldi.com.au open (slower, but looks exactly like a visitor). Recommended.",
+      "default": true
+    },
+    "maxPagesPerSearch": {
+      "title": "Max pages per search",
+      "type": "integer",
+      "description": "Safety limit on result pages read per search term or list (up to 60 products per page). Mostly matters with \"Only specials\", where many pages may be checked to find enough specials.",
+      "default": 30,
+      "minimum": 1,
+      "maximum": 500,
+      "sectionCaption": "3. Advanced"
+    },
+    "maxRetries": {
+      "title": "Retries per request",
+      "type": "integer",
+      "description": "How many times a failed or blocked request is retried (with a new IP when blocked) before that search is reported as failed.",
+      "default": 4,
+      "minimum": 0,
+      "maximum": 10
+    },
+    "requestDelayMs": {
+      "title": "Delay between requests (ms)",
+      "type": "integer",
+      "description": "Average pause between two requests. Slower is less likely to be blocked.",
+      "default": 500,
+      "minimum": 0,
+      "maximum": 30000
+    },
+    "saveDebugPages": {
+      "title": "Save block pages for diagnosis",
+      "type": "boolean",
+      "description": "When ALDI answers with a block/captcha page, save up to 4 such pages (and a browser screenshot) to the run's key-value store as DEBUG-* records. Free; helps report problems.",
+      "default": true
+    },
+    "includeRaw": {
+      "title": "Include raw ALDI data",
+      "type": "boolean",
+      "description": "Add the original product object from the ALDI API as a \"raw\" field on every product (large; for debugging or fields not in the unified format).",
+      "default": false
+    },
+    "apiBaseUrl": {
+      "title": "API base URL (testing)",
+      "type": "string",
+      "editor": "textfield",
+      "description": "For testing only: send API requests to this address instead of https://api.aldi.com.au (e.g. a local mock server). Leave empty."
+    },
+    "siteBaseUrl": {
+      "title": "Website base URL (testing)",
+      "type": "string",
+      "editor": "textfield",
+      "description": "For testing only: open this address in the fallback browser instead of https://www.aldi.com.au. Leave empty."
+    }
+  }
+}
