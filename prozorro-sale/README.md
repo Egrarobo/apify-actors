@@ -4,6 +4,16 @@ Search, track and get alerts for **Ukrainian public auctions on [Prozorro.Sale](
 
 Data comes from the **official Prozorro.Sale open-data API** (no scraping, no login, no proxies). Every auction is returned as one clean record with **English field names**, starting price, minimal step, guarantee, bidding deadline, auction date, organizer, items with CAV/CPV codes and addresses, **document download links**, and, for finished auctions, **the winner and final price**. Each record links to its public auction page.
 
+## Українською коротко
+
+**Що це:** інструмент для пошуку та моніторингу аукціонів **Prozorro.Sale** — мала та велика приватизація, оренда державного й комунального майна, оренда та продаж землі, активи банкрутів, активи банків і NPL від ФГВФО.
+
+**Що ви отримуєте:** по кожному аукціону — назва лота, стартова ціна, мінімальний крок, гарантійний внесок, дати подання пропозицій і аукціону, організатор, адреси та класифікатори, посилання на документи, а для завершених — переможець і фінальна ціна. Дані беруться з **офіційного відкритого API Prozorro.Sale**.
+
+**Моніторинг:** вкажіть назву монітора (`monitorName`) і фільтри (тип аукціону, регіон, ключові слова, ціна) — і отримуйте лише **нові** аукціони в Telegram, Slack, email або через webhook. Запускайте за розкладом (наприклад, щогодини) у розділі Schedules.
+
+**Оплата:** лише за отримані результати — див. розділ *Pricing* нижче.
+
 ## What you can do
 
 - 🔎 **Search auctions** by auction type (selling method), status, region or city, CAV/CPV classification code, keywords (Ukrainian or English), starting price range, publication date and auction date.
