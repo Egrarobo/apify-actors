@@ -115,7 +115,7 @@
       "title": "API base URL (testing)",
       "type": "string",
       "editor": "textfield",
-      "description": "For testing only: send API requests to this address instead of https://api.aldi.com.au (e.g. a local mock server). Leave empty."
+      "description": "For testing only: send API requests to this address instead of https://asl.api.aldi.com.au/commerce (e.g. a local mock server). Leave empty."
     },
     "siteBaseUrl": {
       "title": "Website base URL (testing)",

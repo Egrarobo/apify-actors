@@ -94,22 +94,15 @@ export class AldiClient extends StoreClient {
         return data;
     }
 
-    /** Picks a store (servicePoint) once: from input, else the first store the API lists. Never throws. */
+    /** Picks a store (servicePoint) once: from input, else the store the aldi.com.au website itself uses (G452). Never throws. */
     async ensureServicePoint() {
         if (this.servicePointSource) return this.servicePoint;
         this.servicePointSource = 'none';
         try {
-            const data = await this.get('store lookup', '/v2/service-points', { offset: 0, limit: MAX_LIMIT });
-            const sp = (Array.isArray(data?.data) ? data.data : []).find((s) => s?.id);
-            if (sp) {
-                this.servicePoint = String(sp.id);
-                this.servicePointSource = 'auto';
-                const a = sp.address ?? {};
-                log.info(`${this.tag()} Using store ${this.servicePoint} (${[sp.name, a.city, a.regionName].filter(Boolean).join(', ') || 'no address'}) for API requests `
-                    + `(${data?.meta?.pagination?.totalCount ?? '?'} stores listed). Prices are national; set "storeId" to choose another.`);
-            } else {
-                log.warning(`${this.tag()} The store list was empty; continuing without a store id.`);
-            }
+            // Verified 2026-09-27: the website queries servicePoint=G452; many other listed stores return 0 results.
+            this.servicePoint = 'G452';
+            this.servicePointSource = 'website-default';
+            log.info(`${this.tag()} Using store G452 (the default store of aldi.com.au). Prices are national; set "storeId" to choose another.`);
         } catch (err) {
             if (err.blocked) {
                 // Blocked even on this small request: the listing would be blocked too — report it on the task.

@@ -14,7 +14,7 @@
 // "$0.71 per 100g", Special Buys badge "While Stocks Last".
 
 export const SITE_URL = 'https://www.aldi.com.au';
-export const API_URL = 'https://api.aldi.com.au';
+export const API_URL = 'https://asl.api.aldi.com.au/commerce';
 
 const text = (v) => {
     if (v === null || v === undefined) return null;

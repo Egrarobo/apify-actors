@@ -45,7 +45,7 @@ test('default input (prefill "milk"): unified schema, pagination by offset, stor
     assert.equal(searches.length, 2, 'two pages of 60');
     assert.ok(searches[1].includes('offset=60'));
     assert.ok(searches.every((q) => q.includes('servicePoint=G452') && q.includes('currency=AUD') && q.includes('serviceType=walk-in') && q.includes('limit=60')));
-    assert.match(r.log, /Using store G452 \(Chatswood, Chatswood, NSW\)/);
+    assert.match(r.log, /Using store G452 \(the default store of aldi.com.au\)/);
     assert.match(r.log, /First product: "LODGE FARMS Cage Eggs 700g"/);
     assert.equal(r.output.products, 100);
     assert.equal(r.output.stores.aldi.storeId, 'G452');
