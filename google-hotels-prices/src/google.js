@@ -125,7 +125,7 @@ export class GoogleClient {
         return this.attempt(transport, label, { url }, (res) => {
             const r = parseSearchHtml(res.text, { nights: this.cfg.nights });
             const summary = `parser=${r.parserPath} blobs=[${r.blobKeys.join(',')}] hotels=${r.hotels.length} nextPage=${r.nextPageToken ? 'yes' : 'no'} total=${r.totalResults ?? '?'}`;
-            if (r.hotels.length || r.locationRecognized === false) return { ok: true, value: { ...r, method: 'page', transport: transport.name }, summary };
+            if (r.hotels.length || (r.locationRecognized === false && !r.totalResults)) return { ok: true, value: { ...r, method: 'page', transport: transport.name }, summary };
             return { ok: false, retry: true, reason: `no hotel data in page (${summary})` };
         });
     }
@@ -143,7 +143,7 @@ export class GoogleClient {
             }
             const r = parseSearchPayload(tree, { nights: this.cfg.nights });
             const summary = `parser=rpc:${RPC_ID} hotels=${r.hotels.length} nextPage=${r.nextPageToken ? 'yes' : 'no'} total=${r.totalResults ?? '?'}`;
-            if (r.hotels.length || r.locationRecognized === false) return { ok: true, value: { ...r, parserPath: `rpc:${RPC_ID}`, method: 'rpc', transport: transport.name }, summary };
+            if (r.hotels.length || (r.locationRecognized === false && !r.totalResults)) return { ok: true, value: { ...r, parserPath: `rpc:${RPC_ID}`, method: 'rpc', transport: transport.name }, summary };
             return { ok: false, retry: false, reason: `RPC answered but contained no hotels (${summary})` };
         });
     }

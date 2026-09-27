@@ -229,7 +229,7 @@ try {
                 if (p === 1) {
                     qs.totalResults = r.totalResults;
                     qs.resolvedLocation = r.resolvedLocation;
-                    if (r.locationRecognized === false) {
+                    if (r.locationRecognized === false && !r.hotels.length && !r.totalResults) {
                         log.warning(`"${q}": Google did not recognize this location${r.resolvedLocation ? ` (it suggested "${r.resolvedLocation}")` : ''}. Try adding the country, e.g. "hotels in Springfield, Illinois".`);
                         qs.error = 'location not recognized';
                         break;

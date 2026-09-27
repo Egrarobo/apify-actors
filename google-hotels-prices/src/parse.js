@@ -405,7 +405,7 @@ export function parseSearchHtml(html, { nights = 1 } = {}) {
     for (const k of order) {
         if (!blobs[k]) continue;
         const r = parseSearchPayload(blobs[k], { nights });
-        if (r.hotels.length || r.locationRecognized === false || (k === 'ds:0' && r.totalResults === 0)) return { ...r, parserPath: `html:${k}`, blobKeys: keys, blobFailed: failed };
+        if (r.hotels.length || (r.locationRecognized === false && !r.totalResults) || (k === 'ds:0' && r.totalResults === 0)) return { ...r, parserPath: `html:${k}`, blobKeys: keys, blobFailed: failed };
     }
     // Last resort: whole-page scan for any JSON array literal is too expensive; report what was seen.
     return { hotels: [], entriesFound: 0, nextPageToken: null, totalResults: null, resolvedLocation: null, locationRecognized: null, parserPath: keys.length ? 'html:no-hotels-in-blobs' : 'html:no-blobs', blobKeys: keys, blobFailed: failed };
