@@ -1,0 +1,219 @@
+{
+    "title": "Google Hotels prices input",
+    "description": "Search Google Hotels by place (\"hotels in Paris\"), by hotel name, or by Google Hotels link, for your dates and guests. Optionally load every booking site's price (Booking.com, Expedia, the hotel's own site...).",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "queries": {
+            "title": "Searches",
+            "type": "array",
+            "editor": "stringList",
+            "description": "What you would type into Google Hotels, one per line: a city, district or landmark, e.g. \"hotels in Paris\", \"hotels near Times Square\", \"Lisbon Alfama\". Each search returns up to \"Max hotels per search\".",
+            "prefill": ["hotels in Paris"],
+            "sectionCaption": "1. What to search for"
+        },
+        "hotelNames": {
+            "title": "Hotel names",
+            "type": "array",
+            "editor": "stringList",
+            "description": "Specific hotels to look up by name, e.g. \"Hotel Lutetia Paris\". Add the city for best matching. The best-matching result is returned (hotels without a confident match are skipped and listed in the log)."
+        },
+        "hotelUrls": {
+            "title": "Google Hotels links",
+            "type": "array",
+            "editor": "stringList",
+            "description": "Links to hotels on Google Hotels (they contain \"/travel/hotels/entity/...\"), or the entity ID itself (the \"entityId\" output field). Most reliable way to track the same hotels every day."
+        },
+        "checkInDate": {
+            "title": "Check-in date",
+            "type": "string",
+            "editor": "datepicker",
+            "dateType": "absoluteOrRelative",
+            "description": "Check-in date as YYYY-MM-DD, or relative like \"+30 days\". Default: 30 days from today.",
+            "sectionCaption": "2. Dates and guests"
+        },
+        "checkOutDate": {
+            "title": "Check-out date",
+            "type": "string",
+            "editor": "datepicker",
+            "dateType": "absoluteOrRelative",
+            "description": "Check-out date as YYYY-MM-DD, or relative like \"+32 days\". If empty, check-out = check-in + \"Nights\"."
+        },
+        "nights": {
+            "title": "Nights",
+            "type": "integer",
+            "description": "Length of stay used when no check-out date is given (1-30).",
+            "minimum": 1,
+            "maximum": 30,
+            "default": 1
+        },
+        "adults": {
+            "title": "Adults",
+            "type": "integer",
+            "description": "Number of adult guests (1-12). Prices depend on it.",
+            "minimum": 1,
+            "maximum": 12,
+            "default": 2
+        },
+        "children": {
+            "title": "Children",
+            "type": "integer",
+            "description": "Number of children (0-8). With children, searches use Google's internal search endpoint, which accepts child ages.",
+            "minimum": 0,
+            "maximum": 8,
+            "default": 0
+        },
+        "childrenAges": {
+            "title": "Children's ages",
+            "type": "array",
+            "editor": "stringList",
+            "description": "One age (0-17) per child, e.g. [\"5\", \"9\"]. If empty, every child is treated as 8 years old."
+        },
+        "currency": {
+            "title": "Currency",
+            "type": "string",
+            "editor": "textfield",
+            "description": "3-letter currency code for all prices, e.g. USD, EUR, GBP, MDL, RON.",
+            "default": "USD",
+            "sectionCaption": "3. Prices and filters"
+        },
+        "includeOffers": {
+            "title": "Include prices of every booking site",
+            "type": "boolean",
+            "description": "Also load each hotel's offers list: Booking.com, Expedia, Agoda, Hotels.com, the hotel's official site and 30+ others, with price, price with taxes, official-site and sponsored flags and link. Needs one extra request per hotel and is charged as an extra event.",
+            "default": false
+        },
+        "maxOffersPerHotel": {
+            "title": "Max offers per hotel",
+            "type": "integer",
+            "description": "Keep only the N cheapest offers per hotel. 0 = keep all.",
+            "minimum": 0,
+            "maximum": 200,
+            "default": 0
+        },
+        "minPrice": {
+            "title": "Min price per night",
+            "type": "integer",
+            "description": "Skip hotels cheaper than this per night (in the chosen currency, before taxes, as shown on Google). Hotels without a price are skipped when a price filter is set.",
+            "minimum": 0
+        },
+        "maxPrice": {
+            "title": "Max price per night",
+            "type": "integer",
+            "description": "Skip hotels more expensive than this per night (in the chosen currency, before taxes, as shown on Google).",
+            "minimum": 0
+        },
+        "minRating": {
+            "title": "Min guest rating",
+            "type": "string",
+            "editor": "select",
+            "description": "Only hotels with at least this Google guest rating (out of 5).",
+            "enum": ["3", "3.5", "4", "4.5"],
+            "enumTitles": ["3.0+", "3.5+", "4.0+", "4.5+"]
+        },
+        "hotelClass": {
+            "title": "Hotel class (stars)",
+            "type": "array",
+            "editor": "select",
+            "description": "Only hotels with these official star classes. Empty = any. Hotels without a class are skipped when set.",
+            "items": {
+                "type": "string",
+                "enum": ["1", "2", "3", "4", "5"],
+                "enumTitles": ["1 star", "2 stars", "3 stars", "4 stars", "5 stars"]
+            }
+        },
+        "maxHotelsPerQuery": {
+            "title": "Max hotels per search",
+            "type": "integer",
+            "description": "Stop each search after this many hotels (after filters). Google shows about 18-20 hotels per page.",
+            "minimum": 1,
+            "maximum": 5000,
+            "default": 20
+        },
+        "maxPagesPerQuery": {
+            "title": "Max result pages per search",
+            "type": "integer",
+            "description": "Safety limit on result pages read per search (about 18-20 hotels each), useful with strict filters.",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 10
+        },
+        "language": {
+            "title": "Language",
+            "type": "string",
+            "editor": "textfield",
+            "description": "Google interface language (hl), e.g. \"en\", \"de\", \"fr\". Affects hotel class texts and descriptions.",
+            "default": "en",
+            "sectionCaption": "4. Region and proxy"
+        },
+        "country": {
+            "title": "Country",
+            "type": "string",
+            "editor": "textfield",
+            "description": "Country the search is made from (gl), 2 letters, e.g. \"us\", \"gb\", \"de\". Google shows prices and taxes the way travelers from this country see them.",
+            "default": "us"
+        },
+        "proxyConfiguration": {
+            "title": "Proxy",
+            "type": "object",
+            "editor": "proxy",
+            "description": "Google blocks datacenter IPs quickly. Best: Apify Proxy group GOOGLE_SERP or RESIDENTIAL (paid Apify plans). The free plan's shared datacenter IPs work only for small runs and often get \"unusual traffic\" pages.",
+            "prefill": { "useApifyProxy": true },
+            "default": { "useApifyProxy": true }
+        },
+        "useBrowser": {
+            "title": "Real browser",
+            "type": "string",
+            "editor": "select",
+            "description": "\"fallback\": fast HTTP requests first; if Google blocks them or shows a consent page, switch to a real Chrome browser for the rest of the run. \"always\": use the browser from the start (slower, more memory). \"never\": HTTP only.",
+            "enum": ["fallback", "always", "never"],
+            "enumTitles": ["Fallback when blocked (recommended)", "Always", "Never"],
+            "default": "fallback"
+        },
+        "searchMethod": {
+            "title": "Search method",
+            "type": "string",
+            "editor": "select",
+            "description": "Advanced. \"auto\": the search results page, with Google's internal RPC endpoint as a backup (and first choice when children are set). \"page\" or \"rpc\" force one method.",
+            "enum": ["auto", "page", "rpc"],
+            "default": "auto",
+            "sectionCaption": "5. Advanced"
+        },
+        "maxRetries": {
+            "title": "Retries per request",
+            "type": "integer",
+            "description": "How many times a blocked or failed request is retried, each time with a new session and proxy IP.",
+            "minimum": 0,
+            "maximum": 10,
+            "default": 4
+        },
+        "maxConcurrency": {
+            "title": "Parallel offer requests",
+            "type": "integer",
+            "description": "How many hotels' offers are loaded at the same time. Lower is gentler on Google (fewer blocks).",
+            "minimum": 1,
+            "maximum": 10,
+            "default": 3
+        },
+        "requestTimeoutSecs": {
+            "title": "Request timeout (seconds)",
+            "type": "integer",
+            "description": "Timeout for one request to Google.",
+            "minimum": 5,
+            "maximum": 180,
+            "default": 45
+        },
+        "saveDebugPages": {
+            "title": "Save debug pages",
+            "type": "boolean",
+            "description": "When Google returns something unexpected (captcha, consent, no data), save up to 5 of those responses to the key-value store (keys DEBUG-...) so they can be inspected.",
+            "default": true
+        },
+        "baseUrl": {
+            "title": "Base URL (testing)",
+            "type": "string",
+            "editor": "textfield",
+            "description": "For testing only: send all requests to this address instead of https://www.google.com (e.g. a local mock server). Leave empty."
+        }
+    }
+}

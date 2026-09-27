@@ -1,0 +1,52 @@
+{
+  "actorSpecification": 1,
+  "name": "website-screenshot",
+  "title": "Website Screenshot — bulk full-page PNG, JPEG, WebP & PDF",
+  "description": "Screenshot hundreds of URLs in one run: full page or viewport, desktop/tablet/mobile, PNG, JPEG, WebP or PDF. Hides cookie banners, blocks ads, loads lazy images, dark mode, element capture. Pay only for successful screenshots.",
+  "version": "1.0",
+  "buildTag": "latest",
+  "input": "./input_schema.json",
+  "dockerfile": "../Dockerfile",
+  "storages": {
+    "dataset": {
+      "actorSpecification": 1,
+      "fields": {},
+      "views": {
+        "overview": {
+          "title": "Screenshots",
+          "transformation": { "fields": ["screenshotUrl", "url", "status", "title", "finalUrl", "width", "height", "bytes", "pdfUrl", "warnings", "error"] },
+          "display": {
+            "component": "table",
+            "properties": {
+              "screenshotUrl": { "label": "Screenshot", "format": "image" },
+              "url": { "label": "URL", "format": "link" },
+              "status": { "label": "HTTP", "format": "number" },
+              "title": { "label": "Page title", "format": "text" },
+              "finalUrl": { "label": "Final URL (after redirects)", "format": "link" },
+              "width": { "label": "Width (px)", "format": "number" },
+              "height": { "label": "Height (px)", "format": "number" },
+              "bytes": { "label": "Size (bytes)", "format": "number" },
+              "pdfUrl": { "label": "PDF", "format": "link" },
+              "warnings": { "label": "Warnings", "format": "array" },
+              "error": { "label": "Error", "format": "text" }
+            }
+          }
+        },
+        "errors": {
+          "title": "Failed URLs",
+          "transformation": { "fields": ["url", "errorType", "error", "attempts", "takenAt"] },
+          "display": {
+            "component": "table",
+            "properties": {
+              "url": { "label": "URL", "format": "text" },
+              "errorType": { "label": "Error type", "format": "text" },
+              "error": { "label": "Error", "format": "text" },
+              "attempts": { "label": "Attempts", "format": "number" },
+              "takenAt": { "label": "Time", "format": "date" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

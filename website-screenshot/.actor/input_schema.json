@@ -1,0 +1,215 @@
+{
+  "title": "Website Screenshot input",
+  "description": "Take screenshots (PNG, JPEG, WebP) and optional PDFs of any number of web pages. Cookie banners and ads are hidden automatically.",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "urls": {
+      "title": "URLs",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Web pages to capture, one per line, e.g. https://apify.com. Addresses without http(s):// get https:// added. Duplicates are skipped. Objects like {\"url\": \"https://...\"} are accepted too when calling via API.",
+      "prefill": ["https://apify.com", "https://www.wikipedia.org"],
+      "sectionCaption": "1. Pages to capture"
+    },
+    "startUrlsDatasetId": {
+      "title": "…or dataset with URLs",
+      "type": "string",
+      "editor": "textfield",
+      "description": "ID or name of an Apify dataset (e.g. the results of another Actor) to read URLs from. Combined with the list above. Useful for chaining: scrape a list of pages, then screenshot them."
+    },
+    "urlField": {
+      "title": "URL field in dataset",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Field of each dataset item that contains the URL. Nested fields use dots, e.g. \"page.url\". Ignored if no dataset is set.",
+      "default": "url"
+    },
+    "device": {
+      "title": "Device",
+      "type": "string",
+      "editor": "select",
+      "description": "Screen size and device type. Desktop 1920×1080, Laptop 1366×768, Tablet 768×1024 (2x pixels, touch), Mobile 390×844 (3x pixels, touch, mobile browser). Choose Custom to set your own width and height.",
+      "enum": ["desktop", "laptop", "tablet", "mobile", "custom"],
+      "enumTitles": ["Desktop (1920×1080)", "Laptop (1366×768)", "Tablet (768×1024)", "Mobile (390×844)", "Custom size"],
+      "default": "desktop",
+      "sectionCaption": "2. Screenshot"
+    },
+    "width": {
+      "title": "Custom width (px)",
+      "type": "integer",
+      "editor": "number",
+      "description": "Browser window width in CSS pixels. Only used when Device is \"Custom size\".",
+      "minimum": 200,
+      "maximum": 7680,
+      "default": 1280
+    },
+    "height": {
+      "title": "Custom height (px)",
+      "type": "integer",
+      "editor": "number",
+      "description": "Browser window height in CSS pixels. Only used when Device is \"Custom size\".",
+      "minimum": 200,
+      "maximum": 4320,
+      "default": 800
+    },
+    "scaleFactor": {
+      "title": "Pixel density (scale factor)",
+      "type": "number",
+      "editor": "number",
+      "description": "Image pixels per CSS pixel. 1 = normal, 2 = retina-sharp (4× more pixels, bigger files). Leave empty to use the device default (desktop/laptop 1, tablet 2, mobile 3).",
+      "minimum": 0.5,
+      "maximum": 4
+    },
+    "fullPage": {
+      "title": "Full page",
+      "type": "boolean",
+      "description": "Capture the whole page from top to bottom instead of only the visible window.",
+      "default": false
+    },
+    "format": {
+      "title": "Image format",
+      "type": "string",
+      "editor": "select",
+      "description": "PNG is lossless (best for text and QA). JPEG and WebP are much smaller (best for archives and AI). WebP images are at most 16,383 pixels tall.",
+      "enum": ["png", "jpeg", "webp"],
+      "enumTitles": ["PNG", "JPEG", "WebP"],
+      "default": "png"
+    },
+    "quality": {
+      "title": "Quality (JPEG / WebP)",
+      "type": "integer",
+      "editor": "number",
+      "description": "Compression quality from 1 to 100 for JPEG and WebP. Ignored for PNG.",
+      "minimum": 1,
+      "maximum": 100,
+      "default": 80
+    },
+    "clipSelector": {
+      "title": "Capture only this element",
+      "type": "string",
+      "editor": "textfield",
+      "description": "CSS selector of a single element to capture instead of the page, e.g. \"#pricing\" or \"main article\". The first matching element is used."
+    },
+    "maxHeight": {
+      "title": "Max. height for full page (px)",
+      "type": "integer",
+      "editor": "number",
+      "description": "Full-page screenshots taller than this (in CSS pixels) are cut here, so endless-scroll pages do not produce giant images. 0 = no limit.",
+      "minimum": 0,
+      "maximum": 100000,
+      "default": 15000
+    },
+    "savePdf": {
+      "title": "Also save as PDF",
+      "type": "boolean",
+      "description": "Also save each page as an A4 PDF (print version of the page, with backgrounds). Charged as a separate PDF export event.",
+      "default": false
+    },
+    "hideCookieBanners": {
+      "title": "Hide cookie banners",
+      "type": "boolean",
+      "description": "Hide cookie and consent pop-ups (OneTrust, Cookiebot, Didomi, Quantcast, TrustArc, Usercentrics, CookieYes and similar, plus generic fixed cookie bars). Nothing is clicked or accepted.",
+      "default": true,
+      "sectionCaption": "3. Clean up the page"
+    },
+    "blockAds": {
+      "title": "Block ads and trackers",
+      "type": "boolean",
+      "description": "Block requests to common ad, tracking and analytics networks and hide empty ad slots. Pages usually also load faster.",
+      "default": true
+    },
+    "hideSelectors": {
+      "title": "Hide these elements",
+      "type": "array",
+      "editor": "stringList",
+      "description": "CSS selectors of elements to remove before capturing, e.g. chat widgets or sticky headers: \"#intercom-container\", \".newsletter-popup\"."
+    },
+    "scrollToBottom": {
+      "title": "Scroll to load lazy images",
+      "type": "boolean",
+      "description": "For full-page and element screenshots: scroll through the page first so lazy-loaded images and sections appear, then go back to the top.",
+      "default": true
+    },
+    "darkMode": {
+      "title": "Dark mode",
+      "type": "boolean",
+      "description": "Tell the website the visitor prefers a dark color scheme. Only sites that support dark mode change.",
+      "default": false
+    },
+    "waitUntil": {
+      "title": "Wait until",
+      "type": "string",
+      "editor": "select",
+      "description": "When the page counts as loaded. \"Load\" is best for most sites. \"Network idle\" waits until nothing loads for 0.5 s (good for single-page apps). If a page never reaches it, the screenshot is still taken at the timeout, with a warning.",
+      "enum": ["load", "domcontentloaded", "networkidle"],
+      "enumTitles": ["Load (all images and styles)", "DOM ready (fastest)", "Network idle (for web apps)"],
+      "default": "load",
+      "sectionCaption": "4. Timing"
+    },
+    "delaySecs": {
+      "title": "Extra delay (seconds)",
+      "type": "number",
+      "editor": "number",
+      "description": "Wait this long after the page has loaded, e.g. for animations, sliders or charts to finish.",
+      "minimum": 0,
+      "maximum": 60,
+      "default": 1
+    },
+    "waitForSelector": {
+      "title": "Wait for element",
+      "type": "string",
+      "editor": "textfield",
+      "description": "CSS selector that must be visible before the screenshot, e.g. \".product-grid\". If it does not appear in time, the URL is reported as failed (and not charged)."
+    },
+    "timeoutSecs": {
+      "title": "Page timeout (seconds)",
+      "type": "integer",
+      "editor": "number",
+      "description": "Maximum time for loading one page (per attempt).",
+      "minimum": 5,
+      "maximum": 600,
+      "default": 60
+    },
+    "retries": {
+      "title": "Retries per URL",
+      "type": "integer",
+      "editor": "number",
+      "description": "How many times to retry a URL after a network error, timeout or HTTP 429/5xx response. Each retry uses a new proxy IP when a proxy is enabled.",
+      "minimum": 0,
+      "maximum": 5,
+      "default": 2
+    },
+    "maxConcurrency": {
+      "title": "Parallel pages",
+      "type": "integer",
+      "editor": "number",
+      "description": "How many pages are captured at the same time. Higher is faster but needs more memory: about 1 page per 512 MB (e.g. 4 at 2 GB, 8 at 4 GB).",
+      "minimum": 1,
+      "maximum": 20,
+      "default": 3,
+      "sectionCaption": "5. Performance and proxy"
+    },
+    "proxyConfiguration": {
+      "title": "Proxy",
+      "type": "object",
+      "editor": "proxy",
+      "description": "Use a proxy for sites that block data-center traffic or show country-specific content. Apify residential proxies help with strict anti-bot sites. No proxy by default.",
+      "prefill": { "useApifyProxy": false },
+      "default": { "useApifyProxy": false }
+    },
+    "userAgent": {
+      "title": "Custom user agent",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Override the browser's User-Agent header. Leave empty to use a normal Chrome user agent that matches the chosen device."
+    },
+    "outputZip": {
+      "title": "Also create a ZIP with all files",
+      "type": "boolean",
+      "description": "Bundle all screenshots (and PDFs) into one screenshots.zip in the key-value store. The download link is in the OUTPUT record.",
+      "default": false,
+      "sectionCaption": "6. Output"
+    }
+  }
+}

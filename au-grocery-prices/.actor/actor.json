@@ -1,0 +1,221 @@
+{
+  "actorSpecification": 1,
+  "name": "au-grocery-prices",
+  "title": "Coles & Woolworths Product Search & Specials",
+  "description": "Search Coles and Woolworths (Australia) by keyword, category or product and get prices, was-prices, unit prices, specials, promotions and stock in one unified format. Built to be reliable: real-browser bot-protection handling, automatic retries and clear per-search errors.",
+  "version": "1.0",
+  "buildTag": "latest",
+  "input": "./input_schema.json",
+  "dockerfile": "../Dockerfile",
+  "minMemoryMbytes": 1024,
+  "defaultMemoryMbytes": 2048,
+  "storages": {
+    "dataset": {
+      "actorSpecification": 1,
+      "fields": {},
+      "views": {
+        "overview": {
+          "title": "Products",
+          "transformation": {
+            "fields": [
+              "store",
+              "name",
+              "size",
+              "price",
+              "wasPrice",
+              "unitPriceText",
+              "isOnSpecial",
+              "promoText",
+              "inStock",
+              "category",
+              "searchTerm",
+              "url",
+              "imageUrl"
+            ]
+          },
+          "display": {
+            "component": "table",
+            "properties": {
+              "store": {
+                "label": "Store",
+                "format": "text"
+              },
+              "name": {
+                "label": "Product",
+                "format": "text"
+              },
+              "size": {
+                "label": "Size",
+                "format": "text"
+              },
+              "price": {
+                "label": "Price (AUD)",
+                "format": "number"
+              },
+              "wasPrice": {
+                "label": "Was",
+                "format": "number"
+              },
+              "unitPriceText": {
+                "label": "Unit price",
+                "format": "text"
+              },
+              "isOnSpecial": {
+                "label": "Special",
+                "format": "boolean"
+              },
+              "promoText": {
+                "label": "Promotion",
+                "format": "text"
+              },
+              "inStock": {
+                "label": "In stock",
+                "format": "boolean"
+              },
+              "category": {
+                "label": "Category",
+                "format": "text"
+              },
+              "searchTerm": {
+                "label": "Search",
+                "format": "text"
+              },
+              "url": {
+                "label": "Link",
+                "format": "link"
+              },
+              "imageUrl": {
+                "label": "Image",
+                "format": "image"
+              }
+            }
+          }
+        },
+        "specials": {
+          "title": "Specials & savings",
+          "transformation": {
+            "fields": [
+              "store",
+              "name",
+              "size",
+              "price",
+              "wasPrice",
+              "savings",
+              "promoType",
+              "promoText",
+              "unitPriceText",
+              "url"
+            ]
+          },
+          "display": {
+            "component": "table",
+            "properties": {
+              "store": {
+                "label": "Store",
+                "format": "text"
+              },
+              "name": {
+                "label": "Product",
+                "format": "text"
+              },
+              "size": {
+                "label": "Size",
+                "format": "text"
+              },
+              "price": {
+                "label": "Now (AUD)",
+                "format": "number"
+              },
+              "wasPrice": {
+                "label": "Was",
+                "format": "number"
+              },
+              "savings": {
+                "label": "Saving",
+                "format": "number"
+              },
+              "promoType": {
+                "label": "Type",
+                "format": "text"
+              },
+              "promoText": {
+                "label": "Promotion",
+                "format": "text"
+              },
+              "unitPriceText": {
+                "label": "Unit price",
+                "format": "text"
+              },
+              "url": {
+                "label": "Link",
+                "format": "link"
+              }
+            }
+          }
+        },
+        "errors": {
+          "title": "Errors",
+          "transformation": {
+            "fields": [
+              "store",
+              "isError",
+              "searchTerm",
+              "categoryUrl",
+              "productId",
+              "error",
+              "errorStep",
+              "httpStatus",
+              "blocked",
+              "blockMarkers"
+            ]
+          },
+          "display": {
+            "component": "table",
+            "properties": {
+              "store": {
+                "label": "Store",
+                "format": "text"
+              },
+              "isError": {
+                "label": "Error row",
+                "format": "boolean"
+              },
+              "searchTerm": {
+                "label": "Search",
+                "format": "text"
+              },
+              "categoryUrl": {
+                "label": "Category",
+                "format": "text"
+              },
+              "productId": {
+                "label": "Product",
+                "format": "text"
+              },
+              "error": {
+                "label": "Error",
+                "format": "text"
+              },
+              "errorStep": {
+                "label": "Step",
+                "format": "text"
+              },
+              "httpStatus": {
+                "label": "HTTP",
+                "format": "number"
+              },
+              "blocked": {
+                "label": "Anti-bot block",
+                "format": "boolean"
+              },
+              "blockMarkers": {
+                "label": "Detected",
+                "format": "array"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

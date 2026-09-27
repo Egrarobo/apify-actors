@@ -1,0 +1,16 @@
+{
+  "name": "website-screenshot",
+  "version": "1.0.0",
+  "description": "Fast bulk website screenshots (PNG, JPEG, WebP, PDF) with cookie-banner hiding, ad blocking, lazy-load scrolling and device presets.",
+  "main": "src/main.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/main.js"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "apify": "^3.7.2",
+    "jszip": "^3.10.2",
+    "playwright": "*"
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "title": "Coles & Woolworths product search and specials",
+  "description": "Search Coles and Woolworths (Australia) by keyword, category or product, and get prices, was-prices, unit prices, specials and stock in one unified format.",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "stores": {
+      "title": "Stores",
+      "type": "array",
+      "editor": "select",
+      "description": "Which supermarkets to search. Search terms, bare product numbers and \"Only specials\" run on every selected store. Category and product links always run on the store they belong to.",
+      "items": {
+        "type": "string",
+        "enum": ["coles", "woolworths"],
+        "enumTitles": ["Coles", "Woolworths"]
+      },
+      "default": ["coles", "woolworths"],
+      "sectionCaption": "1. What to search for"
+    },
+    "searchTerms": {
+      "title": "Search terms",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Keywords to search in each selected store, e.g. \"milk\", \"tim tam\", \"nappies\". Each term returns up to \"Max products per search\" products per store.",
+      "prefill": ["milk"]
+    },
+    "categoryUrls": {
+      "title": "Category URLs",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Category pages copied from the store website, e.g. https://www.coles.com.au/browse/dairy-eggs-fridge or https://www.woolworths.com.au/shop/browse/fruit-veg. Sub-categories work too. Use https://www.woolworths.com.au/shop/browse/specials or https://www.coles.com.au/on-special for the current specials."
+    },
+    "productIds": {
+      "title": "Products (links or IDs)",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Specific products to check: product links (https://www.coles.com.au/product/...-1234567, https://www.woolworths.com.au/shop/productdetails/123456/...), prefixed IDs (\"coles:1234567\", \"woolworths:123456\") or bare product numbers, which are looked up in every selected store."
+    },
+    "onlySpecials": {
+      "title": "Only specials",
+      "type": "boolean",
+      "description": "Return only products that are on special (a was-price, a half-price or a promotion). With no search terms, categories or products, the Actor returns the stores' full specials lists.",
+      "default": false
+    },
+    "maxItemsPerSearch": {
+      "title": "Max products per search",
+      "type": "integer",
+      "description": "Maximum number of products saved for each search term, category or specials list, per store. You pay only for products saved.",
+      "default": 100,
+      "minimum": 1,
+      "maximum": 20000
+    },
+    "includeSponsored": {
+      "title": "Include sponsored products",
+      "type": "boolean",
+      "description": "Also save the paid 'sponsored' / 'promoted' products the stores insert into results. Off by default because they often don't match the search and repeat on every page. Sponsored rows are marked with isSponsored.",
+      "default": false
+    },
+    "proxyConfiguration": {
+      "title": "Proxy",
+      "type": "object",
+      "editor": "proxy",
+      "description": "Proxy used for both stores. The default Apify Proxy works in most cases. If the log says requests are BLOCKED, switch to the RESIDENTIAL group with country Australia (AU) — Coles in particular is protected by Imperva.",
+      "prefill": { "useApifyProxy": true },
+      "default": { "useApifyProxy": true },
+      "sectionCaption": "2. Connection"
+    },
+    "useBrowserForCookies": {
+      "title": "Use a browser to pass Coles bot protection",
+      "type": "boolean",
+      "description": "Open the Coles homepage once in a real Chrome browser to pass its bot protection and collect cookies, then load products with fast JSON requests. Keep this on: Coles blocks plain requests. Woolworths never needs it (a browser is only used there if plain requests get blocked).",
+      "default": true
+    },
+    "browserFallback": {
+      "title": "Switch to in-browser requests when blocked",
+      "type": "boolean",
+      "description": "If fast requests keep getting blocked, load the JSON from inside the real browser (slower, but looks exactly like a visitor). Recommended.",
+      "default": true
+    },
+    "maxPagesPerSearch": {
+      "title": "Max pages per search",
+      "type": "integer",
+      "description": "Safety limit on result pages read per search term or category (Coles shows 48 products per page, Woolworths 36). Mostly matters with \"Only specials\", where many pages may be checked to find enough specials.",
+      "default": 30,
+      "minimum": 1,
+      "maximum": 500,
+      "sectionCaption": "3. Advanced"
+    },
+    "maxRetries": {
+      "title": "Retries per request",
+      "type": "integer",
+      "description": "How many times a failed or blocked request is retried (with a new IP and new cookies when blocked) before that search is reported as failed.",
+      "default": 4,
+      "minimum": 0,
+      "maximum": 10
+    },
+    "requestDelayMs": {
+      "title": "Delay between requests (ms)",
+      "type": "integer",
+      "description": "Average pause between two requests to the same store. Slower is less likely to be blocked.",
+      "default": 800,
+      "minimum": 0,
+      "maximum": 30000
+    },
+    "saveDebugPages": {
+      "title": "Save block pages for diagnosis",
+      "type": "boolean",
+      "description": "When a store answers with a block/captcha page, save up to 4 such pages (and a browser screenshot) per store to the run's key-value store as DEBUG-* records. Free; helps report problems.",
+      "default": true
+    },
+    "includeRaw": {
+      "title": "Include raw store data",
+      "type": "boolean",
+      "description": "Add the original product object from the store's API as a \"raw\" field on every product (large; for debugging or fields not in the unified format).",
+      "default": false
+    },
+    "colesBaseUrl": {
+      "title": "Coles base URL (testing)",
+      "type": "string",
+      "editor": "textfield",
+      "description": "For testing only: send Coles requests to this address instead of https://www.coles.com.au (e.g. a local mock server). Leave empty."
+    },
+    "woolworthsBaseUrl": {
+      "title": "Woolworths base URL (testing)",
+      "type": "string",
+      "editor": "textfield",
+      "description": "For testing only: send Woolworths requests to this address instead of https://www.woolworths.com.au (e.g. a local mock server). Leave empty."
+    }
+  }
+}
