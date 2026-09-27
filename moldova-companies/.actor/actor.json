@@ -18,27 +18,71 @@
         "overview": {
           "title": "Companies",
           "transformation": {
-            "fields": ["found", "idno", "name", "legalFormCode", "statusCategory", "registrationDate", "address", "directors", "activityCodes", "matchedQuery", "matchScore", "dataDate"]
+            "fields": [
+              "found",
+              "idno",
+              "name",
+              "legalFormCode",
+              "statusCategory",
+              "registrationDate",
+              "address",
+              "directors",
+              "activityCodes",
+              "matchedQuery",
+              "matchScore",
+              "dataDate"
+            ]
           },
           "display": {
             "component": "table",
             "properties": {
-              "found": { "label": "Found", "format": "boolean" },
-              "idno": { "label": "IDNO" },
-              "name": { "label": "Name" },
-              "legalFormCode": { "label": "Form" },
-              "statusCategory": { "label": "Status" },
-              "registrationDate": { "label": "Registered", "format": "date" },
-              "address": { "label": "Address" },
-              "directors": { "label": "Directors", "format": "array" },
-              "activityCodes": { "label": "CAEM codes", "format": "array" },
-              "matchedQuery": { "label": "Query" },
-              "matchScore": { "label": "Score", "format": "number" },
-              "dataDate": { "label": "Data as of", "format": "date" }
+              "found": {
+                "label": "Found",
+                "format": "boolean"
+              },
+              "idno": {
+                "label": "IDNO"
+              },
+              "name": {
+                "label": "Name"
+              },
+              "legalFormCode": {
+                "label": "Form"
+              },
+              "statusCategory": {
+                "label": "Status"
+              },
+              "registrationDate": {
+                "label": "Registered",
+                "format": "date"
+              },
+              "address": {
+                "label": "Address"
+              },
+              "directors": {
+                "label": "Directors",
+                "format": "array"
+              },
+              "activityCodes": {
+                "label": "CAEM codes",
+                "format": "array"
+              },
+              "matchedQuery": {
+                "label": "Query"
+              },
+              "matchScore": {
+                "label": "Score",
+                "format": "number"
+              },
+              "dataDate": {
+                "label": "Data as of",
+                "format": "date"
+              }
             }
           }
         }
       }
     }
-  }
+  },
+  "output": "./output_schema.json"
 }

@@ -14,19 +14,43 @@
       "views": {
         "overview": {
           "title": "Changes",
-          "transformation": { "fields": ["changeType", "key", "changedFields", "changes", "item"] },
+          "transformation": {
+            "fields": [
+              "changeType",
+              "key",
+              "changedFields",
+              "changes",
+              "item"
+            ]
+          },
           "display": {
             "component": "table",
             "properties": {
-              "changeType": { "label": "Change", "format": "text" },
-              "key": { "label": "Key", "format": "text" },
-              "changedFields": { "label": "Changed fields", "format": "array" },
-              "changes": { "label": "Before → after", "format": "array" },
-              "item": { "label": "Item", "format": "object" }
+              "changeType": {
+                "label": "Change",
+                "format": "text"
+              },
+              "key": {
+                "label": "Key",
+                "format": "text"
+              },
+              "changedFields": {
+                "label": "Changed fields",
+                "format": "array"
+              },
+              "changes": {
+                "label": "Before → after",
+                "format": "array"
+              },
+              "item": {
+                "label": "Item",
+                "format": "object"
+              }
             }
           }
         }
       }
     }
-  }
+  },
+  "output": "./output_schema.json"
 }

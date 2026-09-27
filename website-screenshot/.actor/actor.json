@@ -14,39 +14,110 @@
       "views": {
         "overview": {
           "title": "Screenshots",
-          "transformation": { "fields": ["screenshotUrl", "url", "status", "title", "finalUrl", "width", "height", "bytes", "pdfUrl", "warnings", "error"] },
+          "transformation": {
+            "fields": [
+              "screenshotUrl",
+              "url",
+              "status",
+              "title",
+              "finalUrl",
+              "width",
+              "height",
+              "bytes",
+              "pdfUrl",
+              "warnings",
+              "error"
+            ]
+          },
           "display": {
             "component": "table",
             "properties": {
-              "screenshotUrl": { "label": "Screenshot", "format": "image" },
-              "url": { "label": "URL", "format": "link" },
-              "status": { "label": "HTTP", "format": "number" },
-              "title": { "label": "Page title", "format": "text" },
-              "finalUrl": { "label": "Final URL (after redirects)", "format": "link" },
-              "width": { "label": "Width (px)", "format": "number" },
-              "height": { "label": "Height (px)", "format": "number" },
-              "bytes": { "label": "Size (bytes)", "format": "number" },
-              "pdfUrl": { "label": "PDF", "format": "link" },
-              "warnings": { "label": "Warnings", "format": "array" },
-              "error": { "label": "Error", "format": "text" }
+              "screenshotUrl": {
+                "label": "Screenshot",
+                "format": "image"
+              },
+              "url": {
+                "label": "URL",
+                "format": "link"
+              },
+              "status": {
+                "label": "HTTP",
+                "format": "number"
+              },
+              "title": {
+                "label": "Page title",
+                "format": "text"
+              },
+              "finalUrl": {
+                "label": "Final URL (after redirects)",
+                "format": "link"
+              },
+              "width": {
+                "label": "Width (px)",
+                "format": "number"
+              },
+              "height": {
+                "label": "Height (px)",
+                "format": "number"
+              },
+              "bytes": {
+                "label": "Size (bytes)",
+                "format": "number"
+              },
+              "pdfUrl": {
+                "label": "PDF",
+                "format": "link"
+              },
+              "warnings": {
+                "label": "Warnings",
+                "format": "array"
+              },
+              "error": {
+                "label": "Error",
+                "format": "text"
+              }
             }
           }
         },
         "errors": {
           "title": "Failed URLs",
-          "transformation": { "fields": ["url", "errorType", "error", "attempts", "takenAt"] },
+          "transformation": {
+            "fields": [
+              "url",
+              "errorType",
+              "error",
+              "attempts",
+              "takenAt"
+            ]
+          },
           "display": {
             "component": "table",
             "properties": {
-              "url": { "label": "URL", "format": "text" },
-              "errorType": { "label": "Error type", "format": "text" },
-              "error": { "label": "Error", "format": "text" },
-              "attempts": { "label": "Attempts", "format": "number" },
-              "takenAt": { "label": "Time", "format": "date" }
+              "url": {
+                "label": "URL",
+                "format": "text"
+              },
+              "errorType": {
+                "label": "Error type",
+                "format": "text"
+              },
+              "error": {
+                "label": "Error",
+                "format": "text"
+              },
+              "attempts": {
+                "label": "Attempts",
+                "format": "number"
+              },
+              "takenAt": {
+                "label": "Time",
+                "format": "date"
+              }
             }
           }
         }
       }
     }
-  }
+  },
+  "output": "./output_schema.json"
 }

@@ -15,45 +15,124 @@
         "overview": {
           "title": "Tenders",
           "transformation": {
-            "fields": ["title", "buyer", "value", "currency", "status", "cpv", "tenderPeriodEnd", "datePublished", "url", "ocid"]
+            "fields": [
+              "title",
+              "buyer",
+              "value",
+              "currency",
+              "status",
+              "cpv",
+              "tenderPeriodEnd",
+              "datePublished",
+              "url",
+              "ocid"
+            ]
           },
           "display": {
             "component": "table",
             "properties": {
-              "title": { "label": "Title", "format": "text" },
-              "buyer": { "label": "Buyer", "format": "text" },
-              "value": { "label": "Value", "format": "number" },
-              "currency": { "label": "Currency", "format": "text" },
-              "status": { "label": "Status", "format": "text" },
-              "cpv": { "label": "CPV", "format": "text" },
-              "tenderPeriodEnd": { "label": "Deadline", "format": "date" },
-              "datePublished": { "label": "Published", "format": "date" },
-              "url": { "label": "MTender", "format": "link" },
-              "ocid": { "label": "OCID", "format": "text" }
+              "title": {
+                "label": "Title",
+                "format": "text"
+              },
+              "buyer": {
+                "label": "Buyer",
+                "format": "text"
+              },
+              "value": {
+                "label": "Value",
+                "format": "number"
+              },
+              "currency": {
+                "label": "Currency",
+                "format": "text"
+              },
+              "status": {
+                "label": "Status",
+                "format": "text"
+              },
+              "cpv": {
+                "label": "CPV",
+                "format": "text"
+              },
+              "tenderPeriodEnd": {
+                "label": "Deadline",
+                "format": "date"
+              },
+              "datePublished": {
+                "label": "Published",
+                "format": "date"
+              },
+              "url": {
+                "label": "MTender",
+                "format": "link"
+              },
+              "ocid": {
+                "label": "OCID",
+                "format": "text"
+              }
             }
           }
         },
         "awards": {
           "title": "Awards & suppliers",
           "transformation": {
-            "fields": ["title", "buyer", "status", "value", "awardedValue", "awardedCurrency", "suppliers", "bidsCount", "url"]
+            "fields": [
+              "title",
+              "buyer",
+              "status",
+              "value",
+              "awardedValue",
+              "awardedCurrency",
+              "suppliers",
+              "bidsCount",
+              "url"
+            ]
           },
           "display": {
             "component": "table",
             "properties": {
-              "title": { "label": "Title", "format": "text" },
-              "buyer": { "label": "Buyer", "format": "text" },
-              "status": { "label": "Status", "format": "text" },
-              "value": { "label": "Estimated value", "format": "number" },
-              "awardedValue": { "label": "Awarded value", "format": "number" },
-              "awardedCurrency": { "label": "Currency", "format": "text" },
-              "suppliers": { "label": "Suppliers", "format": "array" },
-              "bidsCount": { "label": "Bids", "format": "number" },
-              "url": { "label": "MTender", "format": "link" }
+              "title": {
+                "label": "Title",
+                "format": "text"
+              },
+              "buyer": {
+                "label": "Buyer",
+                "format": "text"
+              },
+              "status": {
+                "label": "Status",
+                "format": "text"
+              },
+              "value": {
+                "label": "Estimated value",
+                "format": "number"
+              },
+              "awardedValue": {
+                "label": "Awarded value",
+                "format": "number"
+              },
+              "awardedCurrency": {
+                "label": "Currency",
+                "format": "text"
+              },
+              "suppliers": {
+                "label": "Suppliers",
+                "format": "array"
+              },
+              "bidsCount": {
+                "label": "Bids",
+                "format": "number"
+              },
+              "url": {
+                "label": "MTender",
+                "format": "link"
+              }
             }
           }
         }
       }
     }
-  }
+  },
+  "output": "./output_schema.json"
 }

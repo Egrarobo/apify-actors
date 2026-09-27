@@ -13,18 +13,35 @@
       "views": {
         "overview": {
           "title": "Generated documents",
-          "transformation": { "fields": ["name", "fileName", "certificateId", "pdfUrl"] },
+          "transformation": {
+            "fields": [
+              "name",
+              "fileName",
+              "certificateId",
+              "pdfUrl"
+            ]
+          },
           "display": {
             "component": "table",
             "properties": {
-              "name": { "label": "Name" },
-              "fileName": { "label": "File" },
-              "certificateId": { "label": "Certificate ID" },
-              "pdfUrl": { "label": "PDF", "format": "link" }
+              "name": {
+                "label": "Name"
+              },
+              "fileName": {
+                "label": "File"
+              },
+              "certificateId": {
+                "label": "Certificate ID"
+              },
+              "pdfUrl": {
+                "label": "PDF",
+                "format": "link"
+              }
             }
           }
         }
       }
     }
-  }
+  },
+  "output": "./output_schema.json"
 }

@@ -15,27 +15,69 @@
         "overview": {
           "title": "Chunks",
           "transformation": {
-            "fields": ["fileName", "fileType", "chunkIndex", "metadata.pageStart", "metadata.pageEnd", "metadata.headingPath", "tokenCount", "text", "documentUrl", "status", "error"],
-            "flatten": ["metadata"]
+            "fields": [
+              "fileName",
+              "fileType",
+              "chunkIndex",
+              "metadata.pageStart",
+              "metadata.pageEnd",
+              "metadata.headingPath",
+              "tokenCount",
+              "text",
+              "documentUrl",
+              "status",
+              "error"
+            ],
+            "flatten": [
+              "metadata"
+            ]
           },
           "display": {
             "component": "table",
             "properties": {
-              "fileName": { "label": "File" },
-              "fileType": { "label": "Type" },
-              "chunkIndex": { "label": "Chunk", "format": "number" },
-              "metadata.pageStart": { "label": "Page from", "format": "number" },
-              "metadata.pageEnd": { "label": "Page to", "format": "number" },
-              "metadata.headingPath": { "label": "Section" },
-              "tokenCount": { "label": "Tokens", "format": "number" },
-              "text": { "label": "Text" },
-              "documentUrl": { "label": "Full Markdown", "format": "link" },
-              "status": { "label": "Status" },
-              "error": { "label": "Error" }
+              "fileName": {
+                "label": "File"
+              },
+              "fileType": {
+                "label": "Type"
+              },
+              "chunkIndex": {
+                "label": "Chunk",
+                "format": "number"
+              },
+              "metadata.pageStart": {
+                "label": "Page from",
+                "format": "number"
+              },
+              "metadata.pageEnd": {
+                "label": "Page to",
+                "format": "number"
+              },
+              "metadata.headingPath": {
+                "label": "Section"
+              },
+              "tokenCount": {
+                "label": "Tokens",
+                "format": "number"
+              },
+              "text": {
+                "label": "Text"
+              },
+              "documentUrl": {
+                "label": "Full Markdown",
+                "format": "link"
+              },
+              "status": {
+                "label": "Status"
+              },
+              "error": {
+                "label": "Error"
+              }
             }
           }
         }
       }
     }
-  }
+  },
+  "output": "./output_schema.json"
 }

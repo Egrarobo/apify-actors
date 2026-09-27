@@ -17,72 +17,216 @@
         "overview": {
           "title": "Hotels",
           "transformation": {
-            "fields": ["thumbnail", "hotelName", "priceLowest", "pricePerNight", "pricePerNightWithTaxes", "currency", "rating", "reviews", "hotelClass", "dealLabel", "cheapestProvider", "offersCount", "checkIn", "checkOut", "query", "url"]
+            "fields": [
+              "thumbnail",
+              "hotelName",
+              "priceLowest",
+              "pricePerNight",
+              "pricePerNightWithTaxes",
+              "currency",
+              "rating",
+              "reviews",
+              "hotelClass",
+              "dealLabel",
+              "cheapestProvider",
+              "offersCount",
+              "checkIn",
+              "checkOut",
+              "query",
+              "url"
+            ]
           },
           "display": {
             "component": "table",
             "properties": {
-              "thumbnail": { "label": "Photo", "format": "image" },
-              "hotelName": { "label": "Hotel", "format": "text" },
-              "priceLowest": { "label": "Lowest price / night", "format": "number" },
-              "pricePerNight": { "label": "Google price / night", "format": "number" },
-              "pricePerNightWithTaxes": { "label": "With taxes / night", "format": "number" },
-              "currency": { "label": "Currency", "format": "text" },
-              "rating": { "label": "Rating", "format": "number" },
-              "reviews": { "label": "Reviews", "format": "number" },
-              "hotelClass": { "label": "Stars", "format": "number" },
-              "dealLabel": { "label": "Deal", "format": "text" },
-              "cheapestProvider": { "label": "Cheapest site", "format": "text" },
-              "offersCount": { "label": "Offers", "format": "number" },
-              "checkIn": { "label": "Check-in", "format": "date" },
-              "checkOut": { "label": "Check-out", "format": "date" },
-              "query": { "label": "Search", "format": "text" },
-              "url": { "label": "Google Hotels", "format": "link" }
+              "thumbnail": {
+                "label": "Photo",
+                "format": "image"
+              },
+              "hotelName": {
+                "label": "Hotel",
+                "format": "text"
+              },
+              "priceLowest": {
+                "label": "Lowest price / night",
+                "format": "number"
+              },
+              "pricePerNight": {
+                "label": "Google price / night",
+                "format": "number"
+              },
+              "pricePerNightWithTaxes": {
+                "label": "With taxes / night",
+                "format": "number"
+              },
+              "currency": {
+                "label": "Currency",
+                "format": "text"
+              },
+              "rating": {
+                "label": "Rating",
+                "format": "number"
+              },
+              "reviews": {
+                "label": "Reviews",
+                "format": "number"
+              },
+              "hotelClass": {
+                "label": "Stars",
+                "format": "number"
+              },
+              "dealLabel": {
+                "label": "Deal",
+                "format": "text"
+              },
+              "cheapestProvider": {
+                "label": "Cheapest site",
+                "format": "text"
+              },
+              "offersCount": {
+                "label": "Offers",
+                "format": "number"
+              },
+              "checkIn": {
+                "label": "Check-in",
+                "format": "date"
+              },
+              "checkOut": {
+                "label": "Check-out",
+                "format": "date"
+              },
+              "query": {
+                "label": "Search",
+                "format": "text"
+              },
+              "url": {
+                "label": "Google Hotels",
+                "format": "link"
+              }
             }
           }
         },
         "offers": {
           "title": "Booking site offers",
           "transformation": {
-            "fields": ["hotelName", "priceLowest", "cheapestProvider", "officialSitePrice", "currency", "offersCount", "offers", "url"]
+            "fields": [
+              "hotelName",
+              "priceLowest",
+              "cheapestProvider",
+              "officialSitePrice",
+              "currency",
+              "offersCount",
+              "offers",
+              "url"
+            ]
           },
           "display": {
             "component": "table",
             "properties": {
-              "hotelName": { "label": "Hotel", "format": "text" },
-              "priceLowest": { "label": "Lowest / night", "format": "number" },
-              "cheapestProvider": { "label": "Cheapest site", "format": "text" },
-              "officialSitePrice": { "label": "Official site / night", "format": "number" },
-              "currency": { "label": "Currency", "format": "text" },
-              "offersCount": { "label": "Offers", "format": "number" },
-              "offers": { "label": "All offers", "format": "array" },
-              "url": { "label": "Google Hotels", "format": "link" }
+              "hotelName": {
+                "label": "Hotel",
+                "format": "text"
+              },
+              "priceLowest": {
+                "label": "Lowest / night",
+                "format": "number"
+              },
+              "cheapestProvider": {
+                "label": "Cheapest site",
+                "format": "text"
+              },
+              "officialSitePrice": {
+                "label": "Official site / night",
+                "format": "number"
+              },
+              "currency": {
+                "label": "Currency",
+                "format": "text"
+              },
+              "offersCount": {
+                "label": "Offers",
+                "format": "number"
+              },
+              "offers": {
+                "label": "All offers",
+                "format": "array"
+              },
+              "url": {
+                "label": "Google Hotels",
+                "format": "link"
+              }
             }
           }
         },
         "location": {
           "title": "Location & details",
           "transformation": {
-            "fields": ["hotelName", "address", "lat", "lng", "hotelClassText", "website", "phone", "checkInTime", "checkOutTime", "amenities", "googleMapsUrl"]
+            "fields": [
+              "hotelName",
+              "address",
+              "lat",
+              "lng",
+              "hotelClassText",
+              "website",
+              "phone",
+              "checkInTime",
+              "checkOutTime",
+              "amenities",
+              "googleMapsUrl"
+            ]
           },
           "display": {
             "component": "table",
             "properties": {
-              "hotelName": { "label": "Hotel", "format": "text" },
-              "address": { "label": "Address", "format": "text" },
-              "lat": { "label": "Latitude", "format": "number" },
-              "lng": { "label": "Longitude", "format": "number" },
-              "hotelClassText": { "label": "Class", "format": "text" },
-              "website": { "label": "Website", "format": "link" },
-              "phone": { "label": "Phone", "format": "text" },
-              "checkInTime": { "label": "Check-in time", "format": "text" },
-              "checkOutTime": { "label": "Check-out time", "format": "text" },
-              "amenities": { "label": "Amenities", "format": "array" },
-              "googleMapsUrl": { "label": "Google Maps", "format": "link" }
+              "hotelName": {
+                "label": "Hotel",
+                "format": "text"
+              },
+              "address": {
+                "label": "Address",
+                "format": "text"
+              },
+              "lat": {
+                "label": "Latitude",
+                "format": "number"
+              },
+              "lng": {
+                "label": "Longitude",
+                "format": "number"
+              },
+              "hotelClassText": {
+                "label": "Class",
+                "format": "text"
+              },
+              "website": {
+                "label": "Website",
+                "format": "link"
+              },
+              "phone": {
+                "label": "Phone",
+                "format": "text"
+              },
+              "checkInTime": {
+                "label": "Check-in time",
+                "format": "text"
+              },
+              "checkOutTime": {
+                "label": "Check-out time",
+                "format": "text"
+              },
+              "amenities": {
+                "label": "Amenities",
+                "format": "array"
+              },
+              "googleMapsUrl": {
+                "label": "Google Maps",
+                "format": "link"
+              }
             }
           }
         }
       }
     }
-  }
+  },
+  "output": "./output_schema.json"
 }

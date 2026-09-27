@@ -19,31 +19,86 @@
         "overview": {
           "title": "Companies",
           "transformation": {
-            "fields": ["found", "bin", "name", "legalFormCode", "statusCategory", "status", "registrationDate", "address", "director", "primaryActivity", "size", "katoCode", "matchedQuery", "lookupStatus", "error", "retrievedAt"]
+            "fields": [
+              "found",
+              "bin",
+              "name",
+              "legalFormCode",
+              "statusCategory",
+              "status",
+              "registrationDate",
+              "address",
+              "director",
+              "primaryActivity",
+              "size",
+              "katoCode",
+              "matchedQuery",
+              "lookupStatus",
+              "error",
+              "retrievedAt"
+            ]
           },
           "display": {
             "component": "table",
             "properties": {
-              "found": { "label": "Found", "format": "boolean" },
-              "bin": { "label": "BIN" },
-              "name": { "label": "Name" },
-              "legalFormCode": { "label": "Form" },
-              "statusCategory": { "label": "Status" },
-              "status": { "label": "Status (original)" },
-              "registrationDate": { "label": "Registered", "format": "date" },
-              "address": { "label": "Address" },
-              "director": { "label": "Director" },
-              "primaryActivity": { "label": "OKED activity", "format": "object" },
-              "size": { "label": "Size (KRP)", "format": "object" },
-              "katoCode": { "label": "KATO" },
-              "matchedQuery": { "label": "Query" },
-              "lookupStatus": { "label": "Lookup status" },
-              "error": { "label": "Error" },
-              "retrievedAt": { "label": "Retrieved", "format": "date" }
+              "found": {
+                "label": "Found",
+                "format": "boolean"
+              },
+              "bin": {
+                "label": "BIN"
+              },
+              "name": {
+                "label": "Name"
+              },
+              "legalFormCode": {
+                "label": "Form"
+              },
+              "statusCategory": {
+                "label": "Status"
+              },
+              "status": {
+                "label": "Status (original)"
+              },
+              "registrationDate": {
+                "label": "Registered",
+                "format": "date"
+              },
+              "address": {
+                "label": "Address"
+              },
+              "director": {
+                "label": "Director"
+              },
+              "primaryActivity": {
+                "label": "OKED activity",
+                "format": "object"
+              },
+              "size": {
+                "label": "Size (KRP)",
+                "format": "object"
+              },
+              "katoCode": {
+                "label": "KATO"
+              },
+              "matchedQuery": {
+                "label": "Query"
+              },
+              "lookupStatus": {
+                "label": "Lookup status"
+              },
+              "error": {
+                "label": "Error"
+              },
+              "retrievedAt": {
+                "label": "Retrieved",
+                "format": "date"
+              }
             }
           }
         }
       }
     }
-  }
+  },
+  "output": "./output_schema.json"
 }
