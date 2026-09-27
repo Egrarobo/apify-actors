@@ -1,7 +1,7 @@
 {
   "actorSpecification": 1,
   "name": "google-trends",
-  "title": "Google Trends Scraper — Compare Terms, Regions, Related & Trending Now",
+  "title": "Google Trends Scraper: Interest, Related & Trending Now",
   "description": "Google Trends data without the pytrends headaches: interest over time for up to 5 terms compared together (or hundreds batched with an anchor term on one scale), interest by country/region/city, top & rising related queries and topics, plus today's Trending Now searches with traffic and news. Retries 429s with fresh IPs, clean JSON or flat spreadsheet rows.",
   "version": "1.0",
   "buildTag": "latest",

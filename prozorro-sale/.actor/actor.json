@@ -1,7 +1,7 @@
 {
   "actorSpecification": 1,
   "name": "prozorro-sale-auctions",
-  "title": "Prozorro.Sale Ukraine Auctions — privatization, lease, land & bankrupt assets",
+  "title": "Prozorro.Sale Ukraine Auctions: Privatization, Lease & Land",
   "description": "Search and monitor Ukrainian state auctions from the official Prozorro.Sale open data: privatization, property lease, land rental and sale, bankruptcy and bank (NPL) assets. Filter by type, status, region, CAV code, price and dates. Get prices, deadlines, documents, winners and alerts on Telegram, Slack, email or webhook.",
   "version": "1.0",
   "buildTag": "latest",
