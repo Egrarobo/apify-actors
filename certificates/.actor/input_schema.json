@@ -40,10 +40,21 @@
       "title": "Design",
       "type": "string",
       "editor": "select",
-      "enum": ["certificate-classic", "certificate-modern", "diploma-kids", "custom"],
-      "enumTitles": ["Classic certificate", "Modern certificate", "Kids diploma", "Custom HTML"],
+      "enum": [
+        "certificate-classic",
+        "certificate-modern",
+        "diploma-kids",
+        "custom"
+      ],
+      "enumTitles": [
+        "Classic certificate",
+        "Modern certificate",
+        "Kids diploma",
+        "Custom HTML"
+      ],
       "default": "certificate-classic",
-      "sectionCaption": "2. Design and text"
+      "sectionCaption": "2. Design and text",
+      "description": "Design."
     },
     "title": {
       "title": "Title",
@@ -56,7 +67,8 @@
       "title": "Subtitle",
       "type": "string",
       "editor": "textfield",
-      "default": "of completion"
+      "default": "of completion",
+      "description": "Subtitle."
     },
     "body": {
       "title": "Main text",
@@ -74,7 +86,8 @@
     "issuer": {
       "title": "Organization",
       "type": "string",
-      "editor": "textfield"
+      "editor": "textfield",
+      "description": "Organization."
     },
     "logoUrl": {
       "title": "Logo URL",
@@ -89,23 +102,51 @@
       "description": "Hex color, e.g. #1f4e8c.",
       "default": "#1f4e8c"
     },
-    "signature1Name": { "title": "Signature 1 — name", "type": "string", "editor": "textfield" },
-    "signature1Title": { "title": "Signature 1 — role", "type": "string", "editor": "textfield" },
-    "signature2Name": { "title": "Signature 2 — name", "type": "string", "editor": "textfield" },
-    "signature2Title": { "title": "Signature 2 — role", "type": "string", "editor": "textfield" },
+    "signature1Name": {
+      "title": "Signature 1 — name",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Signature 1 — name."
+    },
+    "signature1Title": {
+      "title": "Signature 1 — role",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Signature 1 — role."
+    },
+    "signature2Name": {
+      "title": "Signature 2 — name",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Signature 2 — name."
+    },
+    "signature2Title": {
+      "title": "Signature 2 — role",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Signature 2 — role."
+    },
     "pageSize": {
       "title": "Paper size",
       "type": "string",
       "editor": "select",
-      "enum": ["A4", "Letter"],
-      "default": "A4"
+      "enum": [
+        "A4",
+        "Letter"
+      ],
+      "default": "A4",
+      "description": "Paper size."
     },
     "orientation": {
       "title": "Orientation",
       "type": "string",
       "editor": "select",
-      "enum": ["landscape", "portrait"],
-      "default": "landscape"
+      "enum": [
+        "landscape",
+        "portrait"
+      ],
+      "default": "landscape",
+      "description": "Orientation."
     },
     "addQrCode": {
       "title": "Add QR verification code",
@@ -136,19 +177,22 @@
     "outputZip": {
       "title": "Create ZIP of all PDFs",
       "type": "boolean",
-      "default": true
+      "default": true,
+      "description": "Create ZIP of all PDFs."
     },
     "mergeIntoOnePdf": {
       "title": "Also create one merged PDF (for printing)",
       "type": "boolean",
-      "default": false
+      "default": false,
+      "description": "Also create one merged PDF (for printing)."
     },
     "maxDocuments": {
       "title": "Max documents",
       "type": "integer",
       "minimum": 1,
       "maximum": 20000,
-      "default": 1000
+      "default": 1000,
+      "description": "Max documents."
     },
     "customHtml": {
       "title": "Custom HTML (design = Custom)",

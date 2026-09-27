@@ -9,7 +9,9 @@
       "type": "array",
       "editor": "stringList",
       "description": "Kazakh business identification numbers (BIN, 12 digits), e.g. 971240001315. Spaces and dashes are ignored. Each BIN returns one item. Unknown BINs return \"found\": false and invalid BINs return \"lookupStatus\": \"invalid\". Neither is charged.",
-      "prefill": ["971240001315"],
+      "prefill": [
+        "971240001315"
+      ],
       "sectionCaption": "1. What to look up"
     },
     "names": {
@@ -30,8 +32,16 @@
       "title": "Language of values",
       "type": "string",
       "editor": "select",
-      "enum": ["ru", "kz", "en"],
-      "enumTitles": ["Russian", "Kazakh", "English (where the source provides it)"],
+      "enum": [
+        "ru",
+        "kz",
+        "en"
+      ],
+      "enumTitles": [
+        "Russian",
+        "Kazakh",
+        "English (where the source provides it)"
+      ],
       "default": "ru",
       "description": "Language for the main name, status, address and classifier labels. Keys are always English, and both Russian and Kazakh names are always included. The state register publishes only Russian and Kazakh, so \"en\" gives English classifier labels (OKED, size) from stat.gov.kz and Russian for everything else."
     },
@@ -41,10 +51,19 @@
       "editor": "select",
       "items": {
         "type": "string",
-        "enum": ["registry", "statistics"],
-        "enumTitles": ["State register of legal entities (data.egov.kz)", "Statistical register (stat.gov.kz)"]
+        "enum": [
+          "registry",
+          "statistics"
+        ],
+        "enumTitles": [
+          "State register of legal entities (data.egov.kz)",
+          "Statistical register (stat.gov.kz)"
+        ]
       },
-      "default": ["registry", "statistics"],
+      "default": [
+        "registry",
+        "statistics"
+      ],
       "description": "registry: Ministry of Justice state register on data.egov.kz (name, status, registration date, address, director, activity). statistics: Bureau of National Statistics (OKED code, size class KRP, KATO code, ownership form, sector). Using both gives the most complete record.",
       "sectionCaption": "2. Sources and output"
     },
@@ -80,8 +99,12 @@
       "title": "Proxy configuration",
       "type": "object",
       "editor": "proxy",
-      "default": { "useApifyProxy": false },
-      "prefill": { "useApifyProxy": false },
+      "default": {
+        "useApifyProxy": false
+      },
+      "prefill": {
+        "useApifyProxy": false
+      },
       "description": "Off by default. Kazakh government portals sometimes block or drop connections from outside Kazakhstan. If the run reports that a source is not reachable, enable Apify Proxy and choose a RESIDENTIAL proxy with country Kazakhstan (KZ)."
     },
     "egovApiKey": {

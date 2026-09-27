@@ -8,7 +8,9 @@
       "type": "array",
       "editor": "stringList",
       "description": "Moldovan company IDNOs (13-digit state identification number, also the fiscal code), e.g. 1002600048836 (Moldtelecom). Spaces are ignored. Each IDNO returns one item; unknown IDNOs return an item with \"found\": false (not charged). Filters do not apply to IDNO lookups.",
-      "prefill": ["1002600048836"],
+      "prefill": [
+        "1002600048836"
+      ],
       "sectionCaption": "1. What to look up"
     },
     "names": {
@@ -21,8 +23,16 @@
       "title": "Name matching",
       "type": "string",
       "editor": "select",
-      "enum": ["contains", "exact", "fuzzy"],
-      "enumTitles": ["Contains all words (default)", "Exact name", "Fuzzy (tolerates typos)"],
+      "enum": [
+        "contains",
+        "exact",
+        "fuzzy"
+      ],
+      "enumTitles": [
+        "Contains all words (default)",
+        "Exact name",
+        "Fuzzy (tolerates typos)"
+      ],
       "default": "contains",
       "description": "contains: every word you type appears in the company name. exact: the whole name equals your query (legal form ignored). fuzzy: also finds names with small typos."
     },

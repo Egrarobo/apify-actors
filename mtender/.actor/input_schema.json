@@ -9,7 +9,9 @@
       "type": "array",
       "editor": "stringList",
       "description": "Words to find in the tender title, description, lots and items. Romanian diacritics and case are ignored (\"constructie\" finds \"Construcție\"); Russian text works too. Parts of words match, so \"medicament\" also finds \"medicamentelor\". Empty = no keyword filter.",
-      "prefill": ["medicamente"],
+      "prefill": [
+        "medicamente"
+      ],
       "sectionCaption": "1. What to search for"
     },
     "keywordsMatch": {
@@ -17,8 +19,14 @@
       "type": "string",
       "editor": "select",
       "description": "\"any\": a tender matches if it contains at least one keyword. \"all\": it must contain every keyword.",
-      "enum": ["any", "all"],
-      "enumTitles": ["Any keyword", "All keywords"],
+      "enum": [
+        "any",
+        "all"
+      ],
+      "enumTitles": [
+        "Any keyword",
+        "All keywords"
+      ],
       "default": "any"
     },
     "excludeKeywords": {
@@ -40,8 +48,24 @@
       "description": "Overall status of the procurement process. Empty = any status. \"active\" = open or being evaluated, \"complete\" = awarded and finished, \"cancelled\", \"unsuccessful\" = no valid offers, \"planning\"/\"planned\" = announced plans.",
       "items": {
         "type": "string",
-        "enum": ["active", "complete", "cancelled", "unsuccessful", "planning", "planned", "withdrawn"],
-        "enumTitles": ["Active", "Complete", "Cancelled", "Unsuccessful", "Planning", "Planned", "Withdrawn"]
+        "enum": [
+          "active",
+          "complete",
+          "cancelled",
+          "unsuccessful",
+          "planning",
+          "planned",
+          "withdrawn"
+        ],
+        "enumTitles": [
+          "Active",
+          "Complete",
+          "Cancelled",
+          "Unsuccessful",
+          "Planning",
+          "Planned",
+          "Withdrawn"
+        ]
       }
     },
     "methods": {
@@ -57,8 +81,16 @@
       "description": "Main procurement category. Empty = any.",
       "items": {
         "type": "string",
-        "enum": ["goods", "works", "services"],
-        "enumTitles": ["Goods", "Works", "Services"]
+        "enum": [
+          "goods",
+          "works",
+          "services"
+        ],
+        "enumTitles": [
+          "Goods",
+          "Works",
+          "Services"
+        ]
       }
     },
     "buyerNames": {
@@ -125,8 +157,16 @@
       "type": "string",
       "editor": "select",
       "description": "\"All procedures\" covers everything. \"Contract notices\" are calls for competition. \"Plans\" are planned procurements announced ahead of the tender.",
-      "enum": ["all", "contractNotices", "plans"],
-      "enumTitles": ["All procedures", "Contract notices", "Procurement plans"],
+      "enum": [
+        "all",
+        "contractNotices",
+        "plans"
+      ],
+      "enumTitles": [
+        "All procedures",
+        "Contract notices",
+        "Procurement plans"
+      ],
       "default": "all"
     },
     "tenderIds": {

@@ -8,7 +8,11 @@
       "type": "array",
       "editor": "requestListSources",
       "description": "Links to PDF, DOCX, PPTX, XLSX, CSV, TSV, HTML, TXT or Markdown files. Google Drive, Google Docs/Sheets/Slides, Dropbox, OneDrive/SharePoint, Box and GitHub share links are converted to direct downloads automatically (files must be shared as 'Anyone with the link').",
-      "prefill": [{ "url": "https://arxiv.org/pdf/1706.03762" }],
+      "prefill": [
+        {
+          "url": "https://arxiv.org/pdf/1706.03762"
+        }
+      ],
       "sectionCaption": "1. Documents"
     },
     "keyValueStoreKeys": {
@@ -40,17 +44,32 @@
       "title": "Output format",
       "type": "string",
       "editor": "select",
-      "enum": ["markdown", "text"],
-      "enumTitles": ["Markdown (headings, lists, tables)", "Plain text"],
+      "enum": [
+        "markdown",
+        "text"
+      ],
+      "enumTitles": [
+        "Markdown (headings, lists, tables)",
+        "Plain text"
+      ],
       "default": "markdown",
-      "sectionCaption": "2. Output and chunking"
+      "sectionCaption": "2. Output and chunking",
+      "description": "Output format."
     },
     "chunking": {
       "title": "Chunking",
       "type": "string",
       "editor": "select",
-      "enum": ["none", "heading", "fixed"],
-      "enumTitles": ["None: one item per document", "By heading: one section per chunk (large sections split)", "Fixed size with overlap"],
+      "enum": [
+        "none",
+        "heading",
+        "fixed"
+      ],
+      "enumTitles": [
+        "None: one item per document",
+        "By heading: one section per chunk (large sections split)",
+        "Fixed size with overlap"
+      ],
       "description": "How to split documents into dataset items for embeddings / vector databases.",
       "default": "none"
     },
@@ -66,9 +85,16 @@
       "title": "Chunk size unit",
       "type": "string",
       "editor": "select",
-      "enum": ["tokens", "characters"],
-      "enumTitles": ["Tokens (cl100k_base, as OpenAI embeddings)", "Characters"],
-      "default": "tokens"
+      "enum": [
+        "tokens",
+        "characters"
+      ],
+      "enumTitles": [
+        "Tokens (cl100k_base, as OpenAI embeddings)",
+        "Characters"
+      ],
+      "default": "tokens",
+      "description": "Chunk size unit."
     },
     "chunkOverlap": {
       "title": "Chunk overlap",
@@ -87,7 +113,8 @@
     "includeSpeakerNotes": {
       "title": "Include PowerPoint speaker notes",
       "type": "boolean",
-      "default": true
+      "default": true,
+      "description": "Include PowerPoint speaker notes."
     },
     "ocr": {
       "title": "OCR scanned pages",
@@ -102,11 +129,21 @@
       "editor": "select",
       "items": {
         "type": "string",
-        "enum": ["eng", "ron", "rus"],
-        "enumTitles": ["English", "Romanian", "Russian"]
+        "enum": [
+          "eng",
+          "ron",
+          "rus"
+        ],
+        "enumTitles": [
+          "English",
+          "Romanian",
+          "Russian"
+        ]
       },
       "description": "Languages present in the scanned documents. Fewer languages = faster and more accurate.",
-      "default": ["eng"]
+      "default": [
+        "eng"
+      ]
     },
     "maxPagesPerDocument": {
       "title": "Max pages per document",
@@ -120,14 +157,16 @@
       "type": "integer",
       "minimum": 1,
       "maximum": 100000,
-      "default": 1000
+      "default": 1000,
+      "description": "Max documents."
     },
     "maxFileSizeMb": {
       "title": "Max file size (MB)",
       "type": "integer",
       "minimum": 1,
       "maximum": 500,
-      "default": 100
+      "default": 100,
+      "description": "Max file size (MB)."
     }
   }
 }
