@@ -2,7 +2,7 @@
   "actorSpecification": 1,
   "name": "prozorro-sale-auctions",
   "title": "Prozorro.Sale Ukraine Auctions",
-  "description": "Search and monitor Ukrainian state auctions from the official Prozorro.Sale open data: privatization, property lease, land rental and sale, bankruptcy and bank (NPL) assets. Filter by type, status, region, CAV code, price and dates. Get prices, deadlines, documents, winners and alerts on Telegram, Slack, email or webhook.",
+  "description": "Search and monitor Ukrainian state auctions from Prozorro.Sale open data: privatization, property lease, land, bankruptcy and bank assets. Filter by type, status, region, CAV code, price and dates. Get prices, deadlines, documents and winners, with Telegram, Slack, email or webhook alerts.",
   "version": "1.0",
   "buildTag": "latest",
   "input": "./input_schema.json",
