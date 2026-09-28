@@ -1,4 +1,4 @@
-# Prozorro.Sale Ukraine Auctions: privatization, lease, land & bankrupt assets
+# Prozorro.Sale Ukraine Auctions
 
 Search, track and get alerts for **Ukrainian public auctions on [Prozorro.Sale](https://prozorro.sale)**, the official state e-auction system. It covers **small and large privatization**, **state and municipal property lease**, **land rental and land sale**, **bankruptcy assets**, **bank assets and non-performing loans (NPL)** from the Deposit Guarantee Fund, timber, subsoil and other procedures.
 

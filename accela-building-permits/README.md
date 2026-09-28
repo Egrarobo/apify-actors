@@ -1,4 +1,4 @@
-# US Building Permits: Accela Citizen Access (any city)
+# US Building Permits — Accela Citizen Access (Any City)
 
 Get **new building permits as daily leads** from any US city or county that runs **Accela Citizen Access** (the "ACA" permit portals at `aca-prod.accela.com/...` and self-hosted `…/CitizenAccess`). For every permit you get record number, type, trade category, status, opened date, address with city/state/ZIP, description and a link to the record. Turn on details to add **job valuation, contractor name, license, phone and address**, parcel number and the portal's extra fields.
 

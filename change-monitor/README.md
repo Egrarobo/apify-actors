@@ -1,4 +1,4 @@
-# Dataset Change Monitor: get only new, changed & removed items
+# Dataset Change Monitor
 
 Run your scraper on a schedule and **get only what changed since the last run**. This Actor compares each new run's results with the previous one and outputs **new items, changed items (with before → after values per field) and removed items**. You can also get an **alert on Telegram, Slack, email or any webhook**.
 

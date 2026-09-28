@@ -1,4 +1,4 @@
-# Document to Markdown for AI & RAG (PDF, DOCX, PPTX, XLSX)
+# Document to Markdown for AI & RAG
 
 Convert **PDF, Word (DOCX), PowerPoint (PPTX), Excel (XLSX), CSV, HTML and TXT** files into **clean Markdown or plain text** for **LLMs, ChatGPT, Claude, LangChain, LlamaIndex and RAG pipelines**. Headings, lists and tables are preserved, documents are split into **token-sized chunks with page numbers and section headings**, and **scanned PDFs can be OCR'd**.
 

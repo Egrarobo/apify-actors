@@ -1,4 +1,4 @@
-# Website Screenshot: bulk full-page PNG, JPEG, WebP & PDF
+# Website Screenshot Pro — Bulk, Full Page, Mobile
 
 Take **clean screenshots of hundreds of web pages in one run**. Paste a list of URLs (or connect the results of another Actor) and get a **full-page or viewport screenshot of every page**, on **desktop, laptop, tablet or mobile**, as **PNG, JPEG, WebP or PDF**. Cookie banners and ads are removed automatically, and lazy-loaded images are loaded before the capture.
 

@@ -1,7 +1,7 @@
 {
   "actorSpecification": 1,
   "name": "document-to-markdown-rag",
-  "title": "Document to Markdown for AI & RAG (PDF, DOCX, PPTX, XLSX)",
+  "title": "Document to Markdown for AI & RAG",
   "description": "Convert PDF, Word, PowerPoint, Excel, CSV, HTML and TXT files into clean Markdown or plain text for LLMs and RAG. Keeps headings, lists and tables, splits into token-sized chunks with page and heading metadata, and OCRs scanned PDFs.",
   "version": "1.0",
   "buildTag": "latest",

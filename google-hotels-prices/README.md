@@ -1,4 +1,4 @@
-# Google Hotels Prices Scraper: rates, ratings and every booking site's offer
+# Google Hotels Scraper: Prices, Rate Parity & OTA Offers
 
 Get **hotel prices from Google Hotels** for any city, landmark, hotel name or Google Hotels link, **for your exact dates and guests**: price per night, price with taxes and fees, total for the stay, deals ("20% less than usual"), guest rating, number of reviews, star class, GPS, photos, and optionally **the price on every booking site** Google compares: Booking.com, Expedia, Agoda, Hotels.com, Trip.com, the hotel's official site and 30+ more.
 

@@ -1,7 +1,7 @@
 {
   "actorSpecification": 1,
   "name": "dataset-change-monitor",
-  "title": "Dataset Change Monitor — get only new, changed & removed items",
+  "title": "Dataset Change Monitor",
   "description": "Compare every scraper run with the previous one and get only new, changed and removed items, with field-level before/after diffs. Alerts via Telegram, Slack, webhook or email. Works with any Apify Actor, dataset, JSON or CSV.",
   "version": "1.0",
   "buildTag": "latest",

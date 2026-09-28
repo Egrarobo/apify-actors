@@ -1,8 +1,8 @@
 {
   "actorSpecification": 1,
   "name": "au-grocery-prices",
-  "title": "Coles & Woolworths Product Search & Specials",
-  "description": "Search Coles and Woolworths (Australia) by keyword, category or product and get prices, was-prices, unit prices, specials, promotions and stock in one unified format. Built to be reliable: real-browser bot-protection handling, automatic retries and clear per-search errors.",
+  "title": "Coles & Woolworths Scraper: Prices, Specials & Unit Prices",
+  "description": "Get Australian supermarket prices from Coles and Woolworths by keyword, category or product ID: current price, was-price, unit price, specials (half price, multi-buy), promotions and stock in one unified format. For price tracking, price comparison apps and grocery specials alerts.",
   "version": "1.0",
   "buildTag": "latest",
   "input": "./input_schema.json",

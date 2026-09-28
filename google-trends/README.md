@@ -1,4 +1,4 @@
-# Google Trends Scraper: compare terms, regions, related queries and Trending Now
+# Google Trends Scraper: Interest, Related & Trending Now
 
 Get **Google Trends data as clean JSON or spreadsheet rows**, without running pytrends yourself and fighting "429 Too Many Requests":
 

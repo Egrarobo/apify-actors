@@ -1,4 +1,4 @@
-# Coles & Woolworths Product Search & Specials
+# Coles & Woolworths Scraper: Prices, Specials & Unit Prices
 
 Search **Coles** and **Woolworths** (Australia) by keyword, category or product and get **prices, was-prices, unit prices, specials, promotions and stock** from both supermarkets in **one unified format**. Built for price-comparison apps, retail analysts, deal sites and anyone tracking specials.
 
