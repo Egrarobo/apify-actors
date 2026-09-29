@@ -1,10 +1,26 @@
 {
-  "name": "Chat with PDF, Word and PowerPoint files using Apify Document to Markdown and OpenAI",
+  "name": "Chat with PDF, Word and PowerPoint files using Apify and OpenAI",
   "nodes": [
     {
       "parameters": {
+        "content": "## Chat with PDF, Word and PowerPoint files using Apify and OpenAI\n\n### Who's it for\nTeams and builders who want a Q&A assistant over their own documents (handbooks, contracts, reports, course material) with answers that cite the file and page.\n\n### How it works\n1. **Add documents form**: paste links to PDF, Word, PowerPoint or Excel files.\n2. **Convert to Markdown chunks** runs the **Document to Markdown for AI & RAG** Actor on Apify. It keeps headings and tables, runs OCR on scanned PDFs and splits each file by heading into chunks with page numbers.\n3. **Prepare chunks** keeps the text plus source file, page and heading as metadata.\n4. **Store chunks** embeds them with OpenAI and saves them in a vector store.\n5. In the **Chat**, the **Document assistant** searches the chunks and answers with the source file and page.\n\n### How to set up\n1. Create a **Header Auth** credential named `Apify API token`: name `Authorization`, value `Bearer YOUR_APIFY_TOKEN` (Apify Console \u2192 Settings \u2192 API & Integrations).\n2. Add your OpenAI credential to the three OpenAI nodes.\n3. Open the form URL, add links, then open the chat.\n\n### Requirements\nAn Apify account and an OpenAI API key. Files must be reachable by URL (public or shared links). Cost on Apify: about $0.002 per page, plus $0.005 per scanned page with OCR.\n\n### How to customize\nChange chunk size and OCR in **Settings**. The in-memory vector store is for testing: swap **Store chunks** and **Search documents** for Pinecone, Qdrant, Supabase or PGVector in production.",
+        "height": 960,
+        "width": 600,
+        "color": 1
+      },
+      "id": "3bdbbda8-cd52-497f-b890-97bdfceb3bc0",
+      "name": "Template description",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -760,
+        80
+      ]
+    },
+    {
+      "parameters": {
         "formTitle": "Add documents to the knowledge base",
-        "formDescription": "Paste links to PDF, Word, PowerPoint or Excel files (one per line). Each file is converted to Markdown, split into chunks and stored for the AI assistant.",
+        "formDescription": "Paste links to PDF, Word, PowerPoint or Excel files (one per line).",
         "formFields": {
           "values": [
             {
@@ -19,15 +35,44 @@
           "appendAttribution": false
         }
       },
-      "id": "a56cbde8-7ed7-43f6-8cb8-0ae42b6b187b",
+      "id": "1d39eced-2ff4-4913-9414-acb6b983932c",
       "name": "Add documents form",
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.2,
       "position": [
         0,
-        200
+        300
       ],
-      "webhookId": "66e74c50-1a40-4ae9-9582-fe27800001a5"
+      "webhookId": "bffac2fb-3ccd-4cf2-be17-9c002342cd04"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "65873026-5d5c-4df6-aead-9d6713d3ed2d",
+              "name": "chunkSizeTokens",
+              "type": "number",
+              "value": 250
+            },
+            {
+              "id": "eeb60e1a-7d79-4da6-9c15-cce46e128b91",
+              "name": "ocrScannedPdfs",
+              "type": "boolean",
+              "value": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a01c5e97-ec2d-4e3c-bd27-634ad7d17f7f",
+      "name": "Settings",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        220,
+        300
+      ]
     },
     {
       "parameters": {
@@ -37,23 +82,23 @@
         "genericAuthType": "httpHeaderAuth",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ urls: $json['Document links'].split(/\\s+/).filter(u => u.startsWith('http')).map(url => ({ url })), outputFormat: 'markdown', chunking: 'heading', chunkSize: 250, chunkSizeUnit: 'tokens', chunkOverlap: 30, includePageNumbers: true, ocr: true }) }}",
+        "jsonBody": "={{ JSON.stringify({ urls: $('Add documents form').first().json['Document links'].split(/\\s+/).filter(u => u.startsWith('http')).map(url => ({ url })), outputFormat: 'markdown', chunking: 'heading', chunkSize: $json.chunkSizeTokens, chunkSizeUnit: 'tokens', chunkOverlap: 30, includePageNumbers: true, ocr: $json.ocrScannedPdfs }) }}",
         "options": {
           "timeout": 600000
         }
       },
-      "id": "52008db2-3fa9-4700-8832-2ed07f5fd58c",
-      "name": "Convert to Markdown chunks (Apify)",
+      "id": "c5d895e9-3ba1-4eeb-a80c-9c3b26661159",
+      "name": "Convert to Markdown chunks",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        240,
-        200
+        440,
+        300
       ],
       "credentials": {
         "httpHeaderAuth": {
           "id": "",
-          "name": "Apify API token (Header Auth)"
+          "name": "Apify API token"
         }
       }
     },
@@ -61,13 +106,13 @@
       "parameters": {
         "jsCode": "// One item per chunk, ready for the vector store.\nreturn $input.all()\n  .filter(i => i.json.status !== 'failed' && i.json.text)\n  .map(i => ({ json: {\n    text: i.json.text,\n    source: i.json.fileName || i.json.sourceUrl || '',\n    page: i.json.metadata?.pageStart ?? '',\n    heading: i.json.metadata?.headingPath ?? '',\n  } }));"
       },
-      "id": "31f449a9-d324-4276-a43c-7b223ab4ac76",
+      "id": "fe84eb1f-645e-442c-8f6a-204218437df5",
       "name": "Prepare chunks",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        480,
-        200
+        660,
+        300
       ]
     },
     {
@@ -79,14 +124,33 @@
           "value": "documents"
         }
       },
-      "id": "dec4b830-8d6e-4b41-86ad-2e3868fb1242",
+      "id": "807494a8-f633-42f0-a559-72cdbdf29682",
       "name": "Store chunks",
       "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
       "typeVersion": 1.3,
       "position": [
-        720,
-        200
+        880,
+        300
       ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "c860fafa-bb98-4ee8-9562-bb8f9a734f6c",
+      "name": "OpenAI embeddings",
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        820,
+        520
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "",
+          "name": "OpenAI account"
+        }
+      }
     },
     {
       "parameters": {
@@ -111,47 +175,28 @@
           }
         }
       },
-      "id": "7053c2e6-2243-4b52-a777-84a11752e804",
+      "id": "11e9df79-04fc-4927-a038-67d58743dd87",
       "name": "Chunk loader",
       "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
       "typeVersion": 1.1,
       "position": [
-        840,
-        420
+        1020,
+        520
       ]
     },
     {
       "parameters": {
         "options": {}
       },
-      "id": "db26dbeb-ccdc-4816-ae66-672eef932614",
-      "name": "OpenAI embeddings",
-      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
-      "typeVersion": 1.2,
-      "position": [
-        640,
-        420
-      ],
-      "credentials": {
-        "openAiApi": {
-          "id": "",
-          "name": "OpenAI account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "id": "5e08c52e-eba5-4dcc-8bed-e2ab5b8759fb",
+      "id": "b27af65e-d66a-4988-b169-2da78fa940f0",
       "name": "Chat",
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.1,
       "position": [
         0,
-        700
+        900
       ],
-      "webhookId": "3cb7831f-adbb-42ab-8de5-d9ad78c653ab"
+      "webhookId": "b4666daf-91aa-48a4-b91f-286dc68937b2"
     },
     {
       "parameters": {
@@ -159,26 +204,26 @@
           "systemMessage": "You answer questions using only the documents in the knowledge base. Always search it first. Cite the source file and page for every answer. If the answer is not in the documents, say so."
         }
       },
-      "id": "e6063eab-9b19-490b-9f7e-6f3965375b88",
+      "id": "69951715-c9da-4e3f-a870-60fc1c18e9e7",
       "name": "Document assistant",
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.7,
       "position": [
         260,
-        700
+        900
       ]
     },
     {
       "parameters": {
         "options": {}
       },
-      "id": "cf5357a5-be57-4e59-84f1-c4e8690e91d2",
+      "id": "c7d622ea-306c-48bc-b39a-882c6dc7254f",
       "name": "OpenAI chat model",
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
         200,
-        920
+        1120
       ],
       "credentials": {
         "openAiApi": {
@@ -199,26 +244,26 @@
         },
         "topK": 6
       },
-      "id": "ecf6927e-4f8c-41af-9e21-6f394afc260e",
+      "id": "bcd8f4f3-04fa-4719-828f-761dd77ecb30",
       "name": "Search documents",
       "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
       "typeVersion": 1.3,
       "position": [
         440,
-        920
+        1120
       ]
     },
     {
       "parameters": {
         "options": {}
       },
-      "id": "a7cc2a77-341b-4f48-9afa-8bfcd9713051",
+      "id": "a2736771-58e7-4c5e-8997-e002017b9f97",
       "name": "OpenAI embeddings (search)",
       "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
       "typeVersion": 1.2,
       "position": [
         440,
-        1120
+        1320
       ],
       "credentials": {
         "openAiApi": {
@@ -229,18 +274,34 @@
     },
     {
       "parameters": {
-        "content": "## Chat with your PDFs, Word and PowerPoint files\n\n**Top:** paste document links in the form. The **Document to Markdown for AI & RAG** Actor on Apify converts each file to clean Markdown (tables, headings, OCR for scans) and splits it by heading into chunks with page numbers. The chunks go into a vector store.\n\n**Bottom:** ask questions in the chat. The assistant searches the chunks and cites file and page.\n\n### Setup\n1. Create a *Header Auth* credential: name `Authorization`, value `Bearer YOUR_APIFY_TOKEN`.\n2. Add your OpenAI credential to the three OpenAI nodes.\n3. Open the form, add links, then open the chat.\n\nThe in-memory store is for testing. For production, swap **Store chunks** and **Search documents** for Pinecone, Qdrant, Supabase or PGVector.\n\nCost: about $0.002 per page on Apify (+$0.005 per scanned page with OCR).",
+        "content": "### 1. Add documents\nPaste file links in the form. Apify converts them to Markdown chunks with page numbers; they are embedded and stored.",
         "height": 560,
-        "width": 440,
-        "color": 5
+        "width": 1180,
+        "color": 7
       },
-      "id": "3ddf953b-a1d2-433a-b3ad-1692609c3d57",
-      "name": "Sticky Note",
+      "id": "c77734fc-cf52-44c0-bb24-12fb5b6ae913",
+      "name": "Step 1",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -520,
-        160
+        -20,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### 2. Ask questions\nThe assistant searches the stored chunks and answers with file and page citations.",
+        "height": 740,
+        "width": 760,
+        "color": 7
+      },
+      "id": "0987e2a4-1a4c-41b7-b463-b4cfb92e8516",
+      "name": "Step 2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -20,
+        740
       ]
     }
   ],
@@ -249,14 +310,25 @@
       "main": [
         [
           {
-            "node": "Convert to Markdown chunks (Apify)",
+            "node": "Settings",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Convert to Markdown chunks (Apify)": {
+    "Settings": {
+      "main": [
+        [
+          {
+            "node": "Convert to Markdown chunks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to Markdown chunks": {
       "main": [
         [
           {
