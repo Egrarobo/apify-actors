@@ -96,3 +96,7 @@ Run it from **Make, Zapier, n8n** or the Apify API. For example, when a student 
 **Can each person get a different course or date?** Yes. Add a column and reference it with `{{column}}`.
 
 **Is my data stored?** Only in your own Apify storage for this run, under your account's retention settings.
+
+## n8n template
+
+Send every person their certificate by email straight from a Google Sheet: import [this ready-made n8n workflow](https://github.com/Egrarobo/apify-actors/blob/main/n8n-templates/certificates-from-google-sheets.json) (Workflows → Import from file). It calls this Actor with an HTTP Request node, so no community node is needed.

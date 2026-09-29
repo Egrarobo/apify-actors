@@ -128,3 +128,7 @@ Each item's `text` + `metadata` maps directly to a LangChain `Document(page_cont
 **Why tokens?** Embedding models and LLM context windows are limited in tokens, not characters. Token counts use `cl100k_base` (OpenAI `text-embedding-3-*`, GPT-4); other tokenizers are usually within ±15%.
 
 **Is my data stored?** Only in your own Apify storage for this run, under your account's retention settings.
+
+## n8n template
+
+Chat with your PDFs, Word and PowerPoint files: Markdown chunks into a vector store, with page citations: import [this ready-made n8n workflow](https://github.com/Egrarobo/apify-actors/blob/main/n8n-templates/document-to-markdown-rag.json) (Workflows → Import from file). It calls this Actor with an HTTP Request node, so no community node is needed.

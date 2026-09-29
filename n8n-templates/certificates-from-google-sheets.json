@@ -1,0 +1,250 @@
+{
+  "name": "Generate and email PDF certificates from Google Sheets with Apify",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "61a2a35f-c4f1-4132-bc37-55e6b7302001",
+      "name": "Run manually",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "mode": "url",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "options": {}
+      },
+      "id": "3fe00238-11c3-449c-96c2-739dc0592f5b",
+      "name": "Read participants",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        220,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Turns the sheet rows into the Actor input.\n// Required columns: name, email. Any other column (course, date, hours...) can be used in the text as {{column}}.\nconst rows = $input.all().map(i => i.json).filter(r => r.name && r.email);\nconst year = new Date().getFullYear();\nconst records = rows.map((r, i) => ({\n  ...r,\n  certificateId: r.certificateId || `CERT-${year}-${String(i + 1).padStart(4, '0')}`,\n}));\n\nreturn [{\n  json: {\n    records,\n    actorInput: {\n      records,\n      template: 'certificate-classic',           // or certificate-modern, diploma-kids\n      title: 'Certificate',\n      subtitle: 'of completion',\n      body: 'Awarded for successfully completing {{course}}.',\n      date: '{{date}}',\n      issuer: 'Your School Name',\n      signature1Name: 'Jane Doe',\n      signature1Title: 'Director',\n      accentColor: '#1f4e8c',\n      outputZip: true,\n    },\n  },\n}];"
+      },
+      "id": "919f3568-9222-4beb-ac3f-6c9ca211a428",
+      "name": "Build Actor input",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/acts/egra_van~bulk-certificate-pdf-generator/run-sync-get-dataset-items",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.actorInput) }}",
+        "options": {
+          "timeout": 300000
+        }
+      },
+      "id": "b8e1a1a6-60ce-4688-84ee-96fc0f777237",
+      "name": "Generate PDFs on Apify",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        660,
+        300
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "",
+          "name": "Apify API token (Header Auth)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Adds each person's email back to the generated certificate.\nconst records = $('Build Actor input').first().json.records;\nconst byId = Object.fromEntries(records.map(r => [r.certificateId, r]));\nreturn $input.all()\n  .map(item => {\n    const person = byId[item.json.certificateId] || {};\n    return { json: { ...item.json, email: person.email, course: person.course || '' } };\n  })\n  .filter(item => item.json.email && item.json.pdfUrl);"
+      },
+      "id": "8e87404a-bb8e-42b4-9074-db0ab31f719e",
+      "name": "Match emails",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        880,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.pdfUrl }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "data"
+            }
+          }
+        }
+      },
+      "id": "1e1e2738-0c94-44ef-9cf3-2423324f3824",
+      "name": "Download PDF",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1100,
+        300
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "",
+          "name": "Apify API token (Header Auth)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Match emails').item.json.email }}",
+        "subject": "=Your certificate: {{ $('Match emails').item.json.course }}",
+        "emailType": "html",
+        "message": "=<p>Hello {{ $('Match emails').item.json.name }},</p><p>Congratulations! Your certificate is attached.</p><p>Certificate ID: {{ $('Match emails').item.json.certificateId }}</p>",
+        "options": {
+          "appendAttribution": false,
+          "attachmentsUi": {
+            "attachmentsBinary": [
+              {
+                "property": "data"
+              }
+            ]
+          }
+        }
+      },
+      "id": "8fb2d4e3-090e-4c88-93a2-654a9167cada",
+      "name": "Email certificate",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1320,
+        300
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "",
+          "name": "Gmail account"
+        }
+      },
+      "webhookId": "f4acd56a-75c8-4b89-97d3-0bbf8fc544fb"
+    },
+    {
+      "parameters": {
+        "content": "## Bulk certificates from Google Sheets\n\nReads a list of people from a Google Sheet, generates one PDF certificate per person with the **Bulk Certificate & Diploma PDF Generator** on Apify, and emails each person their PDF.\n\n### Setup (5 minutes)\n1. Sheet columns: `name`, `email`, plus anything you want in the text (`course`, `date`, `hours`...).\n2. **Read participants**: pick your sheet.\n3. **Generate PDFs on Apify**: create a *Header Auth* credential with name `Authorization` and value `Bearer YOUR_APIFY_TOKEN` (Apify Console \u2192 Settings \u2192 API & Integrations). Use it in both HTTP nodes.\n4. **Build Actor input**: change the title, text, issuer, signatures and design.\n5. **Email certificate**: connect Gmail and edit the message.\n\nCost: about $0.005 per certificate, paid on Apify.",
+        "height": 520,
+        "width": 420,
+        "color": 5
+      },
+      "id": "f091ce75-49f3-4817-8777-8e3e407b376b",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -40,
+        -260
+      ]
+    }
+  ],
+  "connections": {
+    "Run manually": {
+      "main": [
+        [
+          {
+            "node": "Read participants",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read participants": {
+      "main": [
+        [
+          {
+            "node": "Build Actor input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Actor input": {
+      "main": [
+        [
+          {
+            "node": "Generate PDFs on Apify",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate PDFs on Apify": {
+      "main": [
+        [
+          {
+            "node": "Match emails",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Match emails": {
+      "main": [
+        [
+          {
+            "node": "Download PDF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download PDF": {
+      "main": [
+        [
+          {
+            "node": "Email certificate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}
