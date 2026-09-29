@@ -66,6 +66,17 @@ Google compares at most 5 terms at a time, and every comparison is scaled to its
 
 Pick an anchor that is stable and roughly as popular as your terms. If the anchor averages below 10 in a group, the log warns you: Google rounds to whole numbers, so tiny anchors make the rescaling imprecise. Without an anchor, more than 5 terms are simply split into groups of 5 (not comparable between groups), and `comparisonMode: "separate"` gives every term its own 0-100 scale.
 
+## Python: drop-in pytrends replacement
+
+Tired of `429 Too Many Requests` in pytrends? The free, MIT-licensed [pytrends-alternative](https://github.com/Egrarobo/pytrends-alternative) library keeps the pytrends interface (`TrendReq`, `build_payload`, `interest_over_time`, `interest_by_region`, `related_queries`, `trending_searches`) and runs the requests through this Actor:
+
+```python
+from gtrends_api import TrendReq   # was: from pytrends.request import TrendReq
+pytrends = TrendReq()              # uses your APIFY_TOKEN
+pytrends.build_payload(["coffee", "tea"], timeframe="today 12-m", geo="US")
+df = pytrends.interest_over_time()
+```
+
 ## Output
 
 ### One item per term
