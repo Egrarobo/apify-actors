@@ -1,0 +1,594 @@
+{
+  "name": "Monitor competitor websites and get AI change summaries with screenshots",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Monitor competitor websites and get AI change summaries with screenshots\n\n### Who's it for\nE-commerce teams, SaaS companies, agencies and sales teams who want to know when a competitor changes prices, plans, offers, products or messaging, without checking their websites by hand.\n\n### How it works\n1. Every morning **Daily check** reads the pages you watch from **Competitor pages** (Google Sheets).\n2. **Download page** gets each page and **Split into text blocks** turns it into clean lines of text (headings, prices, list items, paragraphs).\n3. **Compare with last check** sends the lines to the **Dataset Change Monitor** on Apify. It remembers every page and returns only the lines that were added or removed since the previous check. The first run only saves a baseline.\n4. For every page that changed, **Take screenshot** captures it with **Website Screenshot Pro** on Apify (cookie banners and ads hidden).\n5. **Summarize change** (OpenAI) explains what changed in plain words, labels it (pricing, product, offer, content...) and ignores noise such as dates or counters.\n6. Important changes are emailed with **Send alert** (Gmail) and logged with **Log change** (Google Sheets).\n\n### How to set up\n1. Create a Google Sheet with a tab `Pages` (columns `name`, `url`) and a tab `Changes` (can be empty). Pick them in **Competitor pages** and **Log change**.\n2. Create a **Header Auth** credential named `Apify API token`: name `Authorization`, value `Bearer YOUR_APIFY_TOKEN` (Apify Console → Settings → API & Integrations). Select it in **Compare with last check** and **Take screenshot**.\n3. Connect OpenAI, Gmail and Google Sheets.\n4. Put your email in **Settings**. Run the workflow once to save the baseline, then activate it.\n\n### Requirements\nApify account, OpenAI API key, Gmail, Google Sheets. Apify cost: about $0.01 per page check plus $0.005 per screenshot of a changed page, so 10 pages checked daily cost about $3 a month.\n\n### How to customize\n- Check more often by changing **Daily check** (for example every 6 hours).\n- Set `onlyImportant` to false in **Settings** to get every change, including small ones.\n- Replace Gmail with Slack, Microsoft Teams or Telegram.\n- Screenshot links expire with the Apify run storage (7 days on the free plan). Add a Google Drive node if you want to keep them.\n- Pages that need JavaScript to show their content may return little text; point the sheet to the pricing or product page itself, not the home page.",
+        "height": 1100,
+        "width": 620,
+        "color": 4
+      },
+      "id": "a7f873a9-42e3-42a8-948a-c2b0584ec8e9",
+      "name": "Template description",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -780,
+        -140
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### 1. Pages to watch\nOne row per page in Google Sheets: `name`, `url`. Your alert email is in **Settings**.",
+        "height": 380,
+        "width": 640,
+        "color": 7
+      },
+      "id": "6cac1f09-3568-4f1e-be01-26a935bce047",
+      "name": "Step 1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -120,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### 2. Read each page\nThe page is downloaded and split into lines of text.",
+        "height": 380,
+        "width": 460,
+        "color": 7
+      },
+      "id": "d1bb4430-87e2-4df7-991d-2cf6bd3dbb2c",
+      "name": "Step 2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        560,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### 3. What changed since last time\nThe Dataset Change Monitor on Apify keeps a memory of each page and returns only added and removed lines. A screenshot is taken only for pages that changed.",
+        "height": 380,
+        "width": 680,
+        "color": 7
+      },
+      "id": "bbded266-9659-4455-a516-4196a5029235",
+      "name": "Step 3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1060,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### 4. Summary and alert\nOpenAI explains the change and skips noise. Important changes are emailed and logged.",
+        "height": 560,
+        "width": 900,
+        "color": 7
+      },
+      "id": "7931bda3-1740-4ce5-a7b8-b6e30e3cae83",
+      "name": "Step 4",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1780,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "days",
+              "daysInterval": 1,
+              "triggerAtHour": 8
+            }
+          ]
+        }
+      },
+      "id": "89986fe3-477e-46cc-9330-b0951935f64e",
+      "name": "Daily check",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -80,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4da42050-ec5e-4565-bb13-bda03138c61e",
+              "name": "alertEmail",
+              "type": "string",
+              "value": "you@example.com"
+            },
+            {
+              "id": "584d33ec-5b75-4d36-84d8-d77be6d64bd2",
+              "name": "monitorPrefix",
+              "type": "string",
+              "value": "competitor-pages"
+            },
+            {
+              "id": "5ee34273-39d0-4bcd-8e06-a65c61327b38",
+              "name": "onlyImportant",
+              "type": "boolean",
+              "value": true
+            },
+            {
+              "id": "a306ce10-86c9-4e1c-a27f-6b517ea442c4",
+              "name": "summaryLanguage",
+              "type": "string",
+              "value": "English"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "93f24e02-7660-49a3-846e-7f35cf48338d",
+      "name": "Settings",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        120,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "mode": "url",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "options": {}
+      },
+      "id": "3a24f13c-70a8-4971-92dd-113bd215ad75",
+      "name": "Competitor pages",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        340,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0 Safari/537.36"
+            },
+            {
+              "name": "Accept-Language",
+              "value": "en-US,en;q=0.9"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 30000,
+          "response": {
+            "response": {
+              "neverError": true,
+              "responseFormat": "text",
+              "outputPropertyName": "html"
+            }
+          }
+        }
+      },
+      "id": "2357541f-4ad2-45a3-a5b6-002b9f90236d",
+      "name": "Download page",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        600,
+        300
+      ],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Turn each downloaded page into clean lines of text for the change monitor\nconst pages = $('Competitor pages').all();\nconst settings = $('Settings').first().json;\n\nconst hash = s => {\n  let h = 5381;\n  for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) >>> 0;\n  return h.toString(36);\n};\nconst decode = s => s\n  .replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '\"')\n  .replace(/&#39;|&apos;/g, \"'\").replace(/&lt;/g, '<').replace(/&gt;/g, '>')\n  .replace(/&#(\\d+);/g, (_, n) => String.fromCharCode(Number(n)));\n\nconst out = [];\n$input.all().forEach((item, i) => {\n  const page = pages[i]?.json || {};\n  const url = String(page.url || '').trim();\n  if (!url) return;\n  const html = String(item.json.html || '');\n  const lines = decode(\n    html\n      .replace(/<(script|style|noscript|svg|template|iframe)[\\s\\S]*?<\\/\\1>/gi, ' ')\n      .replace(/<!--[\\s\\S]*?-->/g, ' ')\n      .replace(/<\\/?(br|p|div|li|h[1-6]|tr|td|th|section|article|header|footer|nav|ul|ol|table|title|main|aside|form|button|dd|dt|option|label)\\b[^>]*>/gi, '\\n')\n      .replace(/<[^>]+>/g, ' ')\n  )\n    .split('\\n')\n    .map(l => l.replace(/\\s+/g, ' ').trim())\n    .filter(l => l.length >= 2 && l.length <= 600);\n  const unique = [...new Set(lines)].slice(0, 1500);\n\n  // Pages that failed or came back almost empty are skipped, so they are not reported as \"everything removed\"\n  if (unique.length < 5) return;\n\n  out.push({\n    json: {\n      name: page.name || url,\n      url,\n      lineCount: unique.length,\n      actorInput: {\n        monitorName: `${settings.monitorPrefix || 'competitor-pages'}-${hash(url)}`,\n        // context = the two lines above, so a changed price still shows which plan it belongs to\n        items: unique.map((text, n) => ({ line: text, context: unique.slice(Math.max(0, n - 2), n).join(' / ') })),\n        idFields: ['line'],\n        reportNew: true,\n        trackRemoved: true,\n        reportChanged: false,\n        detailedDiff: true,\n      },\n    },\n  });\n});\nreturn out;"
+      },
+      "id": "fd428171-f45e-45d6-9cd6-a676ea1b87a0",
+      "name": "Split into text blocks",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        820,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/acts/egra_van~dataset-change-monitor/run-sync-get-dataset-items",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.actorInput) }}",
+        "options": {
+          "timeout": 300000
+        }
+      },
+      "id": "cd0ddbc9-3210-4fa3-b760-2cc36e9195de",
+      "name": "Compare with last check",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1100,
+        300
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "",
+          "name": "Apify API token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Group the added and removed lines by page\nconst pages = new Map(\n  $('Split into text blocks').all().map(p => [p.json.actorInput.monitorName, p.json])\n);\nconst byPage = new Map();\nfor (const { json: c } of $input.all()) {\n  if (!c.changeType || !pages.has(c.monitorName)) continue;\n  const page = pages.get(c.monitorName);\n  if (!byPage.has(page.url)) byPage.set(page.url, { name: page.name, url: page.url, added: [], removed: [] });\n  const line = { text: c.key || c.item?.line || '', context: c.item?.context || '' };\n  if (c.changeType === 'new') byPage.get(page.url).added.push(line);\n  if (c.changeType === 'removed') byPage.get(page.url).removed.push(line);\n}\nreturn [...byPage.values()].map(p => ({ json: p }));"
+      },
+      "id": "aa113b28-e3d1-470d-b6a6-c2642129fffe",
+      "name": "Group changes by page",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1320,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/acts/egra_van~website-screenshot-pro/run-sync-get-dataset-items",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ urls: [$json.url], fullPage: true, format: 'jpeg', quality: 70, hideCookieBanners: true, blockAds: true }) }}",
+        "options": {
+          "timeout": 300000
+        }
+      },
+      "id": "a6d0ed9a-dc6a-4661-9550-34076916e90c",
+      "name": "Take screenshot",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1540,
+        300
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "",
+          "name": "Apify API token"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Put the screenshot link next to each changed page\nconst pages = $('Group changes by page').all();\nconst shots = $input.all();\nreturn pages.map((p, i) => {\n  const shot = shots[i]?.json || {};\n  const clip = list => list.slice(0, 60)\n    .map(l => '- ' + l.text.slice(0, 300) + (l.context ? `  [below: ${l.context.slice(0, 150)}]` : ''))\n    .join('\\n') || '(none)';\n  return {\n    json: {\n      ...p.json,\n      screenshotUrl: shot.screenshotUrl || '',\n      addedText: clip(p.json.added),\n      removedText: clip(p.json.removed),\n    },\n  };\n});"
+      },
+      "id": "fcb9cdec-b06e-4f57-99d7-35fc0540fc73",
+      "name": "Attach screenshot",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1760,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You monitor competitor websites. Compare the lines removed from and added to this page since the last check and explain what changed.\n\nPage: {{ $json.name }} ({{ $json.url }})\n\nRemoved lines:\n{{ $json.removedText }}\n\nAdded lines:\n{{ $json.addedText }}\n\nRules:\n- Write in {{ $('Settings').first().json.summaryLanguage }}.\n- Each line shows in [below: ...] the lines above it on the page. Use it to know what a line belongs to, and pair removed and added lines that belong together (for example an old and a new price) into one change: \"Pro plan price: $49 → $39\".\n- important is false if the only differences are noise: dates, times, counters, view numbers, random IDs, cookie text, rotating testimonials or reordered menu items.\n- category is one of: pricing, product, offer, content, jobs, other.\n- summary is one short sentence. changes lists at most 6 concrete changes.\n- Only describe what is in the lines. Do not guess reasons.",
+        "hasOutputParser": true
+      },
+      "id": "a9299de7-85db-4e33-b3dc-8f1823d0d975",
+      "name": "Summarize change",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        1980,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {
+          "temperature": 0.2
+        }
+      },
+      "id": "81ac4311-8030-4403-93f7-69f7a4d9e6ab",
+      "name": "OpenAI chat model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1920,
+        520
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schemaType": "fromJson",
+        "jsonSchemaExample": "{\n  \"important\": true,\n  \"category\": \"pricing\",\n  \"summary\": \"The Pro plan is now cheaper and a new Team plan was added.\",\n  \"changes\": [\n    \"Pro plan price: $49 \\u2192 $39 per month\",\n    \"New plan: Team, $99 per month\"\n  ]\n}"
+      },
+      "id": "fea3b1c8-0083-461d-ad25-f1c52412294c",
+      "name": "Change format",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        2120,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Keep important changes (or all of them if onlyImportant is false)\nconst pages = $('Attach screenshot').all();\nconst onlyImportant = $('Settings').first().json.onlyImportant !== false;\nreturn $input.all()\n  .map((item, i) => {\n    const r = item.json.output || {};\n    const p = pages[i].json;\n    return {\n      json: {\n        date: new Date().toISOString().slice(0, 10),\n        name: p.name,\n        url: p.url,\n        important: r.important !== false,\n        category: r.category || 'other',\n        summary: r.summary || '',\n        details: (r.changes || []).join('\\n'),\n        linesAdded: p.added.length,\n        linesRemoved: p.removed.length,\n        screenshotUrl: p.screenshotUrl,\n      },\n    };\n  })\n  .filter(x => !onlyImportant || x.json.important);"
+      },
+      "id": "198c97be-ba87-43da-9996-22bbc68720a8",
+      "name": "Keep important changes",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2300,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Settings').first().json.alertEmail }}",
+        "subject": "={{ $json.name }} changed ({{ $json.category }}): {{ $json.summary }}",
+        "emailType": "html",
+        "message": "=<p><b>{{ $json.name }}</b> changed: {{ $json.summary }}</p><ul>{{ $json.details.split('\\n').filter(Boolean).map(l => '<li>' + l + '</li>').join('') }}</ul><p><a href=\"{{ $json.url }}\">Open page</a>{{ $json.screenshotUrl ? ' · <a href=\"' + $json.screenshotUrl + '\">Screenshot</a>' : '' }}</p>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "97d72aa0-3d2c-4171-b7e0-08230c35c03f",
+      "name": "Send alert",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        2540,
+        200
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "",
+          "name": "Gmail account"
+        }
+      },
+      "webhookId": "f55fa651-7a30-4802-a398-79cf0c7a3165"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "url",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": []
+        },
+        "options": {}
+      },
+      "id": "cd72cf31-3d63-49de-b0fb-a2f0592a61d0",
+      "name": "Log change",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2540,
+        420
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Daily check": {
+      "main": [
+        [
+          {
+            "node": "Settings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Settings": {
+      "main": [
+        [
+          {
+            "node": "Competitor pages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Competitor pages": {
+      "main": [
+        [
+          {
+            "node": "Download page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download page": {
+      "main": [
+        [
+          {
+            "node": "Split into text blocks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split into text blocks": {
+      "main": [
+        [
+          {
+            "node": "Compare with last check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compare with last check": {
+      "main": [
+        [
+          {
+            "node": "Group changes by page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Group changes by page": {
+      "main": [
+        [
+          {
+            "node": "Take screenshot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Take screenshot": {
+      "main": [
+        [
+          {
+            "node": "Attach screenshot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Attach screenshot": {
+      "main": [
+        [
+          {
+            "node": "Summarize change",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize change": {
+      "main": [
+        [
+          {
+            "node": "Keep important changes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Keep important changes": {
+      "main": [
+        [
+          {
+            "node": "Send alert",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Log change",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI chat model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Summarize change",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Change format": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Summarize change",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}
