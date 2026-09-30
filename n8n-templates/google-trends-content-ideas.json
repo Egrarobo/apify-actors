@@ -1,0 +1,498 @@
+{
+  "name": "Find rising keywords and draft SEO content briefs with Google Trends and OpenAI",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Find rising keywords and draft SEO content briefs with Google Trends and OpenAI\n\n### Who's it for\nSEO specialists, content marketers, bloggers, agencies and e-commerce teams who want to write about topics **before** they peak, instead of copying competitors.\n\n### How it works\n1. Every Monday the **Weekly schedule** starts the workflow.\n2. **Get rising searches** sends your seed keywords to the **Google Trends Scraper** on Apify and gets the rising and top related searches for each one (growth like `+350%` or `Breakout`). The scraper rotates IPs and sessions, so there are no `429` errors like with pytrends.\n3. **Pick rising queries** keeps the fastest-growing searches that are really about your keywords (Google Trends also lists unrelated searches), and removes duplicates.\n4. **Keep only new ideas** compares them with the ideas already in your sheet, so you only pay for and review fresh ones.\n5. **Write content brief** (OpenAI) gives each idea a search intent, content type, working title, outline, target keywords and a priority.\n6. **Save to Google Sheets** adds one row per idea, with a link to the Google Trends chart.\n\n### How to set up\n1. Create a Google Sheet (it can be empty) and pick it in **Read saved ideas** and **Save to Google Sheets**.\n2. Create a **Header Auth** credential named `Apify API token`: name `Authorization`, value `Bearer YOUR_APIFY_TOKEN` (Apify Console → Settings → API & Integrations). Select it in **Get rising searches**.\n3. Connect OpenAI in **OpenAI chat model**.\n4. Edit **Settings**: seed keywords (comma-separated), country, time range, number of ideas, brief language and a short description of your business. Set `onlyRelatedToSeed` to false to also see unrelated searches.\n\n### Requirements\nApify account (about $0.004 per seed keyword, so 10 keywords a week cost about $0.17 a month), OpenAI API key, Google Sheets.\n\n### How to customize\n- Change the day or time in **Weekly schedule**.\n- Use `today 1-m` for faster trends or `today 12-m` for more stable ones; leave country empty for worldwide.\n- Add a Slack, Gmail or Telegram node after **Save to Google Sheets** to get the new ideas as a message.\n- Edit the prompt in **Write content brief** to produce social posts, video ideas or product pages instead of articles.",
+        "height": 1040,
+        "width": 600,
+        "color": 4
+      },
+      "id": "77972aba-0509-4b36-8f40-ae7b931721e2",
+      "name": "Template description",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -760,
+        -120
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### 1. Settings\nSeed keywords, country, time range, how many ideas per week, brief language and a short description of your business.",
+        "height": 380,
+        "width": 440,
+        "color": 7
+      },
+      "id": "84bc762f-a683-4dae-88c2-37928f184082",
+      "name": "Step 1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -120,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### 2. Rising searches from Google Trends\nThe Google Trends Scraper on Apify returns rising and top related searches for each seed keyword. The best ones are kept.",
+        "height": 380,
+        "width": 460,
+        "color": 7
+      },
+      "id": "44c4d449-454a-4a70-b3bd-d20b51006ab9",
+      "name": "Step 2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        360,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### 3. Only new ideas\nIdeas already in your sheet are skipped, so every week you get fresh topics only.",
+        "height": 380,
+        "width": 460,
+        "color": 7
+      },
+      "id": "ca25c780-6ab7-4b73-aed4-1d350143f63f",
+      "name": "Step 3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        860,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### 4. Content brief and sheet\nOpenAI writes a short brief for each idea and it is saved as a new row.",
+        "height": 560,
+        "width": 700,
+        "color": 7
+      },
+      "id": "39e528df-5219-495a-bd9a-fe3dd9a9b6eb",
+      "name": "Step 4",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1360,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "weeksInterval": 1,
+              "triggerAtDay": [
+                1
+              ],
+              "triggerAtHour": 8
+            }
+          ]
+        }
+      },
+      "id": "59f56a17-c48e-4d0f-872f-8af5d557e3f6",
+      "name": "Weekly schedule",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -80,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5da94870-63a9-4068-8d5e-87284aa5db5c",
+              "name": "seedKeywords",
+              "type": "string",
+              "value": "n8n, ai agents, workflow automation"
+            },
+            {
+              "id": "a7c6077f-5818-4f0a-946b-753bc45b7816",
+              "name": "country",
+              "type": "string",
+              "value": "US"
+            },
+            {
+              "id": "9b3fa6b5-e547-48b9-92a4-b2492113d1c6",
+              "name": "timeRange",
+              "type": "string",
+              "value": "today 3-m"
+            },
+            {
+              "id": "5d0af95b-0da5-4934-a41d-d1da953e9b24",
+              "name": "maxIdeas",
+              "type": "number",
+              "value": 10
+            },
+            {
+              "id": "72963e20-bd04-4c58-b0a8-c19097b10b7d",
+              "name": "onlyRelatedToSeed",
+              "type": "boolean",
+              "value": true
+            },
+            {
+              "id": "ec014e76-7cac-4ee5-af4e-1ed2fe7267e2",
+              "name": "briefLanguage",
+              "type": "string",
+              "value": "English"
+            },
+            {
+              "id": "db81fd4f-4d11-4764-b399-c61ed522e2e7",
+              "name": "businessContext",
+              "type": "string",
+              "value": "We run a blog and YouTube channel about no-code automation for small businesses."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4d118573-6b7d-48c3-97e3-869d4e0c286c",
+      "name": "Settings",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        120,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Turn Settings into the input for the Google Trends Scraper\nconst s = $json;\nconst terms = String(s.seedKeywords || '')\n  .split(',')\n  .map(t => t.trim())\n  .filter(Boolean);\nif (!terms.length) throw new Error('Add at least one seed keyword in Settings');\n\nreturn [{\n  json: {\n    actorInput: {\n      searchTerms: terms,\n      comparisonMode: 'separate',\n      geo: s.country || '',\n      timeRange: s.timeRange || 'today 3-m',\n      interestOverTime: false,\n      relatedQueries: true,\n      maxRelatedItems: 25,\n    },\n  },\n}];"
+      },
+      "id": "d936adb5-2407-4334-a2c2-395ae072f6f5",
+      "name": "Build Actor input",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        400,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/acts/egra_van~google-trends-reliable/run-sync-get-dataset-items",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.actorInput) }}",
+        "options": {
+          "timeout": 300000
+        }
+      },
+      "id": "1f49fc22-2026-4df7-bc50-c5d020cf0a03",
+      "name": "Get rising searches",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        620,
+        300
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "",
+          "name": "Apify API token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Collect rising searches (and strong top searches) for every seed keyword\nconst settings = $('Settings').first().json;\nconst seeds = new Set(\n  String(settings.seedKeywords || '').split(',').map(t => t.trim().toLowerCase()).filter(Boolean)\n);\nconst maxIdeas = Number(settings.maxIdeas) || 10;\nconst onlyRelated = settings.onlyRelatedToSeed !== false;\nconst ideas = new Map();\n// Google Trends also lists unrelated searches (for example \"how to cook pasta\" for \"ai agents\").\n// Keep a query only if it shares a real word with its seed keyword.\nconst words = t => String(t).toLowerCase().split(/[^\\p{L}\\p{N}]+/u).filter(w => w.length > 2);\nconst isRelated = (query, seed) => {\n  const seedWords = words(seed);\n  const queryWords = new Set(words(query));\n  if (!seedWords.length) return true;\n  return seedWords.some(w => queryWords.has(w) || [...queryWords].some(q => q.startsWith(w) || (w.startsWith(q) && q.length >= w.length - 2)));\n};\n\nfor (const { json: item } of $input.all()) {\n  if (item.type !== 'term' || item.status !== 'ok') continue;\n  const lists = [\n    ['rising', item.relatedQueriesRising || []],\n    ['top', item.relatedQueriesTop || []],\n  ];\n  for (const [list, rows] of lists) {\n    for (const q of rows) {\n      const query = String(q.query || '').trim();\n      const key = query.toLowerCase();\n      if (!query || seeds.has(key)) continue;\n      if (onlyRelated && !isRelated(query, item.term)) continue;\n      // Breakout = growth over 5000%; rising values are % growth, top values are 0-100\n      const score = list === 'rising'\n        ? (q.isBreakout ? 100000 : Number(q.value) || 0)\n        : (Number(q.value) || 0) / 10;\n      const prev = ideas.get(key);\n      if (prev && prev.score >= score) continue;\n      ideas.set(key, {\n        key,\n        query,\n        seedKeyword: item.term,\n        trend: list === 'rising' ? (q.formattedValue || String(q.value)) : 'Top search',\n        score,\n        country: item.geo,\n        trendsLink: q.link || '',\n        relatedTop: (item.relatedQueriesTop || []).slice(0, 5).map(r => r.query).join(', '),\n      });\n    }\n  }\n}\n\nconst sorted = [...ideas.values()].sort((a, b) => b.score - a.score);\n// Keep extra candidates, the next step removes ideas you already have\nreturn sorted.slice(0, maxIdeas * 3).map(json => ({ json }));"
+      },
+      "id": "904a846f-a53e-4ef3-9bc4-8a6293301eb3",
+      "name": "Pick rising queries",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        840,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "mode": "url",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "options": {}
+      },
+      "id": "0bcad149-a093-44fd-a8a6-579768eb8d7b",
+      "name": "Read saved ideas",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1060,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": "Google Sheets account"
+        }
+      },
+      "executeOnce": true,
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Skip ideas that are already in the sheet and keep the best N\nconst saved = new Set(\n  $input.all()\n    .map(i => String(i.json.query || '').trim().toLowerCase())\n    .filter(Boolean)\n);\nconst maxIdeas = Number($('Settings').first().json.maxIdeas) || 10;\n\nreturn $('Pick rising queries').all()\n  .filter(i => !saved.has(i.json.key))\n  .slice(0, maxIdeas)\n  .map(i => ({ json: i.json }));"
+      },
+      "id": "eb6f6fd6-62e8-4919-8381-af0ce52b7f5c",
+      "name": "Keep only new ideas",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1260,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an SEO content strategist. Write a short content brief for a search that is growing on Google right now.\n\nRising search: {{ $json.query }}\nSeed keyword: {{ $json.seedKeyword }}\nGrowth: {{ $json.trend }}\nCountry: {{ $json.country }}\nPopular related searches: {{ $json.relatedTop }}\nBusiness: {{ $('Settings').first().json.businessContext }}\n\nRules:\n- Write the brief in {{ $('Settings').first().json.briefLanguage }}.\n- searchIntent is one of: informational, commercial, transactional, navigational.\n- contentType is one of: blog post, landing page, comparison, how-to guide, video, social post.\n- outline has 4 to 6 section headings.\n- priority is high, medium or low, based on the growth and how well it fits the business.\n- Do not invent statistics or facts.",
+        "hasOutputParser": true
+      },
+      "id": "e3c33e7d-2860-4145-ad95-6ff8eb58ab47",
+      "name": "Write content brief",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        1480,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {
+          "temperature": 0.4
+        }
+      },
+      "id": "b749446c-92c2-406d-b936-eb0edabe3183",
+      "name": "OpenAI chat model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1420,
+        520
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schemaType": "fromJson",
+        "jsonSchemaExample": "{\n  \"searchIntent\": \"informational\",\n  \"contentType\": \"how-to guide\",\n  \"title\": \"How to Build Your First AI Agent Without Code\",\n  \"outline\": [\n    \"What an AI agent is\",\n    \"Tools you need\",\n    \"Step-by-step setup\",\n    \"Common mistakes\",\n    \"Next steps\"\n  ],\n  \"targetKeywords\": [\n    \"ai agent tutorial\",\n    \"no-code ai agent\"\n  ],\n  \"whyNow\": \"Searches for this topic are rising fast.\",\n  \"priority\": \"high\"\n}"
+      },
+      "id": "5138fd27-e291-464e-933a-4019ab455ca6",
+      "name": "Brief format",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1620,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// One flat row per idea for Google Sheets\nconst ideas = $('Keep only new ideas').all();\nreturn $input.all().map((item, i) => {\n  const idea = ideas[i].json;\n  const b = item.json.output || {};\n  return {\n    json: {\n      date: new Date().toISOString().slice(0, 10),\n      query: idea.query,\n      seedKeyword: idea.seedKeyword,\n      trend: idea.trend,\n      priority: b.priority || '',\n      searchIntent: b.searchIntent || '',\n      contentType: b.contentType || '',\n      title: b.title || '',\n      outline: (b.outline || []).join(' | '),\n      targetKeywords: (b.targetKeywords || []).join(', '),\n      whyNow: b.whyNow || '',\n      trendsLink: idea.trendsLink,\n    },\n  };\n});"
+      },
+      "id": "681ccdcc-e60c-4677-8ac9-3890cf4b6d0e",
+      "name": "Build sheet rows",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1800,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "url",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": []
+        },
+        "options": {}
+      },
+      "id": "bfd68c62-b7be-4f10-ac1c-e54574b42f6c",
+      "name": "Save to Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2000,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Weekly schedule": {
+      "main": [
+        [
+          {
+            "node": "Settings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Settings": {
+      "main": [
+        [
+          {
+            "node": "Build Actor input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Actor input": {
+      "main": [
+        [
+          {
+            "node": "Get rising searches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get rising searches": {
+      "main": [
+        [
+          {
+            "node": "Pick rising queries",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pick rising queries": {
+      "main": [
+        [
+          {
+            "node": "Read saved ideas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read saved ideas": {
+      "main": [
+        [
+          {
+            "node": "Keep only new ideas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Keep only new ideas": {
+      "main": [
+        [
+          {
+            "node": "Write content brief",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write content brief": {
+      "main": [
+        [
+          {
+            "node": "Build sheet rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build sheet rows": {
+      "main": [
+        [
+          {
+            "node": "Save to Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI chat model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Write content brief",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brief format": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Write content brief",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

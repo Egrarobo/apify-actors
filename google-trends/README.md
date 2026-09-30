@@ -66,6 +66,10 @@ Google compares at most 5 terms at a time, and every comparison is scaled to its
 
 Pick an anchor that is stable and roughly as popular as your terms. If the anchor averages below 10 in a group, the log warns you: Google rounds to whole numbers, so tiny anchors make the rescaling imprecise. Without an anchor, more than 5 terms are simply split into groups of 5 (not comparable between groups), and `comparisonMode: "separate"` gives every term its own 0-100 scale.
 
+## n8n: weekly content ideas from rising searches
+
+A ready-made [n8n workflow](https://github.com/Egrarobo/apify-actors/blob/main/n8n-templates/google-trends-content-ideas.json) runs this Actor every Monday for your seed keywords, keeps only rising searches that are related to them and new since last week, writes an SEO content brief for each with OpenAI and adds them to Google Sheets.
+
 ## Python: drop-in pytrends replacement
 
 Tired of `429 Too Many Requests` in pytrends? The free, MIT-licensed [pytrends-alternative](https://github.com/Egrarobo/pytrends-alternative) library keeps the pytrends interface (`TrendReq`, `build_payload`, `interest_over_time`, `interest_by_region`, `related_queries`, `trending_searches`) and runs the requests through this Actor:
