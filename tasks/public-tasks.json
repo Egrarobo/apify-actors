@@ -1,0 +1,425 @@
+[
+  {
+    "actor": "egra_van/google-trends-reliable",
+    "name": "etsy-rising-searches",
+    "title": "Find rising Google searches for Etsy sellers",
+    "description": "Checks Google Trends for five popular digital-product ideas sold on Etsy (printables, planners, SVG files, templates, stickers) over the last 12 months in the US. You get each idea's interest over time on one 0-100 scale, its peak week, and the top and rising related searches, which are new product ideas. Replace the keywords with your own.",
+    "seoTitle": "Rising Google Searches for Etsy Sellers (Google Trends)",
+    "seoDescription": "Find which Etsy product ideas people search for more and more: Google Trends interest, peak week and rising searches for any keywords.",
+    "input": {
+      "searchTerms": [
+        "digital planner",
+        "printable wall art",
+        "svg files",
+        "wedding invitation template",
+        "sticker sheet"
+      ],
+      "geo": "US",
+      "timeRange": "today 12-m",
+      "relatedQueries": true,
+      "maxRelatedItems": 10
+    },
+    "fields": [
+      "searchTerms",
+      "geo",
+      "timeRange",
+      "relatedQueries"
+    ],
+    "view": "related",
+    "cost": "5 keywords × $0.004 = $0.02"
+  },
+  {
+    "actor": "egra_van/google-trends-reliable",
+    "name": "kdp-keyword-demand-checker",
+    "title": "Check keyword demand for KDP low-content books",
+    "description": "Compares five low-content book niches on Google Trends over 5 years in the US: coloring books, password log books, gratitude journals, sudoku books and kids activity books. See which niche has the most search interest, when it peaks every year (publish before that), and which related searches are rising. Works for Payhip and Gumroad products too.",
+    "seoTitle": "KDP Keyword Demand Checker with Google Trends",
+    "seoDescription": "Check search demand and seasonality for KDP low-content book niches on Google Trends: 5-year interest, yearly peak and rising searches.",
+    "input": {
+      "searchTerms": [
+        "coloring book for adults",
+        "password log book",
+        "gratitude journal",
+        "sudoku book",
+        "activity book for kids"
+      ],
+      "geo": "US",
+      "timeRange": "today 5-y",
+      "relatedQueries": true,
+      "maxRelatedItems": 10
+    },
+    "fields": [
+      "searchTerms",
+      "geo",
+      "timeRange",
+      "relatedQueries"
+    ],
+    "view": "overview",
+    "cost": "5 keywords × $0.004 = $0.02"
+  },
+  {
+    "actor": "egra_van/google-trends-reliable",
+    "name": "seasonal-product-demand",
+    "title": "Find the seasonal peak of e-commerce products",
+    "description": "Shows 5 years of weekly Google Trends interest in the US for five seasonal products (air fryer, heated blanket, pool float, Halloween costume, Christmas lights), each on its own 0-100 scale. Use the peak date and the timeline to plan stock, ads and launches before demand starts. Replace the products with your own.",
+    "seoTitle": "Seasonal Product Demand from Google Trends (5 Years)",
+    "seoDescription": "When does demand for your product start every year? 5 years of weekly Google Trends interest, peak week and latest value for any product.",
+    "input": {
+      "searchTerms": [
+        "air fryer",
+        "heated blanket",
+        "pool float",
+        "halloween costume",
+        "christmas lights"
+      ],
+      "comparisonMode": "separate",
+      "geo": "US",
+      "timeRange": "today 5-y"
+    },
+    "fields": [
+      "searchTerms",
+      "comparisonMode",
+      "geo",
+      "timeRange"
+    ],
+    "view": "timeline",
+    "cost": "5 keywords × $0.004 = $0.02"
+  },
+  {
+    "actor": "egra_van/google-trends-reliable",
+    "name": "us-trending-searches-today",
+    "title": "Get today's trending Google searches in the US",
+    "description": "Returns the top 25 searches trending on Google in the United States right now, from Google's official Trending Now feed, with approximate search volume, start time, picture and related news articles. Run it on a schedule to keep a daily history of what America searches for.",
+    "seoTitle": "Today's Trending Google Searches in the US (JSON/CSV)",
+    "seoDescription": "The top 25 Google Trending Now searches in the US with search volume and news links, as JSON, CSV or Excel. Schedule it for a daily history.",
+    "input": {
+      "trendingNow": true,
+      "trendingGeo": "US",
+      "maxTrendingItems": 25,
+      "includeNews": true
+    },
+    "fields": [
+      "trendingNow",
+      "trendingGeo",
+      "maxTrendingItems"
+    ],
+    "view": "trending",
+    "cost": "25 searches × $0.001 = $0.025"
+  },
+  {
+    "actor": "egra_van/google-trends-reliable",
+    "name": "pytrends-alternative-interest-by-country",
+    "title": "Google Trends interest by country without pytrends 429",
+    "description": "Compares five programming languages (Python, JavaScript, TypeScript, Rust, Go) worldwide over 12 months and returns interest over time and interest by country as JSON. The same data pytrends returns from interest_over_time() and interest_by_region(), without '429 Too Many Requests': requests are paced and retried on new IPs.",
+    "seoTitle": "pytrends Alternative: Google Trends by Country, No 429",
+    "seoDescription": "Google Trends interest over time and by country as JSON, without pytrends 429 errors. Works from Python, n8n, Make or any HTTP client.",
+    "input": {
+      "searchTerms": [
+        "python",
+        "javascript",
+        "typescript",
+        "rust",
+        "golang"
+      ],
+      "timeRange": "today 12-m",
+      "interestByRegion": true,
+      "regionResolution": "COUNTRY"
+    },
+    "fields": [
+      "searchTerms",
+      "timeRange",
+      "interestByRegion",
+      "regionResolution"
+    ],
+    "view": "regions",
+    "cost": "5 keywords × $0.004 = $0.02"
+  },
+  {
+    "actor": "egra_van/google-hotels-prices",
+    "name": "paris-hotel-rate-parity",
+    "title": "Track Google Hotels prices in Paris for rate parity",
+    "description": "Gets 10 Paris hotels from Google Hotels with the price on every booking site Google compares (Booking.com, Expedia, Hotels.com, Agoda, the official site and more) for one night 30 days from today, in euros. Compare officialSitePrice with priceLowest and cheapestProvider to see where an online travel agency undercuts the hotel's own website.",
+    "seoTitle": "Paris Hotel Rate Parity Check from Google Hotels",
+    "seoDescription": "Compare each Paris hotel's official-site price with Booking.com, Expedia and 30+ booking sites on Google Hotels. Rate parity in one run.",
+    "input": {
+      "queries": [
+        "hotels in Paris"
+      ],
+      "maxHotelsPerQuery": 10,
+      "includeOffers": true,
+      "currency": "EUR"
+    },
+    "fields": [
+      "queries",
+      "maxHotelsPerQuery",
+      "includeOffers",
+      "currency"
+    ],
+    "view": "offers",
+    "cost": "10 hotels × ($0.003 + $0.002) = $0.05"
+  },
+  {
+    "actor": "egra_van/google-hotels-prices",
+    "name": "new-york-hotel-prices-booking-sites",
+    "title": "Compare New York hotel prices across booking sites",
+    "description": "Collects 10 hotels in Manhattan from Google Hotels with their nightly price, total with taxes, rating, reviews and the rate on every booking site, for one night 30 days from today, in US dollars. Change the dates, guests or search to price any stay.",
+    "seoTitle": "New York Hotel Prices on Every Booking Site",
+    "seoDescription": "Manhattan hotel prices from Google Hotels with each booking site's rate, taxes, rating and reviews. Change dates and guests for any stay.",
+    "input": {
+      "queries": [
+        "hotels in Manhattan, New York"
+      ],
+      "maxHotelsPerQuery": 10,
+      "includeOffers": true,
+      "currency": "USD"
+    },
+    "fields": [
+      "queries",
+      "maxHotelsPerQuery",
+      "includeOffers",
+      "currency"
+    ],
+    "view": "overview",
+    "cost": "10 hotels × ($0.003 + $0.002) = $0.05"
+  },
+  {
+    "actor": "egra_van/google-hotels-prices",
+    "name": "london-4-5-star-hotels-under-250",
+    "title": "Find 4 and 5-star hotels in London under £250",
+    "description": "Searches Google Hotels for London hotels with 4 or 5 stars, a guest rating of 4+ and a nightly price up to £250, for 2 adults and one night 30 days from today. You get up to 20 hotels with price, total with taxes, rating, reviews, address and GPS.",
+    "seoTitle": "4 and 5-Star London Hotels Under £250 (Google Hotels)",
+    "seoDescription": "4 and 5-star London hotels rated 4+ under £250 a night, from Google Hotels, with price, taxes, rating, address and GPS. Any dates.",
+    "input": {
+      "queries": [
+        "hotels in London"
+      ],
+      "hotelClass": [
+        "4",
+        "5"
+      ],
+      "minRating": "4",
+      "maxPrice": 250,
+      "currency": "GBP",
+      "country": "gb",
+      "maxHotelsPerQuery": 20
+    },
+    "fields": [
+      "queries",
+      "hotelClass",
+      "minRating",
+      "maxPrice",
+      "currency"
+    ],
+    "view": "overview",
+    "cost": "up to 20 hotels × $0.003 = $0.06"
+  },
+  {
+    "actor": "egra_van/google-hotels-prices",
+    "name": "las-vegas-strip-hotel-prices",
+    "title": "Monitor hotel prices on the Las Vegas Strip",
+    "description": "Gets 20 hotels on the Las Vegas Strip from Google Hotels with price per night, total with taxes and resort fees, deals like '20% less than usual', rating and star class, for one night 30 days from today. Schedule it daily to follow how Strip prices move before your dates.",
+    "seoTitle": "Las Vegas Strip Hotel Prices from Google Hotels",
+    "seoDescription": "Daily Las Vegas Strip hotel prices with taxes, resort fees, deals and ratings from Google Hotels. Schedule it to track price changes.",
+    "input": {
+      "queries": [
+        "hotels on the Las Vegas Strip"
+      ],
+      "maxHotelsPerQuery": 20,
+      "currency": "USD"
+    },
+    "fields": [
+      "queries",
+      "maxHotelsPerQuery",
+      "currency"
+    ],
+    "view": "overview",
+    "cost": "20 hotels × $0.003 = $0.06"
+  },
+  {
+    "actor": "egra_van/google-hotels-prices",
+    "name": "orlando-family-hotel-prices",
+    "title": "Compare family hotel prices near Disney World Orlando",
+    "description": "Prices 10 hotels near Walt Disney World in Orlando on Google Hotels for 2 adults and 2 children (ages 6 and 9), for 3 nights starting 30 days from today, with every booking site's rate. Children change the price on many sites, so this shows the real family price.",
+    "seoTitle": "Family Hotel Prices Near Disney World Orlando",
+    "seoDescription": "Real family prices for hotels near Walt Disney World: 2 adults + 2 children, 3 nights, every booking site's rate, from Google Hotels.",
+    "input": {
+      "queries": [
+        "hotels near Walt Disney World Orlando"
+      ],
+      "nights": 3,
+      "adults": 2,
+      "children": 2,
+      "childrenAges": [
+        "6",
+        "9"
+      ],
+      "maxHotelsPerQuery": 10,
+      "includeOffers": true,
+      "currency": "USD"
+    },
+    "fields": [
+      "queries",
+      "nights",
+      "adults",
+      "children",
+      "childrenAges",
+      "includeOffers"
+    ],
+    "view": "offers",
+    "cost": "10 hotels × ($0.003 + $0.002) = $0.05"
+  },
+  {
+    "actor": "egra_van/website-screenshot-pro",
+    "name": "bulk-screenshot-competitor-homepages-pdf",
+    "title": "Bulk screenshot competitor homepages to PDF",
+    "description": "Takes a full-page screenshot and an A4 PDF of 8 e-commerce platform homepages (Shopify, Wix, Squarespace, BigCommerce, WordPress.com, Webflow, HubSpot, Mailchimp) and packs them into one ZIP. Cookie banners are hidden and lazy images loaded. Paste your own competitors' URLs, up to hundreds per run.",
+    "seoTitle": "Bulk Screenshot Competitor Homepages to PDF and ZIP",
+    "seoDescription": "Full-page screenshots and PDFs of any list of competitor homepages in one run, in one ZIP, without cookie banners. Failed URLs are free.",
+    "input": {
+      "urls": [
+        "https://www.shopify.com",
+        "https://www.wix.com",
+        "https://www.squarespace.com",
+        "https://www.bigcommerce.com",
+        "https://wordpress.com",
+        "https://webflow.com",
+        "https://www.hubspot.com",
+        "https://mailchimp.com"
+      ],
+      "fullPage": true,
+      "format": "jpeg",
+      "quality": 80,
+      "savePdf": true,
+      "outputZip": true
+    },
+    "fields": [
+      "urls",
+      "fullPage",
+      "format",
+      "savePdf",
+      "outputZip"
+    ],
+    "view": "overview",
+    "cost": "8 × ($0.005 + $0.001) = $0.048"
+  },
+  {
+    "actor": "egra_van/website-screenshot-pro",
+    "name": "archive-saas-pricing-pages-pdf",
+    "title": "Archive SaaS pricing pages as PDF every month",
+    "description": "Saves a full-page screenshot and a PDF of five SaaS pricing pages (Stripe, Notion, Slack, Zoom, Dropbox), so you keep dated evidence of competitors' plans and prices. Schedule it monthly; each run is a separate, dated archive.",
+    "seoTitle": "Archive Competitor Pricing Pages as PDF (Monthly)",
+    "seoDescription": "Monthly full-page screenshots and PDFs of competitor pricing pages: a dated archive of plans and prices. Any URLs, cookie banners hidden.",
+    "input": {
+      "urls": [
+        "https://stripe.com/pricing",
+        "https://www.notion.com/pricing",
+        "https://slack.com/pricing",
+        "https://zoom.us/pricing",
+        "https://www.dropbox.com/plans"
+      ],
+      "fullPage": true,
+      "format": "jpeg",
+      "quality": 80,
+      "savePdf": true
+    },
+    "fields": [
+      "urls",
+      "fullPage",
+      "savePdf"
+    ],
+    "view": "overview",
+    "cost": "5 × ($0.005 + $0.001) = $0.03"
+  },
+  {
+    "actor": "egra_van/website-screenshot-pro",
+    "name": "mobile-screenshots-responsive-check",
+    "title": "Capture full-page mobile screenshots of any website",
+    "description": "Takes full-page screenshots of five websites as an iPhone-sized mobile browser sees them (390×844, retina, touch), to check responsive design, mobile layouts and above-the-fold content. Switch the device to tablet, laptop or desktop for the other breakpoints.",
+    "seoTitle": "Full-Page Mobile Screenshots of Any Website",
+    "seoDescription": "Full-page screenshots as a mobile phone sees the page (390×844, retina), for responsive design and mobile QA. Any list of URLs.",
+    "input": {
+      "urls": [
+        "https://apify.com",
+        "https://www.python.org",
+        "https://github.com",
+        "https://www.airbnb.com",
+        "https://www.bbc.com"
+      ],
+      "device": "mobile",
+      "fullPage": true,
+      "format": "webp",
+      "quality": 80
+    },
+    "fields": [
+      "urls",
+      "device",
+      "fullPage",
+      "format"
+    ],
+    "view": "overview",
+    "cost": "5 × $0.005 = $0.025"
+  },
+  {
+    "actor": "egra_van/website-screenshot-pro",
+    "name": "website-thumbnails-directory",
+    "title": "Make website thumbnails for a directory or link previews",
+    "description": "Captures the visible top of each page (no scrolling) at laptop size as small WebP images, ready for a website directory, a link preview or a portfolio. Ten example sites; paste your own list or read URLs from another Actor's results.",
+    "seoTitle": "Website Thumbnails in Bulk (WebP) for Directories",
+    "seoDescription": "Small WebP thumbnails of any list of websites, for directories, link previews and portfolios. Cookie banners hidden, ads blocked.",
+    "input": {
+      "urls": [
+        "https://apify.com",
+        "https://www.wikipedia.org",
+        "https://www.python.org",
+        "https://github.com",
+        "https://news.ycombinator.com",
+        "https://www.producthunt.com",
+        "https://webflow.com",
+        "https://www.shopify.com",
+        "https://stripe.com",
+        "https://www.notion.com"
+      ],
+      "device": "laptop",
+      "fullPage": false,
+      "format": "webp",
+      "quality": 70
+    },
+    "fields": [
+      "urls",
+      "device",
+      "fullPage",
+      "format"
+    ],
+    "view": "overview",
+    "cost": "10 × $0.005 = $0.05"
+  },
+  {
+    "actor": "egra_van/website-screenshot-pro",
+    "name": "screenshot-url-list-to-zip",
+    "title": "Screenshot a list of URLs and download one ZIP",
+    "description": "Turns a list of URLs into full-page JPEG screenshots and one screenshots.zip to download. Each URL also gets a row with HTTP status, final URL, page title and a plain-English reason if it failed. Failed and invalid URLs are not charged.",
+    "seoTitle": "Screenshot a List of URLs to One ZIP File",
+    "seoDescription": "Paste a list of URLs, get full-page screenshots and one ZIP to download, plus status and title for each page. Failed URLs are free.",
+    "input": {
+      "urls": [
+        "https://apify.com",
+        "https://www.wikipedia.org",
+        "https://www.python.org",
+        "https://github.com",
+        "https://news.ycombinator.com"
+      ],
+      "fullPage": true,
+      "format": "jpeg",
+      "quality": 75,
+      "outputZip": true
+    },
+    "fields": [
+      "urls",
+      "fullPage",
+      "format",
+      "outputZip"
+    ],
+    "view": "overview",
+    "cost": "5 × $0.005 = $0.025"
+  }
+]
