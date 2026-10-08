@@ -3,12 +3,12 @@
 **See what a hotel costs on Google Hotels for your dates, and what every booking site charges for the same room.** Type a city, a hotel name or paste a Google Hotels link; get the price per night and for the stay, taxes, rating, reviews and stars, and optionally the rate on Booking.com, Expedia, Hotels.com, Agoda, Trip.com, the hotel's official site and 30+ more.
 
 - **What you get:** one row per hotel with prices, `cheapestProvider`, `officialSitePrice`, rating, address, GPS, phone and photos; with offers on, a list of every booking site's price
-- **What it costs:** $3 per 1,000 hotels with a price (`$0.003` each), plus $2 per 1,000 hotels when you also load every booking site's price. Hotels without any price and failed runs are **free**.
+- **What it costs:** $3 per 1,000 hotels with a price (`$0.003` each), plus $2 per 1,000 hotels when you also load every booking site's price. Hotels without any price are **free**; failed runs cost only Apify's $0.00005 start fee.
 - **Try it now:** the form is prefilled with `hotels in Paris` (default dates: one night, 30 days from today, 2 adults). Click **Start**; 20 hotels cost about **$0.06**.
 
 ## Rate parity in one run: is the hotel's own website the cheapest?
 
-Hotels sign rate parity agreements, but online travel agencies often sell the same room for less. Turn on **Include prices of every booking site** and compare `officialSitePrice` with `priceLowest` and `cheapestProvider`.
+Most hotels want their own website to be the cheapest place to book, but online travel agencies often sell the same room for less. Turn on **Include prices of every booking site** and compare `officialSitePrice` with `priceLowest` and `cheapestProvider`.
 
 A real example from 8 Oct 2026 (`hotels in Paris`, 1 night on 7 Nov 2026, 2 adults, USD, 5 hotels with offers):
 
@@ -35,10 +35,10 @@ Input for the same check:
 
 To track **your own hotel and its competitors every day**, run one search, copy their `entityId`s (or `url`s) into **Google Hotels links** and schedule the run.
 
-## Who uses it
+## Who it's for
 
 - **Hotel revenue managers:** rate parity and competitor price checks every morning, for the dates that matter
-- **Travel startups and price comparison sites:** hotel prices for any city and date without an affiliate API
+- **Travel startups and analysts:** price research for any city and date (check Google's terms before republishing data)
 - **Analysts:** price per night by city, date, star class and rating for reports and dashboards
 - **AI agents:** "find a 4-star hotel in Lisbon under $150 for these dates" as one tool call
 
@@ -48,7 +48,7 @@ To track **your own hotel and its competitors every day**, run one search, copy 
 - **Self-healing:** if Google shows a captcha, it retries on a new IP. If it shows the EU cookie consent page or blocks HTTP, it **automatically switches to a real Chrome browser**, which clicks through the consent page.
 - **Two independent data paths:** the Google Hotels results page and Google's own internal hotel search endpoint. If one stops working, the other is used.
 - **Clear logs:** every request logs the HTTP status, whether a consent or captcha page was detected, and which parser found the data. Unexpected pages are saved to the key-value store for inspection.
-- **Fair pricing:** you pay per hotel with a price. Sold-out hotels without any price are free, and failed runs cost nothing.
+- **Fair pricing:** you pay per hotel with a price. Sold-out hotels without any price are free, and failed runs cost only Apify's $0.00005 start fee.
 
 ## What you can scrape
 
@@ -214,7 +214,7 @@ curl -X POST "https://api.apify.com/v2/acts/egra_van~google-hotels-prices/run-sy
   -d '{"queries":["hotels in Lisbon"],"checkInDate":"2026-12-12","checkOutDate":"2026-12-15","adults":2,"hotelClass":["4"],"maxPrice":150,"includeOffers":true,"maxHotelsPerQuery":10}'
 ```
 
-**Agents without an Apify account** can pay per run through Apify's [agentic payments](https://docs.apify.com/platform/integrations/x402) (x402, Skyfire).
+**Agents that pay with crypto** can buy a prepaid Apify API token through [Apify AGI](https://docs.apify.com/platform/integrations/mcp) (x402) and use it with this Actor like any other token.
 
 Tips for agents:
 

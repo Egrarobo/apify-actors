@@ -15,9 +15,9 @@ It works with **any Apify Actor or dataset**, and also with JSON or CSV files. T
 - 📦 **Handles large datasets**: reads page by page and keeps a compact, compressed snapshot between runs
 - 💸 **Pay only for results**: a small fee per 1,000 items compared plus a fee per reported change
 
-## Try it in one click (free demo)
+## Try it in one click (demo: no change events charged)
 
-Click **Start** with an empty input. The Actor then compares two small built-in sample snapshots of a fictional shop ("yesterday" and "today") and shows the exact output you will get on your own data: 1 new item, 2 changed items with `before → after` values (a price drop and an out-of-stock item) and 1 removed item. Demo rows have `"demo": true`; no state is saved and no change events are charged.
+Click **Start** with an empty input. The Actor then compares two small built-in sample snapshots of a fictional shop ("yesterday" and "today") and shows the exact output you will get on your own data: 1 new item, 2 changed items with `before → after` values (a price drop and an out-of-stock item) and 1 removed item. Demo rows have `"demo": true`; no state is saved and no change events are charged (only Apify's $0.00005 start fee).
 
 ## Quick start: run it after every scrape (recommended)
 
@@ -124,11 +124,11 @@ curl -X POST "https://api.apify.com/v2/acts/egra_van~dataset-change-monitor/run-
   -d '{"monitorName": "my-shop", "idFields": ["url"], "items": [{"url": "https://shop.example.com/p/1", "price": 12.5}]}'
 ```
 
-**Agents without an Apify account** can pay per run through Apify's [agentic payments](https://docs.apify.com/platform/integrations/x402) (x402, Skyfire).
+**Agents that pay with crypto** can buy a prepaid Apify API token through [Apify AGI](https://docs.apify.com/platform/integrations/mcp) (x402) and use it with this Actor like any other token.
 
 Tips for agents:
 
-- Run it again with the same `monitorName` and new data: the second run returns only `new`, `changed` (with `changes[]`: field, before, after) and `removed` items. With an empty input it runs a free demo.
+- Run it again with the same `monitorName` and new data: the second run returns only `new`, `changed` (with `changes[]`: field, before, after) and `removed` items. With an empty input it runs a demo (no change events charged, only Apify's $0.00005 start fee).
 - The JSON above is a complete, working input; every other field has a default (see the input section above).
 - Set `maxTotalChargeUsd` in the run options to cap the cost of a run.
 

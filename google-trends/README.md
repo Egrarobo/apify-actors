@@ -1,6 +1,6 @@
 # Google Trends Scraper & API (pytrends alternative)
 
-**Get Google Trends data as JSON or spreadsheet rows, without pytrends and without "429 Too Many Requests".** Give it your keywords, a country and a time range; get back interest over time, interest by region, top and rising related searches, and today's Trending Now searches.
+**Get Google Trends data as JSON or spreadsheet rows, without running pytrends and fighting "429 Too Many Requests".** Give it your keywords, a country and a time range; get back interest over time, interest by region, top and rising related searches, and today's Trending Now searches.
 
 - **What you get:** one row per keyword with the 0-100 timeline, average, peak date, latest value, top region, related and rising queries, and a link to the same chart on trends.google.com
 - **What it costs:** $4 per 1,000 keywords (`$0.004` each), $1 per 1,000 Trending Now searches. Keywords that fail or come back incomplete are **free**.
@@ -23,7 +23,7 @@ pytrends.build_payload(["coffee", "tea"], timeframe="today 12-m", geo="US")
 df = pytrends.interest_over_time()
 ```
 
-## Who uses it
+## Who it's for
 
 - **SEO and content teams:** find rising searches before they peak and plan content around them
 - **Market researchers and product managers:** compare brands, products or features over 5 years, by country, state or city
@@ -193,24 +193,26 @@ Notes:
 
 ### Trending Now items
 
+The values below are illustrative; the fields are the real output format.
+
 ```json
 {
   "type": "trending",
   "rank": 1,
-  "title": "world series",
+  "title": "example search",
   "approxTraffic": "500K+",
   "approxTrafficMin": 500000,
-  "startedAt": "2026-09-27T07:10:00.000Z",
+  "startedAt": "2026-10-08T07:10:00.000Z",
   "newsCount": 3,
-  "newsTitle": "Game 7 goes to extra innings",
+  "newsTitle": "Example news headline",
   "newsUrl": "https://…",
-  "newsSource": "ESPN",
-  "news": [{ "title": "…", "url": "…", "source": "ESPN", "picture": "…", "snippet": null }],
+  "newsSource": "Example News",
+  "news": [{ "title": "…", "url": "…", "source": "Example News", "picture": "…", "snippet": null }],
   "picture": "https://…",
-  "pictureSource": "ESPN",
+  "pictureSource": "Example News",
   "geo": "US",
   "source": "rss",
-  "exploreUrl": "https://trends.google.com/trends/explore?q=world+series&date=now+1-d&geo=US"
+  "exploreUrl": "https://trends.google.com/trends/explore?q=example+search&date=now+1-d&geo=US"
 }
 ```
 
@@ -273,7 +275,7 @@ curl -X POST "https://api.apify.com/v2/acts/egra_van~google-trends-reliable/run-
   -d '{"searchTerms":["claude","chatgpt","gemini"],"geo":"US","timeRange":"today 3-m","relatedQueries":true}'
 ```
 
-**Agents without an Apify account** can pay per run through Apify's [agentic payments](https://docs.apify.com/platform/integrations/x402) (x402, Skyfire).
+**Agents that pay with crypto** can buy a prepaid Apify API token through [Apify AGI](https://docs.apify.com/platform/integrations/mcp) (x402) and use it with this Actor like any other token.
 
 Tips for agents:
 

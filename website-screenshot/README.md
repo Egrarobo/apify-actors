@@ -8,7 +8,7 @@
 
 ## Bulk screenshots to PDF: 100 competitor homepages in one run
 
-Typical jobs: a **monthly snapshot of competitor homepages and pricing pages**, **visual QA** after a release, **client and SEO reports**, **archiving pages** as evidence, **thumbnails** for a directory, or giving an **AI agent** a picture of a page.
+Typical jobs: a **monthly snapshot of competitor homepages and pricing pages**, **visual QA** after a release, **client and SEO reports**, **archiving pages** as a dated record, **thumbnails** for a directory, or giving an **AI agent** a picture of a page.
 
 ```json
 {
@@ -191,7 +191,7 @@ curl -X POST "https://api.apify.com/v2/acts/egra_van~website-screenshot-pro/run-
   -d '{"urls":["https://example.com","https://apify.com/pricing"],"device":"mobile","fullPage":true,"format":"jpeg"}'
 ```
 
-**Agents without an Apify account** can pay per run through Apify's [agentic payments](https://docs.apify.com/platform/integrations/x402) (x402, Skyfire).
+**Agents that pay with crypto** can buy a prepaid Apify API token through [Apify AGI](https://docs.apify.com/platform/integrations/mcp) (x402) and use it with this Actor like any other token.
 
 Tips for agents:
 

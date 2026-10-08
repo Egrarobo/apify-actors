@@ -109,10 +109,10 @@
   {
     "actor": "egra_van/google-trends-reliable",
     "name": "pytrends-alternative-interest-by-country",
-    "title": "Google Trends interest by country without pytrends 429",
-    "description": "Compares five programming languages (Python, JavaScript, TypeScript, Rust, Go) worldwide over 12 months and returns interest over time and interest by country as JSON. The same data pytrends returns from interest_over_time() and interest_by_region(), without '429 Too Many Requests': requests are paced and retried on new IPs.",
-    "seoTitle": "pytrends Alternative: Google Trends by Country, No 429",
-    "seoDescription": "Google Trends interest over time and by country as JSON, without pytrends 429 errors. Works from Python, n8n, Make or any HTTP client.",
+    "title": "Google Trends interest by country (pytrends 429 fix)",
+    "description": "Compares five programming languages (Python, JavaScript, TypeScript, Rust, Go) worldwide over 12 months and returns interest over time and interest by country as JSON. The same data pytrends returns from interest_over_time() and interest_by_region(), with a fix for pytrends' '429 Too Many Requests': requests are paced and retried on new IPs, and failed keywords are free.",
+    "seoTitle": "pytrends Alternative: Google Trends by Country (429 Fix)",
+    "seoDescription": "Google Trends interest over time and by country as JSON, with retries and backoff for pytrends 429 errors. Works from Python, n8n, Make or any HTTP client.",
     "input": {
       "searchTerms": [
         "python",
@@ -140,7 +140,7 @@
     "title": "Track Google Hotels prices in Paris for rate parity",
     "description": "Gets 10 Paris hotels from Google Hotels with the price on every booking site Google compares (Booking.com, Expedia, Hotels.com, Agoda, the official site and more) for one night 30 days from today, in euros. Compare officialSitePrice with priceLowest and cheapestProvider to see where an online travel agency undercuts the hotel's own website.",
     "seoTitle": "Paris Hotel Rate Parity Check from Google Hotels",
-    "seoDescription": "Compare each Paris hotel's official-site price with Booking.com, Expedia and 30+ booking sites on Google Hotels. Rate parity in one run.",
+    "seoDescription": "Compare each Paris hotel's official-site price with Booking.com, Expedia and up to 30+ booking sites on Google Hotels. Rate parity in one run.",
     "input": {
       "queries": [
         "hotels in Paris"
@@ -239,7 +239,7 @@
     "actor": "egra_van/google-hotels-prices",
     "name": "orlando-family-hotel-prices",
     "title": "Compare family hotel prices near Disney World Orlando",
-    "description": "Prices 10 hotels near Walt Disney World in Orlando on Google Hotels for 2 adults and 2 children (ages 6 and 9), for 3 nights starting 30 days from today, with every booking site's rate. Children change the price on many sites, so this shows the real family price.",
+    "description": "Prices 10 hotels near Walt Disney World in Orlando on Google Hotels for 2 adults and 2 children (ages 6 and 9), for 3 nights starting 30 days from today, with every booking site's rate. Children change the price on many sites, so this shows the price for your family size.",
     "seoTitle": "Family Hotel Prices Near Disney World Orlando",
     "seoDescription": "Real family prices for hotels near Walt Disney World: 2 adults + 2 children, 3 nights, every booking site's rate, from Google Hotels.",
     "input": {
@@ -272,7 +272,7 @@
     "actor": "egra_van/website-screenshot-pro",
     "name": "bulk-screenshot-competitor-homepages-pdf",
     "title": "Bulk screenshot competitor homepages to PDF",
-    "description": "Takes a full-page screenshot and an A4 PDF of 8 e-commerce platform homepages (Shopify, Wix, Squarespace, BigCommerce, WordPress.com, Webflow, HubSpot, Mailchimp) and packs them into one ZIP. Cookie banners are hidden and lazy images loaded. Paste your own competitors' URLs, up to hundreds per run.",
+    "description": "Takes a full-page screenshot and an A4 PDF of 8 website-builder and marketing platform homepages (Shopify, Wix, Squarespace, BigCommerce, WordPress.com, Webflow, HubSpot, Mailchimp) and packs them into one ZIP. Cookie banners are hidden and lazy images loaded. Paste your own competitors' URLs, up to hundreds per run.",
     "seoTitle": "Bulk Screenshot Competitor Homepages to PDF and ZIP",
     "seoDescription": "Full-page screenshots and PDFs of any list of competitor homepages in one run, in one ZIP, without cookie banners. Failed URLs are free.",
     "input": {
@@ -306,7 +306,7 @@
     "actor": "egra_van/website-screenshot-pro",
     "name": "archive-saas-pricing-pages-pdf",
     "title": "Archive SaaS pricing pages as PDF every month",
-    "description": "Saves a full-page screenshot and a PDF of five SaaS pricing pages (Stripe, Notion, Slack, Zoom, Dropbox), so you keep dated evidence of competitors' plans and prices. Schedule it monthly; each run is a separate, dated archive.",
+    "description": "Saves a full-page screenshot and a PDF of five SaaS pricing pages (Stripe, Notion, Slack, Zoom, Dropbox), so you keep a dated record of competitors' plans and prices. Schedule it monthly; each run is a separate, dated archive.",
     "seoTitle": "Archive Competitor Pricing Pages as PDF (Monthly)",
     "seoDescription": "Monthly full-page screenshots and PDFs of competitor pricing pages: a dated archive of plans and prices. Any URLs, cookie banners hidden.",
     "input": {

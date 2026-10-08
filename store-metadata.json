@@ -9,8 +9,8 @@
         "MARKETING",
         "DEVELOPER_TOOLS"
       ],
-      "seoTitle": "Google Trends Scraper & API: pytrends Alternative, No 429",
-      "seoDescription": "Google Trends interest over time, regions, rising searches and Trending Now as JSON or CSV. No pytrends 429 errors. $4 per 1,000 keywords.",
+      "seoTitle": "Google Trends Scraper & API: pytrends Alternative (429 Fix)",
+      "seoDescription": "Google Trends interest over time, regions, rising searches and Trending Now as JSON or CSV. Handles the 429 errors that stop pytrends. $4 per 1,000 keywords.",
       "exampleRunInput": {
         "searchTerms": [
           "coffee",
@@ -20,7 +20,7 @@
         "trendingNow": true,
         "maxTrendingItems": 10
       },
-      "description": "Google Trends data without pytrends 429 errors: interest over time, by country, region or city, top and rising related searches, and Trending Now, as JSON or spreadsheet rows. Compare hundreds of keywords on one scale. $4 per 1,000 keywords; failed keywords are free."
+      "description": "Google Trends data with a fix for pytrends 429 errors: interest over time, by country, region or city, top and rising related searches, and Trending Now, as JSON or spreadsheet rows. Compare hundreds of keywords on one scale. $4 per 1,000 keywords; failed keywords are free."
     },
     "google-hotels-prices": {
       "dir": "google-hotels-prices",

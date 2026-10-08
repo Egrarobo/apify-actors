@@ -78,7 +78,7 @@ curl -X POST "https://api.apify.com/v2/acts/egra_van~bulk-certificate-pdf-genera
   -d '{"csvText": "name,course,date\nMaria Popescu,Intro to Python,September 20 2026"}'
 ```
 
-**Agents without an Apify account** can pay per run through Apify's [agentic payments](https://docs.apify.com/platform/integrations/x402) (x402, Skyfire).
+**Agents that pay with crypto** can buy a prepaid Apify API token through [Apify AGI](https://docs.apify.com/platform/integrations/mcp) (x402) and use it with this Actor like any other token.
 
 Tips for agents:
 
