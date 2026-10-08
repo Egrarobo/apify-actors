@@ -1,5 +1,5 @@
 import { Actor, log } from 'apify';
-import { parseInput, InputError } from './input.js';
+import { parseInput, limitProxy, InputError } from './input.js';
 import { TrendsClient, BlockedError } from './trends.js';
 import { DEFAULT_BASE_URL } from './request.js';
 import { buildTermItem, flattenTermItem, buildTrendingItem, computeComparable } from './output.js';
@@ -19,7 +19,19 @@ try {
     let proxyConfiguration = null;
     const isMock = cfg.baseUrl !== DEFAULT_BASE_URL;
     const isLocalTarget = /^https?:\/\/(localhost|127\.|\[::1\])/.test(cfg.baseUrl);
-    const proxyInput = isLocalTarget ? null : (cfg.proxyConfiguration ?? { useApifyProxy: true });
+    let proxyInput = isLocalTarget ? null : (cfg.proxyConfiguration ?? { useApifyProxy: true });
+    if (proxyInput) {
+        const limited = limitProxy(proxyInput);
+        proxyInput = limited.proxy;
+        if (limited.removedGroups.includes('RESIDENTIAL')) {
+            log.warning('The Apify RESIDENTIAL proxy group is not available in this Actor (it is billed per GB). '
+                + 'Using the default Apify proxy instead. To use residential IPs, choose your own proxies (proxy URLs) in the Proxy field.');
+        }
+        if (limited.removedGroups.includes('GOOGLE_SERP')) {
+            log.warning('The GOOGLE_SERP proxy group only serves Google Search pages, not trends.google.com, so it is not used. '
+                + 'Using the default Apify proxy instead.');
+        }
+    }
     if (proxyInput && (proxyInput.useApifyProxy || proxyInput.proxyUrls?.length)) {
         try {
             proxyConfiguration = await Actor.createProxyConfiguration(proxyInput);
@@ -32,7 +44,6 @@ try {
     if (proxyConfiguration) {
         proxyDesc = proxyInput.proxyUrls?.length ? `custom (${proxyInput.proxyUrls.length} URL(s))`
             : `Apify Proxy ${groupsSel.length ? groupsSel.join('+') : 'automatic (datacenter)'}${proxyInput.apifyProxyCountry ? ` country=${proxyInput.apifyProxyCountry}` : ''}`;
-        if (groupsSel.includes('GOOGLE_SERP')) log.warning('The GOOGLE_SERP proxy group only serves Google Search pages, not trends.google.com. Use RESIDENTIAL or the default datacenter proxy.');
     }
     if (!proxyConfiguration && !isMock) log.warning('Running without a proxy. Google Trends answers "429 Too Many Requests" after a few requests from one IP.');
 
@@ -254,7 +265,7 @@ try {
     if ((termsAllFailed || !cfg.searchTerms.length) && (!cfg.trendingNow || trendingFailed) && !stats.trendingItemsPushed && !limitReached) {
         const why = termSummaries.find((t) => t.errors.length)?.errors[0] ?? trending?.error ?? 'unknown error';
         throw new Error(`Google Trends could not be read (${why}). Google rate-limits shared datacenter IPs: try again later, lower the number of terms, `
-            + 'or use the RESIDENTIAL proxy group. The "Trending now" RSS mode works on almost any IP.');
+            + 'keep the browser and embed fallbacks on, or add your own proxy URLs. The "Trending now" RSS mode works on almost any IP.');
     }
     let status = cfg.searchTerms.length ? `${stats.termsOk} of ${stats.termsRequested} term(s) complete` : '';
     if (stats.termsPartial) status += `, ${stats.termsPartial} partial`;

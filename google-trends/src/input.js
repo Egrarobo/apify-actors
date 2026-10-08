@@ -81,6 +81,26 @@ export function buildGroups(terms, { anchor = null, mode = 'groups' } = {}) {
     return groups;
 }
 
+/**
+ * Apify proxy groups this Actor does not use, because on a pay-per-event Actor their cost is billed to the Actor owner:
+ * - RESIDENTIAL is billed per GB;
+ * - GOOGLE_SERP is billed per request and only serves Google Search and Shopping, never trends.google.com.
+ * Those groups are removed (the run continues on the remaining groups, or on the default Apify proxy).
+ * Your own proxy URLs ("proxyUrls"), residential or not, are used unchanged.
+ * Returns { proxy, removedGroups }.
+ */
+export const BLOCKED_PROXY_GROUPS = ['RESIDENTIAL', 'GOOGLE_SERP'];
+export function limitProxy(proxy) {
+    const groups = Array.isArray(proxy?.apifyProxyGroups) ? proxy.apifyProxyGroups : [];
+    const isBlocked = (g) => BLOCKED_PROXY_GROUPS.includes(String(g).toUpperCase());
+    const removedGroups = groups.filter(isBlocked).map((g) => String(g).toUpperCase());
+    if (!removedGroups.length) return { proxy, removedGroups };
+    const kept = groups.filter((g) => !isBlocked(g));
+    const out = { ...proxy, apifyProxyGroups: kept };
+    if (!kept.length) delete out.apifyProxyGroups;
+    return { proxy: out, removedGroups };
+}
+
 export function parseInput(input, { now = Date.now() } = {}) {
     if (input === null || typeof input !== 'object' || Array.isArray(input)) throw new InputError('The input must be a JSON object.');
 

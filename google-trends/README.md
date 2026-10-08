@@ -256,8 +256,8 @@ Examples: 5 terms with everything = $0.02. 500 keywords with an anchor = about $
 
 ## Tips for reliable runs
 
-- **Proxy.** The default Apify datacenter proxy works for small runs; every retry uses a new IP. Google Trends limits requests per IP, so for hundreds of terms, daily schedules or many parallel runs use the **RESIDENTIAL** proxy group. Do not use `GOOGLE_SERP`: that proxy only serves Google Search pages.
-- **Go slow.** Keep `maxConcurrency` at 1 and `requestDelayMs` at 1500+ unless you use residential proxies. Related queries/topics are the most rate-limited parts: ask for them only when you need them.
+- **Proxy.** The default Apify proxy works for most runs; every retry uses a new IP. Google Trends limits requests per IP, so for hundreds of terms, daily schedules or many parallel runs, spread the work over several smaller runs or add **your own proxy URLs** (any provider, including residential IPs; you pay your provider directly). The Apify **RESIDENTIAL** and **GOOGLE_SERP** groups are not available in this Actor (`GOOGLE_SERP` only serves Google Search pages): if you select one, the run continues on the default Apify proxy and says so in the log.
+- **Go slow.** Keep `maxConcurrency` at 1 and `requestDelayMs` at 1500+ unless you use your own residential proxies. Related queries/topics are the most rate-limited parts: ask for them only when you need them.
 - **Related topics** with several terms cost one extra request per term (Google only returns them for single-term charts).
 - **Topics instead of words.** A Knowledge Graph topic id such as `/m/0663v` (Pizza, the food) can be used as a search term; it covers all spellings and languages of the topic.
 - **Scheduling.** Run it daily with the same input to build your own history; Google Trends data for short ranges changes slightly between requests (sampling).
@@ -313,7 +313,7 @@ Tips for agents:
 ## Limitations
 
 - Google Trends has no public API for this data (the official Trends API launched in 2025 is an alpha with limited access), so this Actor reads the same internal endpoints the Google Trends website uses. Google can change them without notice; the Actor logs which step failed and saves the response for diagnosis.
-- Heavy use from shared datacenter IPs can be rate-limited by Google for a while. Retries with new IPs, the embed and browser fallbacks cover most cases, but very large runs need residential proxies.
+- Heavy use from shared datacenter IPs can be rate-limited by Google for a while. Retries with new IPs, the embed and browser fallbacks cover most cases; very large runs work best split into smaller runs or with your own proxies.
 - Values are relative and sampled by Google, not absolute search volumes.
 
 ## Legal

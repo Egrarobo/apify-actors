@@ -195,7 +195,7 @@
       "title": "Proxy",
       "type": "object",
       "editor": "proxy",
-      "description": "Google Trends rate-limits IP addresses (HTTP 429). The default Apify datacenter proxy works for small runs; each retry uses a new IP. For large or frequent runs use the RESIDENTIAL group (paid Apify plans). Do not use GOOGLE_SERP: it only serves Google Search pages.",
+      "description": "Google Trends rate-limits IP addresses (HTTP 429). The default Apify proxy works for most runs; each retry uses a new IP. The Apify RESIDENTIAL and GOOGLE_SERP groups are not available in this Actor (GOOGLE_SERP only serves Google Search pages): if selected, the run uses the default Apify proxy instead. For residential IPs, use your own proxy URLs.",
       "prefill": { "useApifyProxy": true },
       "default": { "useApifyProxy": true },
       "sectionCaption": "5. Reliability (advanced)"
@@ -226,7 +226,7 @@
     "maxConcurrency": {
       "title": "Parallel groups",
       "type": "integer",
-      "description": "How many comparison groups are fetched at the same time. Keep 1 unless you use residential proxies: Google Trends punishes parallel requests with 429 errors.",
+      "description": "How many comparison groups are fetched at the same time. Keep 1 unless you use your own residential proxies: Google Trends punishes parallel requests with 429 errors.",
       "minimum": 1,
       "maximum": 5,
       "default": 1

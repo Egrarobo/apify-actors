@@ -190,7 +190,8 @@ test('everything blocked, no browser: failed items (free) + run fails with a pro
     srv.state.exploreBlocked = true;
     const r = await runActor(base({ searchTerms: ['coffee'], useEmbedFallback: false, maxRetries: 1 }), { env: ppeEnv(10) });
     assert.notEqual(r.code, 0);
-    assert.match(r.log, /Google Trends could not be read \(Google Trends refused the comparison: HTTP 429 .*RESIDENTIAL/);
+    assert.match(r.log, /Google Trends could not be read \(Google Trends refused the comparison: HTTP 429 .*add your own proxy URLs/);
+    assert.doesNotMatch(r.log, /RESIDENTIAL/);
     assert.equal(terms(r)[0].status, 'failed');
     assert.equal(r.output.termResultsCharged, 0);
 });

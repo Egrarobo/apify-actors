@@ -7,7 +7,7 @@ import {
     parseBatchExecute, parseTrendingRows, parseEmbedHtml, classifyResponse, parseTraffic, widgetKeywords, DecodeError,
 } from '../src/parse.js';
 import { buildExploreReq, buildExploreUrl, buildWidgetDataUrl, buildTrendingRequest, buildEmbedUrl, buildPublicExploreUrl, TRENDING_CATEGORIES } from '../src/request.js';
-import { parseInput, parseTimeRange, buildGroups, InputError } from '../src/input.js';
+import { parseInput, parseTimeRange, buildGroups, limitProxy, InputError } from '../src/input.js';
 import { computeComparable, buildTermItem, flattenTermItem } from '../src/output.js';
 import { embedHtml } from './mock-server.mjs';
 
@@ -291,4 +291,22 @@ test('term item and flat rows', () => {
     assert.equal(rows.filter((r) => r.rowType === 'region').length, 2);
     assert.equal(rows.filter((r) => r.rowType === 'relatedQuery').length, 36);
     assert.deepEqual(rows.find((r) => r.rowType === 'timeline'), { rowType: 'timeline', term: 'pizza', groupId: 1, geo: 'Worldwide', timeRange: 'today 12-m', date: '2021-01-01', value: 100, isPartial: false, hasData: true });
+});
+
+test('proxy: Apify RESIDENTIAL and GOOGLE_SERP groups are removed, other groups and own proxy URLs are kept', () => {
+    let r = limitProxy({ useApifyProxy: true, apifyProxyGroups: ['RESIDENTIAL'], apifyProxyCountry: 'US' });
+    assert.deepEqual(r.removedGroups, ['RESIDENTIAL']);
+    assert.deepEqual(r.proxy, { useApifyProxy: true, apifyProxyCountry: 'US' });
+    r = limitProxy({ useApifyProxy: true, apifyProxyGroups: ['google_serp'] });
+    assert.deepEqual(r.removedGroups, ['GOOGLE_SERP']);
+    assert.deepEqual(r.proxy, { useApifyProxy: true });
+    r = limitProxy({ useApifyProxy: true, apifyProxyGroups: ['residential', 'GOOGLE_SERP', 'SHADER'] });
+    assert.deepEqual(r.removedGroups, ['RESIDENTIAL', 'GOOGLE_SERP']);
+    assert.deepEqual(r.proxy.apifyProxyGroups, ['SHADER']);
+    r = limitProxy({ useApifyProxy: true });
+    assert.deepEqual(r.removedGroups, []);
+    r = limitProxy({ useApifyProxy: false, proxyUrls: ['http://u:p@my-residential.example:8000'] });
+    assert.deepEqual(r.removedGroups, []);
+    assert.deepEqual(r.proxy.proxyUrls, ['http://u:p@my-residential.example:8000']);
+    assert.deepEqual(limitProxy(null).removedGroups, []);
 });
