@@ -72,7 +72,8 @@ def main():
     here = os.path.dirname(os.path.abspath(__file__))
     meta = json.load(open(os.path.join(here, "..", "store-metadata.json"), encoding="utf-8"))["actors"]
     only = set(args.only.split(",")) if args.only else None
-    token = load_token(args.env_file) if args.apply else None
+    # The token is also used for reading when given, so private (unpublished) Actors can be compared too.
+    token = load_token(args.env_file) if (args.apply or args.env_file) else None
     if args.apply and not token:
         sys.exit("No APIFY_TOKEN found (environment or --env-file).")
 
@@ -84,7 +85,7 @@ def main():
             print(f"! {name}: too long: " + "; ".join(bad) + " (not applied)")
             continue
         url = f"{API}{USERNAME}~{name}"
-        live = request("GET", url)
+        live = request("GET", url, token)
         body = wanted(cfg)
         changes = {}
         for k, v in body.items():
