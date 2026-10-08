@@ -1,0 +1,184 @@
+{
+  "title": "Google News input",
+  "description": "Google News articles for search queries, topics (Business, Technology...) or locations, in any language and country, from Google's public RSS feeds. Each article: title, source, date, the publisher's real URL and the Google News link.",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "queries": {
+      "title": "Search queries",
+      "type": "array",
+      "editor": "stringList",
+      "sectionCaption": "1. What news",
+      "description": "Words, names or brands to search in Google News, one per line. Google operators work: \"exact phrase\", OR, -exclude, site:reuters.com, intitle:word. Each query is one feed.",
+      "prefill": [
+        "OpenAI"
+      ]
+    },
+    "topics": {
+      "title": "Topics",
+      "type": "array",
+      "editor": "select",
+      "description": "Google News sections for the chosen country: Top stories, World, Nation, Business, Technology, Entertainment, Sports, Science, Health.",
+      "items": {
+        "type": "string",
+        "enum": [
+          "TOP_STORIES",
+          "WORLD",
+          "NATION",
+          "BUSINESS",
+          "TECHNOLOGY",
+          "ENTERTAINMENT",
+          "SPORTS",
+          "SCIENCE",
+          "HEALTH"
+        ],
+        "enumTitles": [
+          "Top stories",
+          "World",
+          "Nation",
+          "Business",
+          "Technology",
+          "Entertainment",
+          "Sports",
+          "Science",
+          "Health"
+        ]
+      }
+    },
+    "locations": {
+      "title": "Locations (local news)",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Cities, regions or countries for local news, one per line, e.g. Chicago, Bavaria, Texas."
+    },
+    "language": {
+      "title": "Language",
+      "type": "string",
+      "editor": "textfield",
+      "sectionCaption": "2. Language, country and period",
+      "description": "Google News language code: en-US, en-GB, en, de, fr, es, it, pt-BR, ro, uk, pl, ja... With a country, it selects the Google News edition (e.g. language \"de\" + country \"AT\" = Austria in German).",
+      "default": "en-US",
+      "prefill": "en-US"
+    },
+    "country": {
+      "title": "Country",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Two-letter country code of the Google News edition: US, GB, CA, AU, IN, DE, FR, ES, IT, BR, RO, MD, UA, PL, JP...",
+      "default": "US",
+      "prefill": "US"
+    },
+    "timeRange": {
+      "title": "Period",
+      "type": "string",
+      "editor": "select",
+      "description": "Only articles published in this period. \"Custom dates\" uses Date from / Date to. Searches use Google's when:/after:/before: operators; topic and location feeds are filtered by publication date.",
+      "enum": [
+        "any",
+        "1h",
+        "1d",
+        "7d",
+        "30d",
+        "1y",
+        "custom"
+      ],
+      "enumTitles": [
+        "Any time",
+        "Past hour",
+        "Past 24 hours",
+        "Past 7 days",
+        "Past 30 days",
+        "Past year",
+        "Custom dates"
+      ],
+      "default": "any",
+      "prefill": "7d"
+    },
+    "dateFrom": {
+      "title": "Date from",
+      "type": "string",
+      "editor": "datepicker",
+      "dateType": "absolute",
+      "description": "First day (YYYY-MM-DD), only with Period = Custom dates."
+    },
+    "dateTo": {
+      "title": "Date to",
+      "type": "string",
+      "editor": "datepicker",
+      "dateType": "absolute",
+      "description": "Last day (YYYY-MM-DD), only with Period = Custom dates. Empty = today."
+    },
+    "maxArticlesPerFeed": {
+      "title": "Max articles per query / topic / location",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5000,
+      "description": "Google News gives up to ~100 articles per feed. Above 100, each search query is read day by day over the period (one request per day), which reaches thousands of articles for busy topics.",
+      "default": 100,
+      "prefill": 20
+    },
+    "decodeUrls": {
+      "title": "Real article URLs",
+      "type": "boolean",
+      "sectionCaption": "3. Output",
+      "description": "Turn Google News redirect links (news.google.com/rss/articles/...) into the publisher's real URL. Included in the price. Off = faster, only the Google News link.",
+      "default": true
+    },
+    "fetchPublisherDetails": {
+      "title": "Snippet, image and author from the publisher",
+      "type": "boolean",
+      "description": "Open each article page once and read its preview metadata: description (snippet), main image, author and canonical URL. Charged as a separate event, only when details are found. The RSS feed itself has no snippet.",
+      "default": false
+    },
+    "includeRelatedCoverage": {
+      "title": "Related coverage",
+      "type": "boolean",
+      "description": "For top stories and topics, Google groups articles about the same story. Adds the other articles of the group (title, source, link) to each row. Free.",
+      "default": false
+    },
+    "deduplicate": {
+      "title": "Skip duplicates across feeds",
+      "type": "boolean",
+      "description": "An article found by several queries or topics is saved (and charged) only once.",
+      "default": true
+    },
+    "proxyConfiguration": {
+      "title": "Proxy",
+      "type": "object",
+      "editor": "proxy",
+      "sectionCaption": "4. Reliability (advanced)",
+      "description": "The default Apify proxy works: Google News feeds are public. Each retry uses a new IP. The Apify RESIDENTIAL and GOOGLE_SERP groups are not available in this Actor (not needed): if selected, the run uses the default Apify proxy instead. For your own IPs, use proxy URLs.",
+      "default": {
+        "useApifyProxy": true
+      },
+      "prefill": {
+        "useApifyProxy": true
+      }
+    },
+    "maxConcurrency": {
+      "title": "Parallel requests",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10,
+      "description": "Articles decoded in parallel. Keep it low (3) to stay polite and avoid rate limits.",
+      "default": 3
+    },
+    "requestDelayMs": {
+      "title": "Pause between feeds (ms)",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 60000,
+      "description": "Pause between two RSS requests, in milliseconds.",
+      "default": 500
+    },
+    "maxRetries": {
+      "title": "Retries per request",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10,
+      "description": "How many times a failed request is retried on a new IP.",
+      "default": 4
+    }
+  },
+  "required": []
+}

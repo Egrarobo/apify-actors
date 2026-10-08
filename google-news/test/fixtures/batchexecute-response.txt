@@ -1,0 +1,3 @@
+)]}'
+
+[["wrb.fr","Fbv4je","[\"garturlres\",\"https://finance.yahoo.com/technology/article/oracle-stock-falls-on-more-debt-to-fund-ai-chip-buying-openai-revenue-disclosure-180233070.html\",1]",null,null,null,"generic"],["wrb.fr","Fbv4je","[\"garturlres\",\"https://www.cnbc.com/2026/10/08/open-ai-revenue-nvidia-oracle-coreweave.html\",1,\"https://www.cnbc.com/amp/2026/10/08/open-ai-revenue-nvidia-oracle-coreweave.html\"]",null,null,null,"generic"],["di",15],["af.httprm",15,"4711811806371203478",40]]

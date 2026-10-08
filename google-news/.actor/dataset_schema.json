@@ -1,0 +1,224 @@
+{
+  "actorSpecification": 1,
+  "fields": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "feedType": {
+        "type": "string",
+        "enum": [
+          "search",
+          "topStories",
+          "topic",
+          "location"
+        ],
+        "description": "Kind of feed the article came from."
+      },
+      "feed": {
+        "type": "string",
+        "description": "The search query, topic or location as given in the input."
+      },
+      "rank": {
+        "type": "integer",
+        "description": "Position within the feed's results, newest first."
+      },
+      "title": {
+        "type": "string",
+        "description": "Headline, without the trailing ' - Source'."
+      },
+      "source": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "Publisher name."
+      },
+      "sourceUrl": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "Publisher home page."
+      },
+      "publishedAt": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "Publication time (ISO 8601, UTC)."
+      },
+      "articleUrl": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "The publisher's real article URL (null if it could not be decoded)."
+      },
+      "urlDecoded": {
+        "type": "boolean",
+        "description": "True when articleUrl was found."
+      },
+      "googleNewsUrl": {
+        "type": "string",
+        "description": "Google News link (redirects to the article)."
+      },
+      "snippet": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "Article description from the publisher page (with 'Snippet, image and author')."
+      },
+      "imageUrl": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "Main image from the publisher page."
+      },
+      "author": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "Author from the publisher page."
+      },
+      "relatedCoverage": {
+        "type": "array",
+        "description": "Other articles about the same story (with 'Related coverage')."
+      },
+      "language": {
+        "type": "string",
+        "description": "Google News language (hl)."
+      },
+      "country": {
+        "type": "string",
+        "description": "Google News country (gl)."
+      },
+      "period": {
+        "type": "string",
+        "description": "Period requested."
+      },
+      "articleId": {
+        "type": "string",
+        "description": "Google News article id."
+      },
+      "scrapedAt": {
+        "type": "string",
+        "description": "When the row was saved."
+      }
+    },
+    "required": [
+      "feedType",
+      "feed",
+      "title",
+      "googleNewsUrl"
+    ]
+  },
+  "views": {
+    "overview": {
+      "title": "Articles",
+      "transformation": {
+        "fields": [
+          "feedType",
+          "feed",
+          "rank",
+          "title",
+          "source",
+          "publishedAt",
+          "articleUrl",
+          "snippet",
+          "googleNewsUrl"
+        ]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "feedType": {
+            "label": "Feed",
+            "format": "text"
+          },
+          "feed": {
+            "label": "Query / topic",
+            "format": "text"
+          },
+          "rank": {
+            "label": "#",
+            "format": "number"
+          },
+          "title": {
+            "label": "Title",
+            "format": "text"
+          },
+          "source": {
+            "label": "Source",
+            "format": "text"
+          },
+          "publishedAt": {
+            "label": "Published",
+            "format": "date"
+          },
+          "articleUrl": {
+            "label": "Article",
+            "format": "link"
+          },
+          "snippet": {
+            "label": "Snippet",
+            "format": "text"
+          },
+          "googleNewsUrl": {
+            "label": "Google News link",
+            "format": "link"
+          }
+        }
+      }
+    },
+    "details": {
+      "title": "Articles with publisher details",
+      "transformation": {
+        "fields": [
+          "title",
+          "source",
+          "publishedAt",
+          "author",
+          "snippet",
+          "imageUrl",
+          "articleUrl"
+        ]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "title": {
+            "label": "Title",
+            "format": "text"
+          },
+          "source": {
+            "label": "Source",
+            "format": "text"
+          },
+          "publishedAt": {
+            "label": "Published",
+            "format": "date"
+          },
+          "author": {
+            "label": "Author",
+            "format": "text"
+          },
+          "snippet": {
+            "label": "Snippet",
+            "format": "text"
+          },
+          "imageUrl": {
+            "label": "Image",
+            "format": "image"
+          },
+          "articleUrl": {
+            "label": "Article",
+            "format": "link"
+          }
+        }
+      }
+    }
+  }
+}

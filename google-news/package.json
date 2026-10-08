@@ -1,0 +1,20 @@
+{
+  "name": "google-news",
+  "version": "1.0.0",
+  "description": "Google News scraper: articles for any search query, topic or location, in any language and country, from the public Google News RSS feeds, with the publisher's real URL.",
+  "main": "src/main.js",
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node src/main.js",
+    "test": "node scripts/validate-input-schema.mjs && node --test --test-concurrency=1 test/*.test.mjs"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "apify": "^3.7.2",
+    "impit": "^0.14.5"
+  },
+  "devDependencies": {
+    "@apify/input_schema": "*"
+  }
+}
