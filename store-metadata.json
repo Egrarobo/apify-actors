@@ -10,7 +10,7 @@
         "DEVELOPER_TOOLS"
       ],
       "seoTitle": "Google Trends Scraper & API: pytrends Alternative (429 Fix)",
-      "seoDescription": "Unofficial Google Trends API: interest over time, regions, rising searches and Trending Now as JSON or CSV. Retries 429s that stop pytrends. $4/1,000 keywords.",
+      "seoDescription": "Unofficial Google Trends API: interest over time, regions, rising searches and Trending Now as JSON or CSV. Retries 429s that stop pytrends. $3/1,000 keywords.",
       "exampleRunInput": {
         "searchTerms": [
           "coffee",
@@ -20,7 +20,7 @@
         "trendingNow": true,
         "maxTrendingItems": 10
       },
-      "description": "Google Trends scraper and API: interest over time by country, region or city, top and rising searches and Trending Now, as JSON, CSV or Excel. A pytrends alternative that retries 429 errors on new IPs. Hundreds of keywords on one scale. $4 / 1,000 keywords, $1 / 1,000 trending; failed ones free."
+      "description": "Google Trends scraper and API: interest over time by country, region or city, top and rising searches and Trending Now, as JSON, CSV or Excel. A pytrends alternative that retries 429 errors on new IPs. Hundreds of keywords on one scale. $3 / 1,000 keywords, $1 / 1,000 trending; failed ones free."
     },
     "google-hotels-prices": {
       "dir": "google-hotels-prices",
@@ -47,14 +47,14 @@
         "SEO_TOOLS"
       ],
       "seoTitle": "Bulk Website Screenshot API: Full Page PNG, JPEG & PDF",
-      "seoDescription": "Screenshot hundreds of URLs in one run: full page, desktop or mobile, PNG, JPEG or WebP plus optional PDF, in one ZIP. $5 / 1,000 screenshots, +$1 / 1,000 PDFs.",
+      "seoDescription": "Screenshot hundreds of URLs in one run: full page, desktop or mobile, PNG, JPEG or WebP plus optional PDF, in one ZIP. $3 / 1,000 screenshots, +$1 / 1,000 PDFs.",
       "exampleRunInput": {
         "urls": [
           "https://apify.com",
           "https://www.wikipedia.org"
         ]
       },
-      "description": "Bulk website screenshot API: paste hundreds of URLs and get full-page or viewport captures on desktop, tablet or mobile as PNG, JPEG or WebP, plus optional PDF, in one ZIP. Cookie banners hidden, ads blocked, lazy images loaded. $5 per 1,000 screenshots, +$1 per 1,000 PDFs; failed URLs free."
+      "description": "Bulk website screenshot API: paste hundreds of URLs and get full-page or viewport captures on desktop, tablet or mobile as PNG, JPEG or WebP, plus optional PDF, in one ZIP. Cookie banners hidden, ads blocked, lazy images loaded. $3 per 1,000 screenshots, +$1 per 1,000 PDFs; failed URLs free."
     },
     "document-to-markdown": {
       "dir": "doc-to-markdown",

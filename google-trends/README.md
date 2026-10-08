@@ -3,7 +3,7 @@
 **Get Google Trends data as JSON or spreadsheet rows, without running pytrends and fighting "429 Too Many Requests".** Give it your keywords, a country and a time range; get back interest over time, interest by region, top and rising related searches, and today's Trending Now searches.
 
 - **What you get:** one row per keyword with the 0-100 timeline, average, peak date, latest value, top region, related and rising queries, and a link to the same chart on trends.google.com
-- **What it costs:** $4 per 1,000 keywords (`$0.004` each), $1 per 1,000 Trending Now searches. Keywords that fail or come back incomplete are **free**.
+- **What it costs:** $3 per 1,000 keywords (`$0.003` each; less on paid Apify plans, down to $1.50), $1 per 1,000 Trending Now searches. Keywords that fail or come back incomplete are **free**.
 - **Try it now:** the form is prefilled with `coffee` vs `tea` in the US over 12 months plus the top 10 Trending Now searches. Click **Start**; that run costs about **$0.02**.
 
 ## pytrends 429 fix: why this works when pytrends doesn't
@@ -247,7 +247,7 @@ Pay per event, platform usage included:
 
 | Event | When | Price |
 |---|---|---|
-| `term-result` | one search term with **all** the data you requested (timeline, regions, related queries/topics) | $0.004 |
+| `term-result` | one search term with **all** the data you requested (timeline, regions, related queries/topics) | $0.003 (down to $0.0015 on higher plans) |
 | `trending-item` | one Trending Now search stored | $0.001 |
 
 Terms that fail or come back incomplete are not charged. The anchor term is charged once. The Actor checks your **maximum cost per run** before each group and never fetches data it cannot charge for: if the limit allows only 3 more terms, the next comparison contains only 3 terms.

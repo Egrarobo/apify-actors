@@ -3,7 +3,7 @@
 **Paste a list of URLs and get a clean screenshot of every page, in one run.** Full page or just the visible window, on desktop, laptop, tablet or mobile, as PNG, JPEG, WebP and optionally PDF, with cookie banners hidden, ads blocked and lazy-loaded images loaded before the capture. Download everything as one ZIP.
 
 - **What you get:** one image (and optional PDF) per URL with a public download link, plus a row with the HTTP status, final URL, page title, size and a plain-English reason for every failed URL
-- **What it costs:** $5 per 1,000 screenshots (`$0.005` each), $1 per 1,000 extra PDFs. Invalid, broken or failed URLs are **free**.
+- **What it costs:** $3 per 1,000 screenshots (`$0.003` each; less on paid Apify plans, down to $1.50), $1 per 1,000 extra PDFs. Invalid, broken or failed URLs are **free**.
 - **Try it now:** the form is prefilled with 2 pages (`apify.com`, `wikipedia.org`). Click **Start**; that run costs **$0.01**.
 
 ## Bulk screenshots to PDF: 100 competitor homepages in one run
@@ -138,7 +138,7 @@ Pay per event, only for results:
 
 | Event | When | Price |
 |---|---|---|
-| `screenshot` | One page captured and saved | $0.005 ($5 / 1,000) |
+| `screenshot` | One page captured and saved | $0.003 ($3 / 1,000; down to $1.50 on higher plans) |
 | `pdf-export` | One PDF saved (only when "Also save as PDF" is on) | $0.001 ($1 / 1,000) |
 
 Failed, invalid and skipped URLs are free. Discounts apply on Apify's paid plans (Bronze, Silver, Gold). The Actor checks your **maximum cost per run** before every page and stops cleanly when the next page would not fit, so you are never charged above your limit. Pages that were not processed are listed in the log and in `OUTPUT.notProcessed`.
