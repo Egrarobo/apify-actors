@@ -45,7 +45,8 @@ export const AGENCIES = [
     { code: 'SANDIEGO', name: 'San Diego County', state: 'CA', module: 'Building', evidence: 'portal-only' },
 ];
 
-export const DEFAULT_AGENCY = 'PINELLAS';
+// Two agencies by default (and in the prefilled example), so one portal being down does not leave the run empty.
+export const DEFAULT_AGENCIES = ['PINELLAS', 'HCFL'];
 
 const byCode = new Map(AGENCIES.map((a) => [a.code.toUpperCase(), a]));
 

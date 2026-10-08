@@ -297,3 +297,41 @@ test('consent page: real browser clicks "Accept all" and fetches the data from i
     assert.equal(trending(r).length, 3);
     assert.equal(r.output.requests.switchedToBrowser, true);
 });
+
+test('429 over HTTP with the browser fallback: HTTP is dropped after 2 rate limits in a row, no long backoff, no embed attempts over HTTP', { skip: !CHROME_PATH && 'no local Chrome' }, async () => {
+    srv.state.rateLimit.push({ re: /GET \/trends\/api\/explore/, count: 2 });
+    const r = await runActor(base({ searchTerms: ['coffee', 'tea'], useBrowser: 'fallback', maxRetries: 5 }));
+    assert.equal(r.code, 0, r.log);
+    assert.equal(terms(r).filter((i) => i.status === 'ok').length, 2);
+    assert.match(r.log, /HTTP was rate-limited 2 times in a row, not retrying it/);
+    assert.match(r.log, /Switching to a real Chrome browser/);
+    assert.doesNotMatch(r.log, /attempt 3\/6 via http/, 'no third HTTP attempt');
+    assert.doesNotMatch(r.log, /embed:\w+\/http/, 'no embed pages over a rate-limited HTTP');
+    assert.equal(terms(r)[0].dataSource, 'explore/browser');
+    assert.equal(r.output.requests.switchedToBrowser, true);
+    assert.equal(r.output.requests.retries, 1);
+});
+
+test('one 429 over HTTP is still retried over HTTP (the browser is not started for a single hiccup)', { skip: !CHROME_PATH && 'no local Chrome' }, async () => {
+    srv.state.rateLimit.push({ re: /GET \/trends\/api\/explore/, count: 1 });
+    const r = await runActor(base({ searchTerms: ['coffee'], useBrowser: 'fallback' }));
+    assert.equal(r.code, 0, r.log);
+    assert.equal(terms(r)[0].status, 'ok');
+    assert.equal(terms(r)[0].dataSource, 'explore/http');
+    assert.equal(r.output.requests.switchedToBrowser, false);
+});
+
+test('second pass: a part that failed all its retries is fetched again with fresh tokens → complete term, charged', async () => {
+    srv.state.rateLimit.push({ re: /multiline/, count: 2 });
+    const r = await runActor(base({ searchTerms: ['coffee', 'tea'], relatedQueries: true, maxRetries: 1 }), { env: ppeEnv(10) });
+    assert.equal(r.code, 0, r.log);
+    const t = terms(r);
+    assert.ok(t.every((i) => i.status === 'ok'), JSON.stringify(t.map((i) => i.errors)));
+    assert.ok(t.every((i) => !i.errors?.length));
+    assert.match(r.log, /trying the missing parts once more with fresh tokens/);
+    assert.match(r.log, /second pass: all missing parts recovered/);
+    assert.equal(srv.state.exploreBodies.length, 2, 'one fresh explore for the second pass');
+    assert.equal(srv.state.widgetRequests.filter((w) => w.kind === 'relatedsearches').length, 2, 'parts that worked are not fetched again');
+    assert.equal(r.output.requests.secondPasses, 1);
+    assert.equal(r.output.termResultsCharged, 2);
+});

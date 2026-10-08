@@ -81,7 +81,8 @@
         ]
       },
       "prefill": [
-        "PINELLAS"
+        "PINELLAS",
+        "HCFL"
       ],
       "sectionCaption": "1. Where"
     },
@@ -153,7 +154,7 @@
       "description": "Stop after saving this many matching permits per agency (newest first). 0 = no limit.",
       "minimum": 0,
       "default": 500,
-      "prefill": 50
+      "prefill": 25
     },
     "includeDetails": {
       "title": "Include details (contractor, valuation, parcel)",

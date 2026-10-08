@@ -8,7 +8,7 @@ const root = new URL('..', import.meta.url).pathname;
 export const newStorageDir = () => mkdtempSync(path.join(tmpdir(), 'gtrends-test-'));
 
 // Local Chrome for the browser-fallback tests (the Apify image provides its own).
-const CHROME_CANDIDATES = [process.env.CHROME_PATH, '/opt/pw-browsers/chromium-1194/chrome-linux/chrome'];
+const CHROME_CANDIDATES = [process.env.CHROME_PATH, '/opt/pw-browsers/chromium-1194/chrome-linux/chrome', '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'];
 export const CHROME_PATH = CHROME_CANDIDATES.find((p) => p && existsSync(p)) ?? '';
 
 /** Runs the Actor locally with the given input; returns its dataset, OUTPUT, key-value keys and log. */

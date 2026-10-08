@@ -1,4 +1,4 @@
-import { resolveAgency, DEFAULT_AGENCY } from './agencies.js';
+import { resolveAgency, DEFAULT_AGENCIES } from './agencies.js';
 
 export class InputError extends Error {}
 
@@ -45,7 +45,7 @@ export function parseInput(input, { now = Date.now(), hostOverride = null } = {}
     if (input === null || typeof input !== 'object' || Array.isArray(input)) throw new InputError('The input must be a JSON object.');
 
     const rawAgencies = [...toList(input.agencies, 'agencies'), ...toList(input.customAgencies, 'customAgencies')];
-    if (!rawAgencies.length) rawAgencies.push(DEFAULT_AGENCY);
+    if (!rawAgencies.length) rawAgencies.push(...DEFAULT_AGENCIES);
     const moduleOverride = String(input.module ?? '').trim();
     if (moduleOverride && !/^[A-Za-z0-9_ -]{2,40}$/.test(moduleOverride)) throw new InputError('"module" must be a module name such as Building, Permits or Development.');
     const agencies = [];

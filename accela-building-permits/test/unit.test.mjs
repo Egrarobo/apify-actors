@@ -148,7 +148,7 @@ test('agency resolution: codes, ACA URLs, self-hosted URLs, host override', () =
 test('input: defaults, windows, validation', () => {
     const now = Date.parse('2026-09-27T16:00:00Z');
     const c = parseInput({}, { now });
-    assert.deepEqual(c.agencies.map((a) => a.code), ['PINELLAS']);
+    assert.deepEqual(c.agencies.map((a) => a.code), ['PINELLAS', 'HCFL']);
     assert.deepEqual([c.dateFrom, c.dateTo, c.maxRecordsPerAgency, c.exportMode], ['2026-09-21', '2026-09-27', 500, 'auto']);
     const d = parseInput({ agencies: ['INDY'], customAgencies: ['https://aca-prod.accela.com/TAMPA/Cap/CapHome.aspx?module=Planning', 'indy'], module: 'Building', dateFrom: '09/01/2026' }, { now });
     assert.deepEqual(d.agencies.map((a) => `${a.code}/${a.module}`), ['INDY/Building', 'TAMPA/Planning'], 'module override, URL module wins, duplicates removed');

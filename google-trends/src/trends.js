@@ -20,6 +20,9 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const BACKOFF_MS = Number(process.env.GT_BACKOFF_MS ?? 2000);
 const BACKOFF_CAP_MS = Number(process.env.GT_BACKOFF_CAP_MS ?? 30_000);
 const MAX_DEBUG_PAGES = 5;
+// With the browser fallback on, HTTP is abandoned after this many 429 / captcha answers in a row (each on a new IP).
+// Before: up to 6 explore + 3 embed attempts with 2-30 s backoffs, i.e. ~70 s lost per run on datacenter IPs.
+const HTTP_BLOCKS_BEFORE_BROWSER = Number(process.env.GT_HTTP_BLOCKS_BEFORE_BROWSER ?? 2);
 
 export class TrendsClient {
     constructor(cfg, proxyConfiguration) {
@@ -31,12 +34,22 @@ export class TrendsClient {
         this.useBrowserOnly = cfg.useBrowser === 'always';
         this.stats = {
             requests: 0, ok: 0, retries: 0, rateLimited: 0, captchaPages: 0, consentPages: 0, httpErrors: 0, networkErrors: 0, badData: 0,
-            tokenRefused: 0, sessionsCreated: 0, warmups: 0, browserRequests: 0, switchedToBrowser: false, tokenSource: null, byEndpoint: {},
+            tokenRefused: 0, sessionsCreated: 0, warmups: 0, browserRequests: 0, secondPasses: 0, switchedToBrowser: false, tokenSource: null, byEndpoint: {},
         };
         this.debugSaved = 0;
         this.lastRequestAt = 0;
         this.tokenPath = null; // 'explore' | 'embed' once one worked (sticky)
         this.warmedSession = null;
+        this.httpBlockStreak = 0; // consecutive 429 / captcha answers over HTTP
+        this.httpGivenUp = false; // HTTP is rate-limited: go straight to the browser
+    }
+
+    /** Counts a 429 / captcha over HTTP; true when HTTP should be abandoned for the browser. */
+    noteHttpBlocked(transport) {
+        if (transport.name !== 'http' || this.cfg.useBrowser !== 'fallback') return false;
+        this.httpBlockStreak++;
+        if (this.httpBlockStreak >= HTTP_BLOCKS_BEFORE_BROWSER) this.httpGivenUp = true;
+        return this.httpGivenUp;
     }
 
     async close() {
@@ -96,6 +109,10 @@ export class TrendsClient {
         let lastReason = 'no attempt';
         let retryAfterMs = 0;
         for (let i = 1; i <= maxAttempts; i++) {
+            if (transport.name === 'http' && this.httpGivenUp) {
+                throw new BlockedError(`${lastReason === 'no attempt' ? 'HTTP 429 Too Many Requests (Google rate limit)' : lastReason}; `
+                    + `HTTP was rate-limited ${this.httpBlockStreak} times in a row, not retrying it`);
+            }
             if (i > 1) {
                 this.stats.retries++;
                 const backoff = Math.min(BACKOFF_MS * 2 ** (i - 2), BACKOFF_CAP_MS) * (0.75 + Math.random() * 0.5);
@@ -121,6 +138,7 @@ export class TrendsClient {
                 if (err instanceof BlockedError) {
                     this.stats.rateLimited++;
                     lastReason = err.message;
+                    this.noteHttpBlocked(transport);
                 } else {
                     this.stats.networkErrors++;
                     lastReason = `network error: ${err.message.split('\n')[0]}`;
@@ -144,6 +162,7 @@ export class TrendsClient {
             const epStats = (this.stats.byEndpoint[ep] ??= { requests: 0, ok: 0, rateLimited: 0 });
             epStats.requests++;
             if (out.ok) {
+                if (transport.name === 'http') this.httpBlockStreak = 0;
                 this.stats.ok++;
                 epStats.ok++;
                 log.info(`[${label}] attempt ${i}/${maxAttempts} via ${transport.name}: ${diag} → ${out.summary ?? 'ok'}`);
@@ -162,6 +181,9 @@ export class TrendsClient {
                 : cls.rateLimited ? 'HTTP 429 Too Many Requests (Google rate limit)' : cls.kind !== 'ok' ? `HTTP ${res.status}` : out.reason;
             log.warning(`[${label}] attempt ${i}/${maxAttempts} via ${transport.describe()}: ${diag} → ${lastReason}`);
             if (i === 1 || i === maxAttempts) await this.saveDebug(label, res);
+            if ((cls.captcha || cls.rateLimited) && this.noteHttpBlocked(transport)) {
+                throw new BlockedError(`${lastReason}; HTTP was rate-limited ${this.httpBlockStreak} times in a row, not retrying it`);
+            }
             // A refused widget token needs a new explore request, not the same request again.
             if (req.isWidgetData && (res.status === 401 || res.status === 400)) {
                 this.stats.tokenRefused++;
@@ -256,6 +278,7 @@ export class TrendsClient {
             let lastErr;
             for (const path of order) {
                 if (path === 'embed' && !this.cfg.useEmbedFallback) continue;
+                if (path === 'embed' && t.name === 'http' && this.httpGivenUp) continue; // straight to the browser
                 try {
                     const r = path === 'explore' ? await this.exploreViaApi(t, terms, label) : await this.exploreViaEmbed(t, terms, label, need);
                     if (this.tokenPath !== path) {
@@ -267,7 +290,7 @@ export class TrendsClient {
                 } catch (err) {
                     if (!(err instanceof BlockedError)) throw err;
                     lastErr = err;
-                    if (path === 'explore' && this.cfg.useEmbedFallback) log.warning(`[${label}] explore failed (${err.message}); trying the embeddable widget pages.`);
+                    if (path === 'explore' && this.cfg.useEmbedFallback && !(t.name === 'http' && this.httpGivenUp)) log.warning(`[${label}] explore failed (${err.message}); trying the embeddable widget pages.`);
                 }
             }
             throw lastErr;
@@ -368,31 +391,56 @@ export class TrendsClient {
             return null;
         };
 
-        if (need.timeline) {
-            res.timeline = await run('interest over time', () => widgets.timeseries, (t, w) => this.fetchTimeline(t, w, terms.length, label),
-                (e) => { for (const v of res.terms.values()) v.errors.push(e); });
-        }
-        for (const term of terms) {
-            const slot = res.terms.get(term);
-            const tl = `${label} "${term.slice(0, 30)}"`;
-            if (need.region) slot.region = await run('interest by region', () => widgets.geo.get(term), (t, w) => this.fetchRegions(t, w, tl), (e) => slot.errors.push(e));
-            if (need.queries) slot.queries = await run('related queries', () => widgets.relatedQueries.get(term), (t, w) => this.fetchRelated(t, w, tl, false), (e) => slot.errors.push(e));
-            if (need.topics) {
-                // A multi-term explore has no RELATED_TOPICS widgets: those need a single-term explore.
-                if (!widgets.relatedTopics.get(term) && terms.length > 1) {
-                    try {
-                        const single = await this.getWidgets([term], `${tl} single`, { topics: true });
-                        const w = single.widgets.relatedTopics.get(term);
-                        if (w) widgets.relatedTopics.set(term, w);
-                    } catch (err) {
-                        if (!(err instanceof BlockedError)) throw err;
-                        slot.errors.push(`related topics: ${err.message}`);
-                        continue;
-                    }
-                }
-                slot.topics = await run('related topics', () => widgets.relatedTopics.get(term), (t, w) => this.fetchRelated(t, w, tl, true), (e) => slot.errors.push(e));
+        /** One pass over the parts still missing; returns the errors of this pass per term. */
+        const collect = async () => {
+            const errs = new Map(terms.map((x) => [x, []]));
+            if (need.timeline && !res.timeline) {
+                res.timeline = await run('interest over time', () => widgets.timeseries, (t, w) => this.fetchTimeline(t, w, terms.length, label),
+                    (e) => { for (const v of errs.values()) v.push(e); });
             }
+            for (const term of terms) {
+                const slot = res.terms.get(term);
+                const err = errs.get(term);
+                const tl = `${label} "${term.slice(0, 30)}"`;
+                if (need.region && !slot.region) slot.region = await run('interest by region', () => widgets.geo.get(term), (t, w) => this.fetchRegions(t, w, tl), (e) => err.push(e));
+                if (need.queries && !slot.queries) slot.queries = await run('related queries', () => widgets.relatedQueries.get(term), (t, w) => this.fetchRelated(t, w, tl, false), (e) => err.push(e));
+                if (need.topics && !slot.topics) {
+                    // A multi-term explore has no RELATED_TOPICS widgets: those need a single-term explore.
+                    if (!widgets.relatedTopics.get(term) && terms.length > 1) {
+                        try {
+                            const single = await this.getWidgets([term], `${tl} single`, { topics: true });
+                            const w = single.widgets.relatedTopics.get(term);
+                            if (w) widgets.relatedTopics.set(term, w);
+                        } catch (e) {
+                            if (!(e instanceof BlockedError)) throw e;
+                            err.push(`related topics: ${e.message}`);
+                            continue;
+                        }
+                    }
+                    slot.topics = await run('related topics', () => widgets.relatedTopics.get(term), (t, w) => this.fetchRelated(t, w, tl, true), (e) => err.push(e));
+                }
+            }
+            return errs;
+        };
+
+        let errs = await collect();
+        const missing = () => [...errs.values()].reduce((n, e) => n + e.length, 0);
+        if (missing()) {
+            // Second chance for what failed: fresh tokens (tokens are bound to the session that got them), then only the missing parts.
+            // An incomplete term is stored free, so without this pass a short Google hiccup costs us the whole term.
+            log.warning(`[${label}] ${missing()} part(s) failed (${[...new Set([...errs.values()].flat())].join('; ').slice(0, 300)}); `
+                + 'trying the missing parts once more with fresh tokens.');
+            this.stats.secondPasses++;
+            try {
+                await refresh();
+                errs = await collect();
+            } catch (err) {
+                if (!(err instanceof BlockedError)) throw err;
+                log.warning(`[${label}] second pass: fresh tokens refused (${err.message}).`);
+            }
+            if (!missing()) log.info(`[${label}] second pass: all missing parts recovered.`);
         }
+        for (const [term, e] of errs) res.terms.get(term).errors.push(...e);
         return res;
     }
 

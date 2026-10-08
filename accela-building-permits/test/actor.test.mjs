@@ -307,7 +307,7 @@ test('errors: unknown agency, login-only module, CAPTCHA, wrong module, blocked 
     assert.match(blocked.log, /DEBUG-BLOCKED-blocked-1/);
 });
 
-const CHROME = ['/opt/pw-browsers/chromium-1194/chrome-linux/chrome', '/usr/bin/google-chrome', '/usr/bin/chromium'].find((p) => existsSync(p));
+const CHROME = ['/opt/pw-browsers/chromium-1194/chrome-linux/chrome', '/usr/bin/google-chrome', '/usr/bin/chromium', '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'].find((p) => existsSync(p));
 
 test('blocked plain HTTP: escalates to browser cookies, then continues over HTTP', { skip: !CHROME && 'no Chrome/Chromium on this machine' }, async () => {
     const r = await run({ customAgencies: ['JSCHALLENGE'], lastNDays: 21, maxRetries: 3 }, { env: { BROWSER_EXECUTABLE_PATH: CHROME } });
@@ -336,4 +336,41 @@ test('bad input fails with a clear message', async () => {
         assert.match(r.log, /Invalid input/);
         assert.match(r.log, re);
     }
+});
+
+test('default input: two agencies (PINELLAS + HCFL), both saved', async () => {
+    const r = await run({ lastNDays: 7 });
+    assert.equal(r.code, 0, r.log);
+    assert.deepEqual(r.output.agencies.map((a) => `${a.agency}:${a.status}`), ['PINELLAS:ok', 'HCFL:ok']);
+    assert.ok(r.items.some((i) => i.agency === 'PINELLAS') && r.items.some((i) => i.agency === 'HCFL'));
+});
+
+test('one agency down for the whole run: retried once, reported as failed, the other agency is still saved and the run succeeds', async () => {
+    srv.state.downLeft = 1000;
+    const r = await run({ agencies: ['PINELLAS'], customAgencies: ['DOWN'], lastNDays: 7 });
+    assert.equal(r.code, 0, r.log);
+    assert.ok(r.items.length > 0 && r.items.every((i) => i.agency === 'PINELLAS'));
+    const down = r.output.agencies.find((a) => a.agency === 'DOWN');
+    assert.equal(down.status, 'failed');
+    assert.equal(down.agencyRetries, 1);
+    assert.match(down.error, /maintenance page/);
+    assert.match(r.log, /\[DOWN\] Attempt 1\/2 failed: .*maintenance page.* Trying this agency once more/);
+    assert.match(r.log, /\[DOWN\] FAILED after 2 attempts: .* The other agencies continue/);
+    assert.match(r.log, /permit\(s\) saved from 1 agencies .* Failed: DOWN \(see log\)/);
+});
+
+test('short portal outage: the agency is tried once more and its permits are saved', async () => {
+    srv.state.downLeft = 1;
+    const r = await run({ customAgencies: ['DOWN'], lastNDays: 30 });
+    assert.equal(r.code, 0, r.log);
+    assert.equal(r.output.agencies[0].status, 'ok');
+    assert.equal(r.output.agencies[0].agencyRetries, 1);
+    assert.equal(r.items.length, srv.agencies.DOWN.permits.filter((p) => p.opened >= daysAgo(29)).length);
+});
+
+test('settings errors are not retried (unknown agency fails at once)', async () => {
+    const r = await run({ agencies: ['PINELLAS'], customAgencies: ['NOSUCHCITY'], lastNDays: 2 });
+    assert.equal(r.code, 0, r.log);
+    assert.equal(r.output.agencies.find((a) => a.agency === 'NOSUCHCITY').agencyRetries, undefined);
+    assert.doesNotMatch(r.log, /\[NOSUCHCITY\] Attempt 1\/2 failed/);
 });

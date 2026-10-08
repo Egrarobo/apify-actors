@@ -10,6 +10,12 @@ const EV_PERMIT = 'permit';
 const EV_DETAILS = 'permit-details';
 
 const n = (x) => Number(x).toLocaleString('en-US');
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+// A failed agency is tried once more from scratch (new session / IP) after this pause, unless the error is a setting
+// that a retry cannot fix (unknown agency, wrong module, login-only, CAPTCHA, too many results).
+const AGENCY_ATTEMPTS = 2;
+const AGENCY_RETRY_MS = Number(process.env.ACCELA_AGENCY_RETRY_MS ?? 20_000);
+const NOT_RETRYABLE = new Set(['not-found', 'module', 'login', 'captcha', 'search', 'browser']);
 const hash = (v) => crypto.createHash('sha1').update(JSON.stringify(v)).digest('base64url').slice(0, 16);
 
 await Actor.init();
@@ -111,11 +117,12 @@ try {
             + `${isMonitor ? (isBaseline ? `, monitor baseline${cfg.reportAllOnFirstRun ? ' (reported)' : ' (remembered, not reported)'}` : `, monitor: ${n(Object.keys(state.seen).filter((k) => k.startsWith(`${agency.code}|`)).length)} permits remembered`) : ''}`
             + ` [portal ${agency.evidence === 'search-page' || agency.evidence === 'code' ? 'known' : agency.evidence === 'portal-only' ? 'known, search page unconfirmed' : 'user-supplied'}].`);
 
-        const client = new AcaClient({
+        const newClient = () => new AcaClient({
             agency, module: agency.module, proxyConfiguration, browserFallback: cfg.browserFallback, forceBrowser: cfg.forceBrowser,
             requestDelayMs: cfg.requestDelayMs, maxRetries: cfg.maxRetries, backoffMs: Number(process.env.ACCELA_BACKOFF_MS) || 1500, saveDebug,
         });
-        const seenInRun = new Set();
+        let client = null;
+        const seenInRun = new Set(); // kept across agency attempts: a retry never saves or charges a permit twice
         let agencyDone = false; // output limit reached
         let agencyComplete = true; // every window fully read
 
@@ -201,41 +208,56 @@ try {
             return !(agencyDone || limitReached);
         };
 
-        try {
-            // Open the portal first so record types can be resolved against its dropdown.
-            await client.withSession('open search page', async () => {});
-            let typeOptions = [null];
-            if (cfg.recordTypes.length) {
-                const opts = client.form.recordTypes;
-                const chosen = opts.filter((o) => cfg.recordTypes.some((t) => o.text.toLowerCase().includes(t.toLowerCase()) || o.value.toLowerCase() === t.toLowerCase()));
-                if (chosen.length) {
-                    typeOptions = chosen;
-                    log.info(`[${agency.code}] Searching ${chosen.length} portal record type(s): ${chosen.slice(0, 10).map((o) => o.text).join('; ')}${chosen.length > 10 ? '…' : ''}`);
-                } else {
-                    log.warning(`[${agency.code}] None of the record types ${cfg.recordTypes.map((t) => `"${t}"`).join(', ')} is in this portal's dropdown`
-                        + `${opts.length ? ` (available: ${opts.slice(0, 25).map((o) => o.text).join('; ')}${opts.length > 25 ? '…' : ''})` : ' (the portal has no record-type dropdown)'}. Searching all record types instead.`);
-                }
-            }
-            outer:
-            for (const w of windows) {
-                for (const t of typeOptions) {
-                    st.windows++;
-                    const r = await client.searchWindow({ from: w.from, to: w.to, recordType: t, maxPages: cfg.maxPagesPerAgency, exportMode: cfg.exportMode, wantCsv, onPage });
-                    if (r.rows === 0) log.info(`[${agency.code}] ${w.from} … ${w.to}${t ? ` [${t.text}]` : ''}: no records.`);
-                    if (agencyDone || limitReached) {
-                        agencyComplete = false;
-                        break outer;
+        for (let attempt = 1; attempt <= AGENCY_ATTEMPTS; attempt++) {
+            client = newClient();
+            agencyComplete = true;
+            try {
+                // Open the portal first so record types can be resolved against its dropdown.
+                await client.withSession('open search page', async () => {});
+                let typeOptions = [null];
+                if (cfg.recordTypes.length) {
+                    const opts = client.form.recordTypes;
+                    const chosen = opts.filter((o) => cfg.recordTypes.some((t) => o.text.toLowerCase().includes(t.toLowerCase()) || o.value.toLowerCase() === t.toLowerCase()));
+                    if (chosen.length) {
+                        typeOptions = chosen;
+                        log.info(`[${agency.code}] Searching ${chosen.length} portal record type(s): ${chosen.slice(0, 10).map((o) => o.text).join('; ')}${chosen.length > 10 ? '…' : ''}`);
+                    } else {
+                        log.warning(`[${agency.code}] None of the record types ${cfg.recordTypes.map((t) => `"${t}"`).join(', ')} is in this portal's dropdown`
+                            + `${opts.length ? ` (available: ${opts.slice(0, 25).map((o) => o.text).join('; ')}${opts.length > 25 ? '…' : ''})` : ' (the portal has no record-type dropdown)'}. Searching all record types instead.`);
                     }
                 }
+                outer:
+                for (const w of windows) {
+                    for (const t of typeOptions) {
+                        st.windows++;
+                        const r = await client.searchWindow({ from: w.from, to: w.to, recordType: t, maxPages: cfg.maxPagesPerAgency, exportMode: cfg.exportMode, wantCsv, onPage });
+                        if (r.rows === 0) log.info(`[${agency.code}] ${w.from} … ${w.to}${t ? ` [${t.text}]` : ''}: no records.`);
+                        if (agencyDone || limitReached) {
+                            agencyComplete = false;
+                            break outer;
+                        }
+                    }
+                }
+            } catch (err) {
+                agencyComplete = false;
+                const retryable = attempt < AGENCY_ATTEMPTS && !limitReached && !agencyDone && !(err instanceof AcaError && NOT_RETRYABLE.has(err.kind));
+                if (retryable) {
+                    st.agencyRetries = (st.agencyRetries ?? 0) + 1;
+                    log.warning(`[${agency.code}] Attempt ${attempt}/${AGENCY_ATTEMPTS} failed: ${err.message} Trying this agency once more in ${Math.round(AGENCY_RETRY_MS / 1000)} s with a new session.`);
+                } else {
+                    st.status = 'failed';
+                    st.error = err.message;
+                    log.error(`[${agency.code}] FAILED${attempt > 1 ? ` after ${attempt} attempts` : ''}: ${err.message}`
+                        + `${cfg.agencies.length > 1 ? ' The other agencies continue; this one is listed under "Failed" in the status and in OUTPUT.' : ''}`);
+                }
+            } finally {
+                for (const k of ['requests', 'retries', 'blocks', 'sessions', 'csvExports', 'csvFailures']) st[k] = (st[k] ?? 0) + client.stats[k];
+                st.resultPages = (st.resultPages ?? 0) + client.stats.pages;
+                st.strategy = client.stats.strategy;
+                await client.close();
             }
-        } catch (err) {
-            agencyComplete = false;
-            st.status = 'failed';
-            st.error = err.message;
-            log.error(`[${agency.code}] FAILED: ${err.message}`);
-        } finally {
-            Object.assign(st, { strategy: client.stats.strategy, requests: client.stats.requests, retries: client.stats.retries, blocks: client.stats.blocks, sessions: client.stats.sessions, resultPages: client.stats.pages, csvExports: client.stats.csvExports, csvFailures: client.stats.csvFailures });
-            await client.close();
+            if (st.agencyRetries !== attempt) break; // finished, or failed for good
+            await sleep(AGENCY_RETRY_MS);
         }
         if (isMonitor) {
             aState.runs = (aState.runs ?? 0) + 1;

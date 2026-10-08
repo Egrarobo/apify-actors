@@ -100,11 +100,11 @@ One item per permit (dataset views: **Permits** and **Contractors & valuation**)
 
 ## Input
 
-All fields are optional; with no input the Actor returns the last 7 days of Pinellas County, FL building permits.
+All fields are optional; with no input the Actor returns the last 7 days of building permits from Pinellas County and Hillsborough County, FL.
 
 | Field | Default | What it does |
 |---|---|---|
-| `agencies` | `["PINELLAS"]` | Known portals (dropdown). |
+| `agencies` | `["PINELLAS", "HCFL"]` | Known portals (dropdown). If one portal is down, the others are still saved and the failed one is named in the run status. |
 | `customAgencies` | – | Other portals: agency code (`KERNCO`) or full URL of the search page, also self-hosted ones. |
 | `module` | agency's usual | `Building`, `Permits`, `Development`, … as in `CapHome.aspx?module=…`. |
 | `lastNDays` / `dateFrom` / `dateTo` | 7 days | Period of the record **opened** date. |
@@ -145,7 +145,7 @@ Changing the filters of a monitor starts a new baseline so you are not flooded w
 curl -X POST "https://api.apify.com/v2/acts/egra_van~accela-building-permits/run-sync-get-dataset-items" \
   -H "Authorization: Bearer $APIFY_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{"agencies": ["PINELLAS"], "lastNDays": 7, "maxRecordsPerAgency": 50}'
+  -d '{"agencies": ["PINELLAS", "HCFL"], "lastNDays": 7, "maxRecordsPerAgency": 25}'
 ```
 
 **Agents that pay with crypto** can buy a prepaid Apify API token through [Apify AGI](https://docs.apify.com/platform/integrations/mcp) (x402) and use it with this Actor like any other token.

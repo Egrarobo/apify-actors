@@ -105,10 +105,11 @@
       ],
       "exampleRunInput": {
         "agencies": [
-          "PINELLAS"
+          "PINELLAS",
+          "HCFL"
         ],
         "lastNDays": 7,
-        "maxRecordsPerAgency": 50
+        "maxRecordsPerAgency": 25
       }
     },
     "au-grocery-prices": {

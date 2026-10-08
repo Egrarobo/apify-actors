@@ -84,6 +84,7 @@ const csvCell = (v) => (/[",\n]/.test(String(v)) ? `"${String(v).replace(/"/g, '
 export async function startMockServer({ pageSize = 10 } = {}) {
     const agencies = {
         PINELLAS: { module: 'Building', columns: PINELLAS_COLUMNS, permits: makePermits('PINELLAS', 35), exportMode: 'direct' },
+        HCFL: { module: 'Building', columns: PINELLAS_COLUMNS, permits: makePermits('HCFL', 15), exportMode: 'direct' },
         BIG: { module: 'Building', columns: PINELLAS_COLUMNS, permits: makePermits('BIG', 130, { days: 10 }), exportMode: 'direct' },
         CLEARWATER: { module: 'Building', columns: CLEARWATER_COLUMNS, permits: makePermits('CLEARWATER', 14, { prefix: 'BCP' }), exportMode: null },
         EXPORTLINK: { module: 'Building', columns: PINELLAS_COLUMNS, permits: makePermits('EXPORTLINK', 25), exportMode: 'handler' },
@@ -94,9 +95,10 @@ export async function startMockServer({ pageSize = 10 } = {}) {
         LOGINONLY: { module: 'Building', columns: PINELLAS_COLUMNS, permits: [], login: true },
         JSCHALLENGE: { module: 'Building', columns: PINELLAS_COLUMNS, permits: makePermits('JSCHALLENGE', 12), jsChallenge: true },
         BLOCKED: { module: 'Building', columns: PINELLAS_COLUMNS, permits: [], blocked: true },
+        DOWN: { module: 'Building', columns: PINELLAS_COLUMNS, permits: makePermits('DOWN', 8), down: true }, // maintenance page while state.downLeft > 0
         INDY: { module: 'Permits', columns: PINELLAS_COLUMNS, permits: makePermits('INDY', 5, { prefix: 'PER' }) },
     };
-    const state = { sessions: new Map(), requests: [], notifications: [], laterPermits: {}, blockedCount: 0, flakyFailures: 0 };
+    const state = { sessions: new Map(), requests: [], notifications: [], laterPermits: {}, blockedCount: 0, flakyFailures: 0, downLeft: 0 };
 
     const pageOf = (a, list, page, vs, sess, search) => {
         const pages = Math.max(1, Math.ceil(list.length / pageSize));
@@ -140,6 +142,11 @@ export async function startMockServer({ pageSize = 10 } = {}) {
         if (a.blocked) {
             state.blockedCount++;
             return send(403, '<!DOCTYPE html><html><head><title>Just a moment...</title></head><body><div id="cf-browser-verification"></div><script>window._cf_chl_opt={}</script></body></html>');
+        }
+
+        if (a.down && state.downLeft > 0) {
+            state.downLeft--;
+            return send(200, '<!DOCTYPE html><html><head><title>Scheduled Maintenance</title></head><body><h1>Accela Citizen Access is currently unavailable.</h1></body></html>');
         }
 
         const cookies = Object.fromEntries(String(req.headers.cookie ?? '').split(';').map((c) => c.trim().split('=')).filter((p) => p[0]));
@@ -274,6 +281,7 @@ export async function startMockServer({ pageSize = 10 } = {}) {
             state.laterPermits = {};
             state.flakyFailures = 0;
             state.blockedCount = 0;
+            state.downLeft = 0;
         },
         close: () => new Promise((r) => server.close(r)),
     };

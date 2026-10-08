@@ -20,6 +20,7 @@ export async function runActor(input, { storageDir = newStorageDir(), env = {} }
             APIFY_LOCAL_STORAGE_DIR: storageDir,
             CRAWLEE_STORAGE_DIR: storageDir,
             ACCELA_BACKOFF_MS: '20',
+            ACCELA_AGENCY_RETRY_MS: '20',
             APIFY_LOG_LEVEL: 'INFO',
             ...env,
         },

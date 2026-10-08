@@ -246,7 +246,7 @@ try {
     };
     await Actor.setValue('OUTPUT', output);
     log.info(`Requests: ${s.requests} (ok ${s.ok}, retries ${s.retries}, 429 rate limits ${s.rateLimited}, captcha ${s.captchaPages}, consent ${s.consentPages}, HTTP errors ${s.httpErrors}, `
-        + `network errors ${s.networkErrors}, bad data ${s.badData}, refused tokens ${s.tokenRefused}, sessions ${s.sessionsCreated}, via browser ${s.browserRequests}; tokens from ${s.tokenSource ?? 'n/a'}).`);
+        + `network errors ${s.networkErrors}, bad data ${s.badData}, refused tokens ${s.tokenRefused}, sessions ${s.sessionsCreated}, via browser ${s.browserRequests}, second passes ${s.secondPasses}; tokens from ${s.tokenSource ?? 'n/a'}).`);
 
     const termsDone = stats.termsOk + stats.termsPartial;
     const trendingFailed = cfg.trendingNow && trending && trending.error;
