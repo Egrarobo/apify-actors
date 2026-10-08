@@ -1,8 +1,33 @@
-# Website Screenshot Pro — Bulk, Full Page, Mobile
+# Website Screenshot Pro: Bulk Screenshots & PDF
 
-Take **clean screenshots of hundreds of web pages in one run**. Paste a list of URLs (or connect the results of another Actor) and get a **full-page or viewport screenshot of every page**, on **desktop, laptop, tablet or mobile**, as **PNG, JPEG, WebP or PDF**. Cookie banners and ads are removed automatically, and lazy-loaded images are loaded before the capture.
+**Paste a list of URLs and get a clean screenshot of every page, in one run.** Full page or just the visible window, on desktop, laptop, tablet or mobile, as PNG, JPEG, WebP and optionally PDF, with cookie banners hidden, ads blocked and lazy-loaded images loaded before the capture. Download everything as one ZIP.
 
-Typical uses: **website monitoring and archiving**, **visual QA** after a release, **SEO and client reports**, **competitor tracking**, **thumbnails and link previews**, and giving **AI agents** a picture of a page.
+- **What you get:** one image (and optional PDF) per URL with a public download link, plus a row with the HTTP status, final URL, page title, size and a plain-English reason for every failed URL
+- **What it costs:** $5 per 1,000 screenshots (`$0.005` each), $1 per 1,000 extra PDFs. Invalid, broken or failed URLs are **free**.
+- **Try it now:** the form is prefilled with 2 pages (`apify.com`, `wikipedia.org`). Click **Start**; that run costs **$0.01**.
+
+## Bulk screenshots to PDF: 100 competitor homepages in one run
+
+Typical jobs: a **monthly snapshot of competitor homepages and pricing pages**, **visual QA** after a release, **client and SEO reports**, **archiving pages** as evidence, **thumbnails** for a directory, or giving an **AI agent** a picture of a page.
+
+```json
+{
+  "urls": [
+    "https://stripe.com/pricing",
+    "https://www.paypal.com/us/business/paypal-business-fees",
+    "https://squareup.com/us/en/pricing"
+  ],
+  "fullPage": true,
+  "format": "jpeg",
+  "quality": 80,
+  "savePdf": true,
+  "outputZip": true
+}
+```
+
+Put up to hundreds of URLs in `urls` (or read them from another Actor's dataset with `startUrlsDatasetId`). With `outputZip` you get one `screenshots.zip` with every image and PDF. 100 pages with PDFs cost $0.60.
+
+A real result from 8 Oct 2026 (the prefilled pages plus `stripe.com/pricing`, full page, PNG + PDF): all 3 captured in about 15 seconds on our test machine. `wikipedia.org` is 1920×1100 px (199 kB), `apify.com` 1920×10036 px (1.2 MB). `stripe.com/pricing` is 22,334 px tall, so it was cut at the 15,000 px limit and the row says so in `warnings`.
 
 ## Why this screenshot Actor
 
@@ -111,12 +136,12 @@ The dataset has two views: **Screenshots** (with image previews) and **Failed UR
 
 Pay per event, only for results:
 
-| Event | When |
-|---|---|
-| `screenshot` | One page captured and saved |
-| `pdf-export` | One PDF saved (only when "Also save as PDF" is on) |
+| Event | When | Price |
+|---|---|---|
+| `screenshot` | One page captured and saved | $0.005 ($5 / 1,000) |
+| `pdf-export` | One PDF saved (only when "Also save as PDF" is on) | $0.001 ($1 / 1,000) |
 
-Failed, invalid and skipped URLs are free. The Actor checks your **maximum cost per run** before every page and stops cleanly when the next page would not fit, so you are never charged above your limit. Pages that were not processed are listed in the log and in `OUTPUT.notProcessed`.
+Failed, invalid and skipped URLs are free. Discounts apply on Apify's paid plans (Bronze, Silver, Gold). The Actor checks your **maximum cost per run** before every page and stops cleanly when the next page would not fit, so you are never charged above your limit. Pages that were not processed are listed in the log and in `OUTPUT.notProcessed`.
 
 ## Memory and speed
 
@@ -124,9 +149,56 @@ Failed, invalid and skipped URLs are free. The Actor checks your **maximum cost 
 - For large batches use **4096 MB and 6–8 parallel pages**. Rule of thumb: one parallel page per 512 MB.
 - Full-page **mobile** screenshots are 3× sharper and bigger; choose JPEG or WebP to keep files small.
 
-## Use it from code, Make, Zapier or n8n
+## Use it in n8n / Make / Zapier / Claude (MCP)
 
-Start the Actor through the Apify API with the JSON input above, then read the dataset items (each has `screenshotUrl`). To screenshot the pages found by another Actor, set `startUrlsDatasetId` to that run's dataset ID and `urlField` to the field with the URL.
+All four have an official Apify integration, so you need no custom code, only your Apify API token (Apify Console → Settings → API & Integrations).
+
+**n8n**
+1. Add the **Apify** node (n8n Cloud: search for it on the canvas; self-hosted: Settings → Community Nodes → install the Apify node).
+2. Operation **Run Actor**, Actor `egra_van/website-screenshot-pro`, input JSON as in the Quick start, **Wait for finish** on.
+3. Add a second Apify node, operation **Get Dataset Items**, Dataset ID = `defaultDatasetId` from step 2.
+4. Ready-made workflow: [competitor website monitor](https://github.com/Egrarobo/apify-actors/blob/main/n8n-templates/competitor-website-monitor.json): checks competitor pages every day, takes a screenshot of every changed page, summarizes the changes with OpenAI, emails them and logs them in Google Sheets.
+
+**Make**
+1. Add the **Apify → Run an Actor** module, choose *Website Screenshot Pro: Bulk Screenshots & PDF*, paste the input JSON and let it wait for the run to finish (synchronous run).
+2. Add **Apify → Get Dataset Items** with the dataset ID from step 1, then e.g. **Google Drive → Upload a File (from `screenshotUrl`)**.
+
+**Zapier**
+1. Action **Apify → Run Actor**: choose this Actor and paste the input JSON.
+2. Action **Apify → Fetch Dataset Items** (or the trigger **Finished Actor Run** in a second Zap) and send each row to Google Sheets, Slack or email.
+
+**Claude, ChatGPT, Cursor and other AI assistants (MCP)**
+Add the Apify MCP server to your assistant (in Claude: add a custom connector with the URL below). To give the assistant only this tool, use:
+
+```
+https://mcp.apify.com?tools=egra_van/website-screenshot-pro
+```
+
+Then ask, for example: *"Take full-page mobile screenshots of these 5 competitor pricing pages and tell me what changed in their plans."*
+
+To screenshot the pages found by another Actor, set `startUrlsDatasetId` to that run's dataset ID and `urlField` to the field with the URL.
+
+## How AI agents call this Actor
+
+**Through the Apify MCP server** (Claude, ChatGPT, Cursor, VS Code, the n8n AI Agent): connect `https://mcp.apify.com?tools=egra_van/website-screenshot-pro` and the agent sees this Actor as one tool, with its input schema. With the default `https://mcp.apify.com`, an agent finds Actors with `search-actors`, reads the input with `fetch-actor-details`, runs them with `call-actor` and reads the results with `get-dataset-items`.
+
+**Through the REST API, in one HTTP call** (waits for the run and returns the dataset items):
+
+```bash
+curl -X POST "https://api.apify.com/v2/acts/egra_van~website-screenshot-pro/run-sync-get-dataset-items" \
+  -H "Authorization: Bearer $APIFY_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"urls":["https://example.com","https://apify.com/pricing"],"device":"mobile","fullPage":true,"format":"jpeg"}'
+```
+
+**Agents without an Apify account** can pay per run through Apify's [agentic payments](https://docs.apify.com/platform/integrations/x402) (x402, Skyfire).
+
+Tips for agents:
+
+- Only `urls` is needed. `example.com` becomes `https://example.com`; duplicates are skipped.
+- Each row has `screenshotUrl` (a public link to the image), `status`, `finalUrl`, `title` and `error` (null when it worked), so an agent can open the image or report why a page failed.
+- For a vision model, use `format: "jpeg"` or `"webp"` and `fullPage: false` to keep images small.
+- Set `maxTotalChargeUsd` in the run options to cap the cost; the Actor stops cleanly before the next page that would not fit.
 
 ## Limitations
 

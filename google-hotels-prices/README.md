@@ -1,8 +1,46 @@
-# Google Hotels Scraper: Prices, Rate Parity & OTA Offers
+# Google Hotels Scraper: Prices & Rate Parity Checker
 
-Get **hotel prices from Google Hotels** for any city, landmark, hotel name or Google Hotels link, **for your exact dates and guests**: price per night, price with taxes and fees, total for the stay, deals ("20% less than usual"), guest rating, number of reviews, star class, GPS, photos, and optionally **the price on every booking site** Google compares: Booking.com, Expedia, Agoda, Hotels.com, Trip.com, the hotel's official site and 30+ more.
+**See what a hotel costs on Google Hotels for your dates, and what every booking site charges for the same room.** Type a city, a hotel name or paste a Google Hotels link; get the price per night and for the stay, taxes, rating, reviews and stars, and optionally the rate on Booking.com, Expedia, Hotels.com, Agoda, Trip.com, the hotel's official site and 30+ more.
 
-Built for **revenue managers, rate-parity checks, travel startups, price comparison sites and analysts** who need data that arrives on every run.
+- **What you get:** one row per hotel with prices, `cheapestProvider`, `officialSitePrice`, rating, address, GPS, phone and photos; with offers on, a list of every booking site's price
+- **What it costs:** $3 per 1,000 hotels with a price (`$0.003` each), plus $2 per 1,000 hotels when you also load every booking site's price. Hotels without any price and failed runs are **free**.
+- **Try it now:** the form is prefilled with `hotels in Paris` (default dates: one night, 30 days from today, 2 adults). Click **Start**; 20 hotels cost about **$0.06**.
+
+## Rate parity in one run: is the hotel's own website the cheapest?
+
+Hotels sign rate parity agreements, but online travel agencies often sell the same room for less. Turn on **Include prices of every booking site** and compare `officialSitePrice` with `priceLowest` and `cheapestProvider`.
+
+A real example from 8 Oct 2026 (`hotels in Paris`, 1 night on 7 Nov 2026, 2 adults, USD, 5 hotels with offers):
+
+| Hotel | Google's price / night | Cheapest site | Cheapest price | Official site | Booking sites |
+|---|---|---|---|---|---|
+| Novotel Paris Est | $76.01 | Amimir.com | $76 | $118 | 21 |
+| ibis Paris Porte d'Italie | $86.11 | Billabook.com | $86 | $97.69 | 21 |
+| Hôtel Mercure Paris Porte d'Orléans | $97 | Pilot | $97 | $125 | 21 |
+| Appart Hôtel - Residhome Paris Asnières Park | $78.24 | Amimir.com | $78 | $100.66 | 15 |
+| St Christopher's Paris - Canal | $55.01 | St Christopher's Paris - Canal (official site) | $55 | $55 | 4 |
+
+In 4 of 5 hotels a third-party site was cheaper than the official site, by about $12 to $42 a night. Prices change all the time; this is a snapshot of one run.
+
+Input for the same check:
+
+```json
+{
+  "queries": ["hotels in Paris"],
+  "maxHotelsPerQuery": 5,
+  "includeOffers": true,
+  "currency": "USD"
+}
+```
+
+To track **your own hotel and its competitors every day**, run one search, copy their `entityId`s (or `url`s) into **Google Hotels links** and schedule the run.
+
+## Who uses it
+
+- **Hotel revenue managers:** rate parity and competitor price checks every morning, for the dates that matter
+- **Travel startups and price comparison sites:** hotel prices for any city and date without an affiliate API
+- **Analysts:** price per night by city, date, star class and rating for reports and dashboards
+- **AI agents:** "find a 4-star hotel in Lisbon under $150 for these dates" as one tool call
 
 ## Why this scraper
 
@@ -21,6 +59,61 @@ Built for **revenue managers, rate-parity checks, travel startups, price compari
 | **Google Hotels links** | `https://www.google.com/travel/hotels/entity/ChoI…` | That exact hotel. This is the best input for daily price tracking. |
 
 Set **check-in and check-out** (or a relative date like `+30 days`), **adults, children with ages, currency, language and country**. You can filter by **price per night, minimum rating and hotel class**.
+
+## Quick start
+
+The prefilled example (20 hotels in Paris, default dates):
+
+```json
+{
+  "queries": ["hotels in Paris"]
+}
+```
+
+Your dates, guests and filters:
+
+```json
+{
+  "queries": ["hotels near Times Square"],
+  "hotelNames": ["Hotel Lutetia Paris"],
+  "checkInDate": "2026-12-18",
+  "checkOutDate": "2026-12-21",
+  "adults": 2,
+  "children": 1,
+  "childrenAges": ["7"],
+  "currency": "EUR",
+  "minRating": "4",
+  "hotelClass": ["4", "5"],
+  "includeOffers": true,
+  "maxHotelsPerQuery": 40
+}
+```
+
+## Use it in n8n / Make / Zapier / Claude (MCP)
+
+All four have an official Apify integration, so you need no custom code, only your Apify API token (Apify Console → Settings → API & Integrations).
+
+**n8n**
+1. Add the **Apify** node (n8n Cloud: search for it on the canvas; self-hosted: Settings → Community Nodes → install the Apify node).
+2. Operation **Run Actor**, Actor `egra_van/google-hotels-prices`, input JSON as in the Quick start, **Wait for finish** on.
+3. Add a second Apify node, operation **Get Dataset Items**, Dataset ID = `defaultDatasetId` from step 2.
+
+**Make**
+1. Add the **Apify → Run an Actor** module, choose *Google Hotels Scraper: Prices & Rate Parity Checker*, paste the input JSON and let it wait for the run to finish (synchronous run).
+2. Add **Apify → Get Dataset Items** with the dataset ID from step 1, then e.g. **Google Sheets → Add a Row**.
+
+**Zapier**
+1. Action **Apify → Run Actor**: choose this Actor and paste the input JSON.
+2. Action **Apify → Fetch Dataset Items** (or the trigger **Finished Actor Run** in a second Zap) and send each row to Google Sheets, Slack or email.
+
+**Claude, ChatGPT, Cursor and other AI assistants (MCP)**
+Add the Apify MCP server to your assistant (in Claude: add a custom connector with the URL below). To give the assistant only this tool, use:
+
+```
+https://mcp.apify.com?tools=egra_van/google-hotels-prices
+```
+
+Then ask, for example: *"Find 4-star hotels in Lisbon for 12-15 December for 2 adults, under $150 a night, and tell me which booking site is cheapest for each."*
 
 ## Output example
 
@@ -84,10 +177,10 @@ Set **check-in and check-out** (or a relative date like `+30 days`), **adults, c
 
 | Event | When | Price |
 |---|---|---|
-| `hotel` | each hotel with a price saved to the dataset | $0.0025 ($2.50 / 1,000 hotels) |
-| `hotel-offers` | extra, when the per-booking-site offers of a hotel are loaded | $0.0035 ($3.50 / 1,000 hotels) |
+| `hotel` | each hotel with a price saved to the dataset | $0.003 ($3 / 1,000 hotels) |
+| `hotel-offers` | extra, when the per-booking-site offers of a hotel are loaded | $0.002 ($2 / 1,000 hotels) |
 
-Example: 1,000 hotels with every booking site's price cost $6.00. Hotels without any price are saved for free. Set **Maximum cost per run** in the run options: the scraper stops cleanly at that limit and never loads offers it cannot charge for.
+Example: 1,000 hotels with every booking site's price cost $5.00. Hotels without any price are saved for free. Discounts apply on Apify's paid plans (Bronze, Silver, Gold). Set **Maximum cost per run** in the run options: the scraper stops cleanly at that limit and never loads offers it cannot charge for.
 
 ## Proxies: important
 
@@ -107,6 +200,28 @@ On the **Apify free plan** only a few shared datacenter IPs are available, and G
 - **Rate parity:** turn on **Include prices of every booking site** and compare `officialSitePrice` with `priceLowest` / `cheapestProvider`.
 - **Many dates:** run one task per date (the dates are part of each request). Schedules and the Apify API make this easy.
 - **Children:** give their ages. Searches with children use Google's internal search endpoint, which accepts ages.
+
+## How AI agents call this Actor
+
+**Through the Apify MCP server** (Claude, ChatGPT, Cursor, VS Code, the n8n AI Agent): connect `https://mcp.apify.com?tools=egra_van/google-hotels-prices` and the agent sees this Actor as one tool, with its input schema. With the default `https://mcp.apify.com`, an agent finds Actors with `search-actors`, reads the input with `fetch-actor-details`, runs them with `call-actor` and reads the results with `get-dataset-items`.
+
+**Through the REST API, in one HTTP call** (waits for the run and returns the dataset items):
+
+```bash
+curl -X POST "https://api.apify.com/v2/acts/egra_van~google-hotels-prices/run-sync-get-dataset-items" \
+  -H "Authorization: Bearer $APIFY_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"queries":["hotels in Lisbon"],"checkInDate":"2026-12-12","checkOutDate":"2026-12-15","adults":2,"hotelClass":["4"],"maxPrice":150,"includeOffers":true,"maxHotelsPerQuery":10}'
+```
+
+**Agents without an Apify account** can pay per run through Apify's [agentic payments](https://docs.apify.com/platform/integrations/x402) (x402, Skyfire).
+
+Tips for agents:
+
+- Only one of `queries`, `hotelNames` or `hotelUrls` is needed; everything else has a default. Without dates the stay is 1 night, 30 days from today.
+- Each item has `priceLowest`, `pricePerNight`, `priceTotal` and `currency`; with `includeOffers` also `cheapestProvider`, `officialSitePrice` and `offers[]`.
+- Prices depend on `country` (where you search from), `currency`, dates and guests, exactly like on google.com.
+- Set `maxTotalChargeUsd` in the run options to cap the cost; the scraper stops cleanly at the limit.
 
 ## Limitations
 

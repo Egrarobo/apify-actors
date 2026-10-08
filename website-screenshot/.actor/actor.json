@@ -1,8 +1,8 @@
 {
   "actorSpecification": 1,
   "name": "website-screenshot",
-  "title": "Website Screenshot Pro — Bulk, Full Page, Mobile",
-  "description": "Screenshot hundreds of URLs in one run: full page or viewport, desktop/tablet/mobile, PNG, JPEG, WebP or PDF. Hides cookie banners, blocks ads, loads lazy images, dark mode, element capture. Pay only for successful screenshots.",
+  "title": "Website Screenshot Pro: Bulk Screenshots & PDF",
+  "description": "Screenshot hundreds of URLs in one run: full page or viewport, desktop, tablet or mobile, PNG, JPEG, WebP or PDF, all in one ZIP. Cookie banners hidden, ads blocked, lazy images loaded. $5 per 1,000 screenshots; failed URLs are free.",
   "version": "1.0",
   "buildTag": "latest",
   "input": "./input_schema.json",

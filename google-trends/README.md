@@ -1,26 +1,61 @@
-# Google Trends Scraper: Interest, Related & Trending Now
+# Google Trends Scraper & API (pytrends alternative)
 
-Get **Google Trends data as clean JSON or spreadsheet rows**, without running pytrends yourself and fighting "429 Too Many Requests":
+**Get Google Trends data as JSON or spreadsheet rows, without pytrends and without "429 Too Many Requests".** Give it your keywords, a country and a time range; get back interest over time, interest by region, top and rising related searches, and today's Trending Now searches.
 
-- **Interest over time** for up to **5 terms compared together** on one 0-100 scale, exactly like trends.google.com
-- **Hundreds of terms** in one run: automatic batching into groups of 5, with an optional **anchor term** that puts every group on **one comparable scale**
-- **Interest by region**: countries, states/regions, cities (with latitude/longitude) or US metro areas (DMA)
-- **Related queries** and **related topics**, top and rising (with "+250%" and "Breakout")
-- **Trending Now**: the searches trending today in any country, with approximate search volume and news articles
-- Any **location, time range** (past hour to 2004-present, or custom dates), **category** and **Google property** (Web, Images, News, Shopping, YouTube)
+- **What you get:** one row per keyword with the 0-100 timeline, average, peak date, latest value, top region, related and rising queries, and a link to the same chart on trends.google.com
+- **What it costs:** $4 per 1,000 keywords (`$0.004` each), $1 per 1,000 Trending Now searches. Keywords that fail or come back incomplete are **free**.
+- **Try it now:** the form is prefilled with `coffee` vs `tea` in the US over 12 months plus the top 10 Trending Now searches. Click **Start**; that run costs about **$0.02**.
 
-Built for SEO and content teams, market researchers, e-commerce and product managers, analysts, and **AI agents** that need search-demand data on demand.
+## pytrends 429 fix: why this works when pytrends doesn't
+
+[pytrends](https://github.com/GeneralMills/pytrends) is archived and Google answers its requests with `429 Too Many Requests` very quickly. This Actor runs the same Google Trends requests from Apify's infrastructure:
+
+- every request is paced (1.5 s by default), and a refused request (HTTP 429, captcha, network error) is retried with **a new proxy IP and new Google cookies**;
+- if Google's explore endpoint stays blocked, chart data comes from Google's **embeddable widget pages**, and as a last resort from a **real Chrome browser**;
+- you only pay for keywords that came back complete.
+
+Still writing Python? The free [pytrends-alternative](https://github.com/Egrarobo/pytrends-alternative) library keeps the pytrends interface and runs it through this Actor:
+
+```python
+from gtrends_api import TrendReq   # was: from pytrends.request import TrendReq
+pytrends = TrendReq()              # uses your APIFY_TOKEN
+pytrends.build_payload(["coffee", "tea"], timeframe="today 12-m", geo="US")
+df = pytrends.interest_over_time()
+```
+
+## Who uses it
+
+- **SEO and content teams:** find rising searches before they peak and plan content around them
+- **Market researchers and product managers:** compare brands, products or features over 5 years, by country, state or city
+- **E-commerce:** see when demand for a product starts every year (seasonality) and stock up in time
+- **Analysts and AI agents:** search-demand data on demand, as clean JSON with a `status` on every row
+
+### Keyword demand checker for Etsy, KDP and Payhip sellers
+
+Selling printables, planners, low-content books or digital downloads? Before you make the next product, check if people actually search for it and when:
+
+```json
+{
+  "searchTerms": ["budget planner", "meal planner", "habit tracker", "reading journal", "wedding planner"],
+  "geo": "US",
+  "timeRange": "today 5-y",
+  "relatedQueries": true,
+  "maxRelatedItems": 10
+}
+```
+
+You get 5 years of weekly interest for each idea on **one 0-100 scale** (which idea has more demand), the **peak week** (the season to publish before), and the **rising related searches** (new niche ideas you had not thought of). This is 5 keywords, so the run costs $0.02. For 50 ideas, set `"anchorTerm": "budget planner"` so every group of 5 stays comparable (see below).
 
 ## Why this scraper
 
-- **Made for reliability.** Google Trends rate-limits hard. Every request is paced (1.5 s default), and a refused request (HTTP 429, captcha, network error) is retried with exponential backoff and a **new session: new proxy IP and new Google cookies**. If Google's explore endpoint stays blocked, chart tokens come from Google's **embeddable widget pages** instead, and as a last resort a **real Chrome browser** takes over.
-- **You don't pay for failures.** A term is charged only when **all the data you asked for** was collected. Incomplete terms are stored for free with the reason in `errors`.
-- **Clean outputs.** One item per term with `timeline`, `averageInterest`, `peakDate`, `latestValue`, `topRegion`, related lists, and a link to the same chart on Google Trends. Or switch on **flat rows** for Excel / Google Sheets / BI tools.
-- **Transparent.** Each request is logged with its HTTP status, time, whether a consent or captcha page was detected, and which parser read the data. Unexpected responses are saved to the key-value store (`DEBUG-…`). The run summary (`OUTPUT`) lists every term's status and request statistics.
+- **You don't pay for failures.** A keyword is charged only when **all the data you asked for** was collected. Incomplete keywords are stored for free, with the reason in `errors`.
+- **Clean outputs.** One item per keyword with `timeline`, `averageInterest`, `peakDate`, `latestValue`, `topRegion` and related lists, or **flat rows** for Excel, Google Sheets and BI tools.
+- **Hundreds of keywords on one scale.** Google compares at most 5 at a time; with an anchor term the Actor rescales every group so all keywords are comparable.
+- **Transparent.** Each request is logged with its HTTP status, time, consent or captcha detection and the parser used. Unexpected responses are saved to the key-value store (`DEBUG-…`), and the run summary (`OUTPUT`) lists every keyword's status.
 
 ## Quick start
 
-Compare two terms in the US over the past 12 months, plus today's US Trending Now searches:
+Compare two terms in the US over the past 12 months, plus today's US Trending Now searches (this is the prefilled example):
 
 ```json
 {
@@ -66,20 +101,32 @@ Google compares at most 5 terms at a time, and every comparison is scaled to its
 
 Pick an anchor that is stable and roughly as popular as your terms. If the anchor averages below 10 in a group, the log warns you: Google rounds to whole numbers, so tiny anchors make the rescaling imprecise. Without an anchor, more than 5 terms are simply split into groups of 5 (not comparable between groups), and `comparisonMode: "separate"` gives every term its own 0-100 scale.
 
-## n8n: weekly content ideas from rising searches
+## Use it in n8n / Make / Zapier / Claude (MCP)
 
-A ready-made [n8n workflow](https://github.com/Egrarobo/apify-actors/blob/main/n8n-templates/google-trends-content-ideas.json) runs this Actor every Monday for your seed keywords, keeps only rising searches that are related to them and new since last week, writes an SEO content brief for each with OpenAI and adds them to Google Sheets.
+All four have an official Apify integration, so you need no custom code, only your Apify API token (Apify Console → Settings → API & Integrations).
 
-## Python: drop-in pytrends replacement
+**n8n**
+1. Add the **Apify** node (n8n Cloud: search for it on the canvas; self-hosted: Settings → Community Nodes → install the Apify node).
+2. Operation **Run Actor**, Actor `egra_van/google-trends-reliable`, input JSON as in the Quick start, **Wait for finish** on.
+3. Add a second Apify node, operation **Get Dataset Items**, Dataset ID = `defaultDatasetId` from step 2.
+4. Ready-made workflow: [weekly content ideas from rising searches](https://github.com/Egrarobo/apify-actors/blob/main/n8n-templates/google-trends-content-ideas.json): every Monday it gets rising searches for your seed keywords, keeps only new ones, writes an SEO brief for each with OpenAI and saves them to Google Sheets. It uses a plain HTTP Request node, so it also works without the Apify node.
 
-Tired of `429 Too Many Requests` in pytrends? The free, MIT-licensed [pytrends-alternative](https://github.com/Egrarobo/pytrends-alternative) library keeps the pytrends interface (`TrendReq`, `build_payload`, `interest_over_time`, `interest_by_region`, `related_queries`, `trending_searches`) and runs the requests through this Actor:
+**Make**
+1. Add the **Apify → Run an Actor** module, choose *Google Trends Scraper & API*, paste the input JSON and let it wait for the run to finish (synchronous run).
+2. Add **Apify → Get Dataset Items** with the dataset ID from step 1, then e.g. **Google Sheets → Add a Row**.
 
-```python
-from gtrends_api import TrendReq   # was: from pytrends.request import TrendReq
-pytrends = TrendReq()              # uses your APIFY_TOKEN
-pytrends.build_payload(["coffee", "tea"], timeframe="today 12-m", geo="US")
-df = pytrends.interest_over_time()
+**Zapier**
+1. Action **Apify → Run Actor**: choose this Actor and paste the input JSON.
+2. Action **Apify → Fetch Dataset Items** (or the trigger **Finished Actor Run** in a second Zap) and send each row to Google Sheets, Slack or email.
+
+**Claude, ChatGPT, Cursor and other AI assistants (MCP)**
+Add the Apify MCP server to your assistant (in Claude: add a custom connector with the URL below). To give the assistant only this tool, use:
+
 ```
+https://mcp.apify.com?tools=egra_van/google-trends-reliable
+```
+
+Then ask, for example: *"Compare Google Trends interest for notion, clickup and asana in the US over 5 years and tell me which one is growing."*
 
 ## Output
 
@@ -94,7 +141,7 @@ df = pytrends.interest_over_time()
   "comparedWith": ["tea"],
   "geo": "US",
   "timeRange": "today 12-m",
-  "timeRangeResolved": "2025-09-27 2026-09-27",
+  "timeRangeResolved": "2025-10-08 2026-10-08",
   "resolution": "WEEK",
   "category": 0,
   "categoryName": "All categories",
@@ -103,30 +150,39 @@ df = pytrends.interest_over_time()
   "language": "en-US",
   "status": "ok",
   "timeline": [
-    { "date": "2025-09-28", "timestamp": 1759017600, "value": 81, "hasData": true, "isPartial": false, "formattedTime": "Sep 28 – Oct 4, 2025" },
-    { "date": "2026-09-20", "timestamp": 1789862400, "value": 77, "hasData": true, "isPartial": true, "formattedTime": "Sep 20 – 26, 2026" }
+    { "date": "2025-10-05", "timestamp": 1759622400, "value": 63, "hasData": true, "isPartial": false, "formattedTime": "Oct 5 – 11, 2025" },
+    { "date": "2026-10-04", "timestamp": 1791072000, "value": 69, "hasData": true, "isPartial": true, "formattedTime": "Oct 4 – 10, 2026" }
   ],
-  "averageInterest": 77.08,
+  "averageInterest": 77.25,
   "peakValue": 100,
-  "peakDate": "2025-12-21",
-  "latestValue": 77,
-  "latestDate": "2026-09-20",
+  "peakDate": "2026-04-12",
+  "latestValue": 69,
+  "latestDate": "2026-10-04",
   "googleAverage": 77,
   "timelinePoints": 53,
+  "exploreUrl": "https://trends.google.com/trends/explore?date=today+12-m&geo=US&q=coffee%2Ctea&hl=en-US",
+  "dataSource": "explore/http",
+  "scrapedAt": "2026-10-08T11:53:56.720Z"
+}
+```
+
+This is a real result of the prefilled example (run on 8 Oct 2026; the timeline is shortened to its first and last week, the full one has 53 points). In the same run `tea` had `averageInterest` 36.77, so coffee had about twice the search interest of tea in the US.
+
+With `interestByRegion`, `relatedQueries` or `relatedTopics` on, the item also has these fields (values illustrative):
+
+```json
+{
   "regionResolution": "REGION",
   "regions": [{ "geoCode": "US-CA", "geoName": "California", "value": 100, "formattedValue": "100", "hasData": true }],
   "topRegion": "California",
   "relatedQueriesTop": [{ "rank": 1, "query": "coffee near me", "value": 100, "formattedValue": "100", "link": "https://trends.google.com/trends/explore?q=coffee+near+me&date=today+12-m&geo=US" }],
   "relatedQueriesRising": [{ "rank": 1, "query": "coffee tariffs", "value": 5000, "formattedValue": "Breakout", "isBreakout": true, "link": "https://trends.google.com/trends/explore?q=coffee+tariffs&date=today+12-m&geo=US" }],
   "relatedTopicsTop": [{ "rank": 1, "topicId": "/m/02vqfm", "title": "Coffee", "topicType": "Beverage", "value": 100, "formattedValue": "100", "link": "https://trends.google.com/trends/explore?q=/m/02vqfm&date=today+12-m&geo=US" }],
-  "relatedTopicsRising": [],
-  "exploreUrl": "https://trends.google.com/trends/explore?date=today+12-m&geo=US&q=coffee%2Ctea&hl=en-US",
-  "dataSource": "explore/http",
-  "scrapedAt": "2026-09-27T12:00:00.000Z"
+  "relatedTopicsRising": []
 }
 ```
 
-(Values above are illustrative.) Notes:
+Notes:
 
 - **Values are relative (0-100), not search counts.** 100 is the peak of the most popular term in the comparison for the chosen place and time; 0 means too little data. This is how Google Trends works.
 - `isPartial: true` marks the last, still-incomplete period. `averageInterest` ignores it.
@@ -204,20 +260,27 @@ Examples: 5 terms with everything = $0.02. 500 keywords with an anchor = about $
 - **Topics instead of words.** A Knowledge Graph topic id such as `/m/0663v` (Pizza, the food) can be used as a search term; it covers all spellings and languages of the topic.
 - **Scheduling.** Run it daily with the same input to build your own history; Google Trends data for short ranges changes slightly between requests (sampling).
 
-## For AI agents and developers
+## How AI agents call this Actor
 
-Run synchronously and get the items in one HTTP call:
+**Through the Apify MCP server** (Claude, ChatGPT, Cursor, VS Code, the n8n AI Agent): connect `https://mcp.apify.com?tools=egra_van/google-trends-reliable` and the agent sees this Actor as one tool, with its input schema. With the default `https://mcp.apify.com`, an agent finds Actors with `search-actors`, reads the input with `fetch-actor-details`, runs them with `call-actor` and reads the results with `get-dataset-items`.
+
+**Through the REST API, in one HTTP call** (waits for the run and returns the dataset items):
 
 ```bash
-curl -X POST "https://api.apify.com/v2/acts/<username>~google-trends/run-sync-get-dataset-items?token=$APIFY_TOKEN" \
+curl -X POST "https://api.apify.com/v2/acts/egra_van~google-trends-reliable/run-sync-get-dataset-items" \
+  -H "Authorization: Bearer $APIFY_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"searchTerms":["claude","chatgpt","gemini"],"geo":"US","timeRange":"today 3-m","relatedQueries":true}'
 ```
 
-- Input is plain JSON; every field is optional except `searchTerms` or `trendingNow`. `timeRange` also accepts any Google Trends time string directly (`"today 2-y"`, `"now 3-d"`, `"2025-01-01 2025-06-30"`).
-- Every item has `type` (`term` or `trending`; `rowType` in flat mode) and `status`, so agents can tell complete, partial and failed data apart without reading logs.
-- Values are relative. To answer "which is more popular", compare `averageInterest` within one group, or `comparableAverage` across groups when an anchor is set.
-- The Actor can be used as a tool through the Apify MCP server (`mcp.apify.com`).
+**Agents without an Apify account** can pay per run through Apify's [agentic payments](https://docs.apify.com/platform/integrations/x402) (x402, Skyfire).
+
+Tips for agents:
+
+- Input is plain JSON; only `searchTerms` (or `trendingNow: true`) is needed. `timeRange` also accepts any Google Trends time string (`"today 2-y"`, `"now 3-d"`, `"2025-01-01 2025-06-30"`).
+- Every item has `type` (`term` or `trending`; `rowType` in flat mode) and `status` (`ok`, `partial`, `failed`), so complete, partial and failed data can be told apart without reading logs.
+- Values are relative (0-100). To answer "which is more popular", compare `averageInterest` within one group, or `comparableAverage` across groups when `anchorTerm` is set.
+- Set `maxTotalChargeUsd` in the run options to cap the cost: the Actor never fetches data it cannot charge for.
 
 ## Input reference
 
