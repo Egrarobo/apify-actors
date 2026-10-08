@@ -1,0 +1,21 @@
+{
+  "name": "google-ads-transparency",
+  "version": "1.0.0",
+  "description": "Google Ads Transparency Center scraper: every ad of an advertiser or domain, with format, regions, first and last shown dates, image or preview links.",
+  "main": "src/main.js",
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node src/main.js",
+    "test": "node scripts/validate-input-schema.mjs && node --test --test-concurrency=1 test/*.test.mjs"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "apify": "^3.7.2",
+    "impit": "^0.14.5"
+  },
+  "devDependencies": {
+    "@apify/input_schema": "*",
+    "ajv": "^8.17.1"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "actorSpecification": 1,
+  "name": "google-ads-transparency",
+  "title": "Google Ads Transparency Scraper: Ads by Country",
+  "description": "Google Ads Transparency Center scraper: the Search, Display and YouTube ads of any domain, advertiser name or ID. Format, countries where shown, first and last shown dates, image or preview link, ad page. Filter by country, dates and format. $1.20 per 1,000 ads, countries included.",
+  "version": "1.0",
+  "buildTag": "latest",
+  "defaultMemoryMbytes": 256,
+  "minMemoryMbytes": 128,
+  "maxMemoryMbytes": 1024,
+  "input": "./input_schema.json",
+  "dockerfile": "../Dockerfile",
+  "storages": {
+    "dataset": "./dataset_schema.json"
+  },
+  "output": "./output_schema.json"
+}

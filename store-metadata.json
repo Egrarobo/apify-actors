@@ -155,6 +155,25 @@
       "exampleRunInput": {},
       "seoTitle": "Dataset Change Monitor: New & Changed Item Alerts",
       "seoDescription": "Compare each scraper run with the last: new, changed and removed items, field diffs and Slack, Telegram or email alerts. $2/1,000 changes, $0.01/1,000 checked."
+    },
+    "google-ads-transparency": {
+      "dir": "google-ads-transparency",
+      "title": "Google Ads Transparency Scraper: Ads by Country",
+      "categories": [
+        "MARKETING",
+        "SEO_TOOLS",
+        "ECOMMERCE"
+      ],
+      "seoTitle": "Google Ads Transparency Scraper: Competitor Ads by Country",
+      "seoDescription": "Export any advertiser's Google ads from the Ads Transparency Center: text, image and video ads, countries, first and last shown dates. $1.20 / 1,000 ads.",
+      "exampleRunInput": {
+        "searchTerms": [
+          "nike.com"
+        ],
+        "region": "US",
+        "maxAdsPerQuery": 10
+      },
+      "description": "Google Ads Transparency Center scraper: the Search, Display and YouTube ads of any domain, advertiser name or ID. Format, countries where shown, first and last shown dates, image or preview link, ad page. Filter by country, dates and format. $1.20 per 1,000 ads, countries included."
     }
   }
 }

@@ -1,0 +1,267 @@
+{
+  "actorSpecification": 1,
+  "fields": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "searchTerm": {
+        "type": "string",
+        "description": "The line of the input this ad came from"
+      },
+      "advertiserName": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "Verified advertiser name"
+      },
+      "advertiserId": {
+        "type": "string",
+        "description": "Transparency Center advertiser ID (AR...)"
+      },
+      "adId": {
+        "type": "string",
+        "description": "Transparency Center ad (creative) ID (CR...)"
+      },
+      "format": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "enum": [
+          "TEXT",
+          "IMAGE",
+          "VIDEO",
+          null
+        ],
+        "description": "TEXT (Search), IMAGE (Display, Shopping) or VIDEO (YouTube)"
+      },
+      "firstShown": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "First time the ad was shown (ISO 8601, UTC)"
+      },
+      "lastShown": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "Last time the ad was shown (ISO 8601, UTC)"
+      },
+      "regions": {
+        "type": [
+          "array",
+          "null"
+        ],
+        "items": {
+          "type": "string"
+        },
+        "description": "Countries where the ad was shown (2-letter codes); null when details are off"
+      },
+      "regionNames": {
+        "type": [
+          "array",
+          "null"
+        ],
+        "items": {
+          "type": "string"
+        },
+        "description": "Country names"
+      },
+      "regionCount": {
+        "type": [
+          "integer",
+          "null"
+        ]
+      },
+      "imageUrl": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "Image of the ad (text ads are archived by Google as an image)"
+      },
+      "previewUrl": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "Google preview script of the ad (image and video ads)"
+      },
+      "videoUrl": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "YouTube link, when Google exposes it"
+      },
+      "variantCount": {
+        "type": [
+          "integer",
+          "null"
+        ]
+      },
+      "variants": {
+        "type": [
+          "array",
+          "null"
+        ],
+        "items": {
+          "type": "object"
+        }
+      },
+      "adUrl": {
+        "type": "string",
+        "description": "Ad page in the Transparency Center"
+      },
+      "advertiserUrl": {
+        "type": "string"
+      },
+      "searchedDomain": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "filterRegion": {
+        "type": "string"
+      },
+      "filterPeriod": {
+        "type": [
+          "object",
+          "null"
+        ]
+      },
+      "filterFormat": {
+        "type": "string"
+      },
+      "detailsError": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "scrapedAt": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "advertiserId",
+      "adId",
+      "adUrl"
+    ]
+  },
+  "views": {
+    "overview": {
+      "title": "Ads",
+      "transformation": {
+        "fields": [
+          "imageUrl",
+          "advertiserName",
+          "format",
+          "firstShown",
+          "lastShown",
+          "regionCount",
+          "regions",
+          "adUrl",
+          "previewUrl",
+          "videoUrl",
+          "adId",
+          "searchTerm"
+        ]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "imageUrl": {
+            "label": "Ad",
+            "format": "image"
+          },
+          "advertiserName": {
+            "label": "Advertiser",
+            "format": "text"
+          },
+          "format": {
+            "label": "Format",
+            "format": "text"
+          },
+          "firstShown": {
+            "label": "First shown",
+            "format": "date"
+          },
+          "lastShown": {
+            "label": "Last shown",
+            "format": "date"
+          },
+          "regionCount": {
+            "label": "Countries",
+            "format": "number"
+          },
+          "regions": {
+            "label": "Country codes",
+            "format": "array"
+          },
+          "adUrl": {
+            "label": "Ad page",
+            "format": "link"
+          },
+          "previewUrl": {
+            "label": "Preview",
+            "format": "link"
+          },
+          "videoUrl": {
+            "label": "Video",
+            "format": "link"
+          },
+          "adId": {
+            "label": "Ad ID",
+            "format": "text"
+          },
+          "searchTerm": {
+            "label": "Search",
+            "format": "text"
+          }
+        }
+      }
+    },
+    "advertisers": {
+      "title": "Advertisers",
+      "transformation": {
+        "fields": [
+          "advertiserName",
+          "advertiserId",
+          "advertiserUrl",
+          "searchTerm",
+          "searchedDomain"
+        ]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "advertiserName": {
+            "label": "Advertiser",
+            "format": "text"
+          },
+          "advertiserId": {
+            "label": "Advertiser ID",
+            "format": "text"
+          },
+          "advertiserUrl": {
+            "label": "Transparency Center",
+            "format": "link"
+          },
+          "searchTerm": {
+            "label": "Search",
+            "format": "text"
+          },
+          "searchedDomain": {
+            "label": "Domain",
+            "format": "text"
+          }
+        }
+      }
+    }
+  }
+}

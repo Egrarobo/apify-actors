@@ -1,0 +1,99 @@
+{
+    "title": "Google Ads Transparency Center input",
+    "description": "List the ads an advertiser or a website runs on Google (Search, YouTube, Display), from the public Google Ads Transparency Center. Search by domain, advertiser name or advertiser ID.",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "searchTerms": {
+            "title": "Domains, advertiser names or IDs",
+            "type": "array",
+            "editor": "stringList",
+            "description": "One per line. A website domain (\"nike.com\": every advertiser that sends traffic to it), an advertiser name (\"Nike, Inc.\": the advertiser with this exact name and the most ads is picked; the log lists similar names), an advertiser ID (\"AR16735076323512287233\") or a Transparency Center advertiser link. Domains and IDs are the most precise.",
+            "prefill": ["nike.com"],
+            "sectionCaption": "1. Whose ads"
+        },
+        "region": {
+            "title": "Region (country where the ad was shown)",
+            "type": "string",
+            "editor": "textfield",
+            "description": "2-letter country code such as US, GB, DE, FR, IN, or \"anywhere\" for all countries.",
+            "prefill": "US",
+            "default": "anywhere",
+            "sectionCaption": "2. Filters"
+        },
+        "period": {
+            "title": "Period (when the ad was shown)",
+            "type": "string",
+            "editor": "select",
+            "description": "Only ads shown in this period. Google keeps the day-by-day data for about the last 12 months; for older periods it returns no ads.",
+            "enum": ["anytime", "last7days", "last30days", "last90days", "custom"],
+            "enumTitles": ["Any time", "Last 7 days", "Last 30 days", "Last 90 days", "Custom dates (below)"],
+            "default": "anytime"
+        },
+        "startDate": {
+            "title": "Start date (custom period)",
+            "type": "string",
+            "editor": "datepicker",
+            "dateType": "absolute",
+            "description": "First day, as YYYY-MM-DD. Used only when Period is \"Custom dates\"."
+        },
+        "endDate": {
+            "title": "End date (custom period)",
+            "type": "string",
+            "editor": "datepicker",
+            "dateType": "absolute",
+            "description": "Last day, as YYYY-MM-DD. Empty = today. Used only when Period is \"Custom dates\"."
+        },
+        "format": {
+            "title": "Ad format",
+            "type": "string",
+            "editor": "select",
+            "description": "Text ads (Google Search), image ads (Display, Shopping) or video ads (YouTube).",
+            "enum": ["all", "text", "image", "video"],
+            "enumTitles": ["All formats", "Text", "Image", "Video"],
+            "default": "all"
+        },
+        "maxAdsPerQuery": {
+            "title": "Max ads per domain / advertiser",
+            "type": "integer",
+            "description": "Stop after this many ads for each line above. Big brands have thousands of ads; you pay per ad stored.",
+            "minimum": 1,
+            "maximum": 100000,
+            "prefill": 10,
+            "default": 50,
+            "sectionCaption": "3. How much"
+        },
+        "includeDetails": {
+            "title": "Add countries and all variants",
+            "type": "boolean",
+            "description": "For each ad, also read its detail page: every country where it was shown and all its versions (images or previews). One extra request per ad, so runs take about twice as long. Same price.",
+            "default": true
+        },
+        "requestDelaySecs": {
+            "title": "Pause between requests (seconds)",
+            "type": "number",
+            "description": "The Actor sends one request at a time and waits this long between them, to stay within Google's limits. Minimum 1.",
+            "minimum": 1,
+            "maximum": 30,
+            "default": 2,
+            "sectionCaption": "4. Advanced"
+        },
+        "maxBlockWaitSecs": {
+            "title": "Max wait when Google asks to slow down (seconds)",
+            "type": "integer",
+            "description": "If Google answers with its rate-limit page, the Actor waits (30 s, then 60 s, 120 s...) and retries on the same IP. It never solves captchas and never switches IP to get around a block. After this much waiting the run stops and keeps the ads already read.",
+            "minimum": 0,
+            "maximum": 900,
+            "default": 180
+        },
+        "proxyConfiguration": {
+            "title": "Proxy",
+            "type": "object",
+            "editor": "proxy",
+            "description": "Default: the Apify proxy (datacenter), one IP for the whole run. The Apify RESIDENTIAL and GOOGLE_SERP groups are not available in this Actor; for other IPs add your own proxy URLs.",
+            "prefill": { "useApifyProxy": true },
+            "default": { "useApifyProxy": true }
+        }
+    },
+    "required": ["searchTerms"]
+}
