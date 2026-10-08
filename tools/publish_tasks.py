@@ -6,7 +6,7 @@
   python3 tools/publish_tasks.py --env-file PATH --run    # run every task once (a task must work before publishing)
   python3 tools/publish_tasks.py --env-file PATH --publish  # set isPublic = true (public landing pages)
 
-Each step only touches tasks named in the JSON. --only name1,name2 limits it further.
+Each step only touches tasks named in the JSON. --only name1,name2 limits it further; --run --skip-done reruns only tasks without a successful run.
 The token is read from APIFY_TOKEN or from APIFY_TOKEN=... in --env-file; it is never printed.
 """
 import argparse
@@ -60,6 +60,7 @@ def main():
     ap.add_argument("--run", action="store_true")
     ap.add_argument("--publish", action="store_true")
     ap.add_argument("--only")
+    ap.add_argument("--skip-done", action="store_true", help="with --run: skip tasks whose last run already SUCCEEDED")
     args = ap.parse_args()
 
     here = os.path.dirname(os.path.abspath(__file__))
@@ -101,6 +102,11 @@ def main():
                 created = call("POST", "/actor-tasks", token, {"actId": actor["id"], "name": t["name"], "input": t["input"]})
                 call("PUT", f"/actor-tasks/{created['id']}", token, page)
                 print(f"+ created {t['name']} (private)")
+        if args.run and args.skip_done:
+            last = (call("GET", f"/actor-tasks/{task_ref}/runs?desc=1&limit=1", token) or {}).get("items") or []
+            if last and last[0]["status"] in ("SUCCEEDED", "RUNNING", "READY"):
+                print(f"  skip {t['name']}: last run {last[0]['status']}")
+                continue
         if args.run:
             run = call("POST", f"/actor-tasks/{task_ref}/runs", token, {})
             while run["status"] in ("READY", "RUNNING"):
