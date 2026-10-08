@@ -3,14 +3,14 @@
   "actors": {
     "google-trends-reliable": {
       "dir": "google-trends",
-      "title": "Google Trends Scraper & API",
+      "title": "Google Trends Scraper & API (pytrends alternative)",
       "categories": [
         "SEO_TOOLS",
         "MARKETING",
         "DEVELOPER_TOOLS"
       ],
       "seoTitle": "Google Trends Scraper & API: pytrends Alternative (429 Fix)",
-      "seoDescription": "Google Trends API: interest over time, regions, rising searches and Trending Now as JSON or CSV. Retries 429 errors that stop pytrends. $4 / 1,000 keywords.",
+      "seoDescription": "Google Trends interest over time, regions, rising searches and Trending Now as JSON or CSV. Handles the 429 errors that stop pytrends. $4 per 1,000 keywords.",
       "exampleRunInput": {
         "searchTerms": [
           "coffee",
@@ -20,41 +20,41 @@
         "trendingNow": true,
         "maxTrendingItems": 10
       },
-      "description": "Google Trends scraper and API: interest over time, by country, region or city, top and rising related searches and Trending Now, as JSON, CSV or Excel. A pytrends alternative that retries 429 errors on new IPs. Compare hundreds of keywords on one scale. $4 per 1,000 keywords; failed ones are free."
+      "description": "Google Trends data with a fix for pytrends 429 errors: interest over time, by country, region or city, top and rising related searches, and Trending Now, as JSON or spreadsheet rows. Compare hundreds of keywords on one scale. $4 per 1,000 keywords; failed keywords are free."
     },
     "google-hotels-prices": {
       "dir": "google-hotels-prices",
-      "title": "Google Hotels Scraper & Price API",
+      "title": "Google Hotels Scraper: Prices & Rate Parity Checker",
       "categories": [
         "TRAVEL",
         "ECOMMERCE"
       ],
-      "seoTitle": "Google Hotels Prices Scraper: OTA Rates & Rate Parity",
-      "seoDescription": "Google Hotels prices for any city and dates: per night, total, taxes and each booking site's rate (Booking.com, Expedia, official site). $3 / 1,000 hotels.",
+      "seoTitle": "Google Hotels Scraper: Hotel Prices & Rate Parity",
+      "seoDescription": "Hotel prices from Google Hotels for any city and dates, with every booking site's rate (Booking.com, Expedia, official site) for rate parity.",
       "exampleRunInput": {
         "queries": [
           "hotels in Paris"
         ]
       },
-      "description": "Google Hotels scraper and API: prices for any city, hotel name or link and your dates. Per night and total, taxes, rating, reviews, stars, GPS and, optionally, every booking site's rate (Booking.com, Expedia, official site) for rate parity. $3 per 1,000 hotels, +$2 with all sites' rates."
+      "description": "Hotel prices from Google Hotels for any city, hotel name or link and your dates: price per night and total, taxes, rating, reviews, stars, GPS and, optionally, every booking site's rate (Booking.com, Expedia, Hotels.com, official site) for rate parity checks. $3 per 1,000 hotels."
     },
     "website-screenshot-pro": {
       "dir": "website-screenshot",
-      "title": "Website Screenshot Generator & PDF",
+      "title": "Website Screenshot Pro: Bulk Screenshots & PDF",
       "categories": [
         "DEVELOPER_TOOLS",
         "AUTOMATION",
         "SEO_TOOLS"
       ],
-      "seoTitle": "Bulk Website Screenshot API: Full Page PNG, JPEG & PDF",
-      "seoDescription": "Screenshot hundreds of URLs in one run: full page, desktop or mobile, PNG, JPEG, WebP or PDF in one ZIP. Cookie banners hidden. $5 / 1,000; failed URLs free.",
+      "seoTitle": "Bulk Website Screenshots to PNG, JPEG & PDF",
+      "seoDescription": "Screenshot hundreds of URLs in one run: full page, desktop or mobile, PNG/JPEG/WebP/PDF in one ZIP. No cookie banners. Failed URLs are free.",
       "exampleRunInput": {
         "urls": [
           "https://apify.com",
           "https://www.wikipedia.org"
         ]
       },
-      "description": "Bulk website screenshot API: paste hundreds of URLs and get full-page or viewport captures on desktop, tablet or mobile as PNG, JPEG, WebP or PDF, all in one ZIP. Cookie banners hidden, ads blocked, lazy images loaded. $5 per 1,000 screenshots; failed URLs are free."
+      "description": "Screenshot hundreds of URLs in one run: full page or viewport, desktop, tablet or mobile, PNG, JPEG, WebP or PDF, all in one ZIP. Cookie banners hidden, ads blocked, lazy images loaded. $5 per 1,000 screenshots; failed URLs are free."
     },
     "document-to-markdown": {
       "dir": "doc-to-markdown",

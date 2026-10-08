@@ -20,6 +20,13 @@ import urllib.request
 USERNAME = "egra_van"
 API = "https://api.apify.com/v2/acts/"
 FIELDS = ("title", "description", "categories", "seoTitle", "seoDescription", "exampleRunInput")
+# Max lengths. title and description: Apify Actor marketing playbook (name 40-50 characters, description 300).
+# seoTitle 60 and seoDescription 160: maxLength in the Apify OpenAPI (TaskPublicConfig); the playbook advises 40-50 and 145-155.
+LIMITS = {"title": 50, "description": 300, "seoTitle": 60, "seoDescription": 160}
+
+
+def too_long(cfg):
+    return [f"{f} {len(cfg[f])} > {m}" for f, m in LIMITS.items() if isinstance(cfg.get(f), str) and len(cfg[f]) > m]
 
 
 def load_token(env_file):
@@ -71,6 +78,10 @@ def main():
 
     for name, cfg in meta.items():
         if only and name not in only:
+            continue
+        bad = too_long(cfg)
+        if bad:
+            print(f"! {name}: too long: " + "; ".join(bad) + " (not applied)")
             continue
         url = f"{API}{USERNAME}~{name}"
         live = request("GET", url)
