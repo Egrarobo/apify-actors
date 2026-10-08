@@ -167,16 +167,22 @@ test('filters: price, rating, class', () => {
     assert.equal(f({ pricePerNight: 80, rating: 4, hotelClass: null }), false);
 });
 
-test('proxy: Apify RESIDENTIAL group is removed, other groups and own proxy URLs are kept', () => {
+test('proxy: Apify RESIDENTIAL and GOOGLE_SERP groups are removed, other groups and own proxy URLs are kept', () => {
     let r = limitProxy({ useApifyProxy: true, apifyProxyGroups: ['RESIDENTIAL'], apifyProxyCountry: 'US' });
-    assert.equal(r.removedResidential, true);
+    assert.deepEqual(r.removedGroups, ['RESIDENTIAL']);
     assert.deepEqual(r.proxy, { useApifyProxy: true, apifyProxyCountry: 'US' });
-    r = limitProxy({ useApifyProxy: true, apifyProxyGroups: ['residential', 'GOOGLE_SERP'] });
-    assert.deepEqual(r.proxy.apifyProxyGroups, ['GOOGLE_SERP']);
     r = limitProxy({ useApifyProxy: true, apifyProxyGroups: ['GOOGLE_SERP'] });
-    assert.equal(r.removedResidential, false);
+    assert.deepEqual(r.removedGroups, ['GOOGLE_SERP']);
+    assert.deepEqual(r.proxy, { useApifyProxy: true });
+    r = limitProxy({ useApifyProxy: true, apifyProxyGroups: ['residential', 'google_serp'] });
+    assert.deepEqual(r.removedGroups, ['RESIDENTIAL', 'GOOGLE_SERP']);
+    assert.equal(r.proxy.apifyProxyGroups, undefined);
+    r = limitProxy({ useApifyProxy: true, apifyProxyGroups: ['GOOGLE_SERP', 'SHADER'] });
+    assert.deepEqual(r.proxy.apifyProxyGroups, ['SHADER']);
+    r = limitProxy({ useApifyProxy: true });
+    assert.deepEqual(r.removedGroups, []);
     r = limitProxy({ useApifyProxy: false, proxyUrls: ['http://u:p@my-residential.example:8000'] });
-    assert.equal(r.removedResidential, false);
+    assert.deepEqual(r.removedGroups, []);
     assert.deepEqual(r.proxy.proxyUrls, ['http://u:p@my-residential.example:8000']);
-    assert.equal(limitProxy(null).removedResidential, false);
+    assert.deepEqual(limitProxy(null).removedGroups, []);
 });

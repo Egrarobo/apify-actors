@@ -192,13 +192,12 @@ Google blocks datacenter IPs quickly. What to expect:
 
 | Proxy | Result |
 |---|---|
-| **GOOGLE_SERP** (Apify proxy group) | Best value for Google. Requests are sent to `http://www.google.com` as this proxy requires. |
+| Default (Apify datacenter) | Works for small runs. Expect `captcha=YES` in the log after some requests. Every retry uses a new IP, and the browser fallback takes over when HTTP is blocked. |
 | **Your own proxies** (proxy URLs) | Any provider, including residential IPs. You pay your provider directly. |
-| Default (shared datacenter) | Works for small runs. Expect `captcha=YES` in the log after some requests. Every retry uses a new IP, but the pool is small. |
 
-The Apify **RESIDENTIAL** group is not available in this Actor: if you select it, the run continues on the default Apify proxy and says so in the log. For residential IPs, use your own proxy URLs.
+The Apify **RESIDENTIAL** and **GOOGLE_SERP** groups are not available in this Actor: if you select one, the run continues on the default Apify proxy and says so in the log. For residential or other IPs, use your own proxy URLs.
 
-On the **Apify free plan** only a few shared datacenter IPs are available, and GOOGLE_SERP is not included. Keep runs small (a few searches, 20-50 hotels) and schedule them apart.
+On the **Apify free plan** only a few shared datacenter IPs are available. Keep runs small (a few searches, 20-50 hotels) and schedule them apart.
 
 ## Tips
 
@@ -239,6 +238,6 @@ Tips for agents:
 
 **Is it legal?** The scraper collects publicly visible price information, like a person using Google Hotels. You are responsible for complying with Google's terms and the laws that apply to you, including when you republish data.
 
-**Why did a run fail?** Open the log. Each request line shows `status`, `consent=`, `captcha=` and the parser used. `captcha=YES` on every retry means the proxy IPs are blocked: switch to the GOOGLE_SERP proxy group or your own proxies, keep the browser fallback on, and run fewer hotels at a time. Saved `DEBUG-…` pages in the key-value store show exactly what Google returned.
+**Why did a run fail?** Open the log. Each request line shows `status`, `consent=`, `captcha=` and the parser used. `captcha=YES` on every retry means the proxy IPs are blocked: add your own proxies, keep the browser fallback on, and run fewer hotels at a time. Saved `DEBUG-…` pages in the key-value store show exactly what Google returned.
 
 **Can I get more than ~20 hotels per search?** Yes. Raise **Max hotels per search**. The scraper follows Google's result pages (about 18-20 hotels each) up to **Max result pages per search**.

@@ -155,18 +155,23 @@ export function parseInput(input, { now = Date.now() } = {}) {
 }
 
 /**
- * Apify RESIDENTIAL proxy is billed per GB to the Actor owner on pay-per-event Actors, so it is not offered here.
- * The RESIDENTIAL group is removed (the run continues on the default Apify proxy, or GOOGLE_SERP if also chosen).
+ * Apify proxy groups this Actor does not use, because on a pay-per-event Actor their cost is billed to the Actor owner:
+ * - RESIDENTIAL is billed per GB;
+ * - GOOGLE_SERP is billed per request (about $0.0025 each on the base plan), more than a hotel with offers earns.
+ * Those groups are removed (the run continues on the remaining groups, or on the default Apify proxy).
  * Your own proxy URLs ("proxyUrls"), residential or not, are used unchanged.
- * Returns { proxy, removedResidential }.
+ * Returns { proxy, removedGroups }.
  */
+export const BLOCKED_PROXY_GROUPS = ['RESIDENTIAL', 'GOOGLE_SERP'];
 export function limitProxy(proxy) {
     const groups = Array.isArray(proxy?.apifyProxyGroups) ? proxy.apifyProxyGroups : [];
-    const kept = groups.filter((g) => String(g).toUpperCase() !== 'RESIDENTIAL');
-    if (kept.length === groups.length) return { proxy, removedResidential: false };
+    const isBlocked = (g) => BLOCKED_PROXY_GROUPS.includes(String(g).toUpperCase());
+    const removedGroups = groups.filter(isBlocked).map((g) => String(g).toUpperCase());
+    if (!removedGroups.length) return { proxy, removedGroups };
+    const kept = groups.filter((g) => !isBlocked(g));
     const out = { ...proxy, apifyProxyGroups: kept };
     if (!kept.length) delete out.apifyProxyGroups;
-    return { proxy: out, removedResidential: true };
+    return { proxy: out, removedGroups };
 }
 
 /** Client-side filters; a hotel without a price fails price filters (it can't be compared). */

@@ -159,7 +159,7 @@
             "title": "Proxy",
             "type": "object",
             "editor": "proxy",
-            "description": "Google blocks datacenter IPs quickly. Best: Apify Proxy group GOOGLE_SERP (paid Apify plans). The Apify RESIDENTIAL group is not available in this Actor: if selected, the run uses the default Apify proxy instead. For residential IPs, use your own proxy URLs. The free plan's shared datacenter IPs work only for small runs and often get \"unusual traffic\" pages.",
+            "description": "Google blocks datacenter IPs quickly. The default Apify proxy works for small runs; each retry uses a new IP, and the browser fallback helps. The Apify RESIDENTIAL and GOOGLE_SERP groups are not available in this Actor: if selected, the run uses the default Apify proxy instead. For residential or other IPs, use your own proxy URLs. The free plan's shared datacenter IPs work only for small runs and often get \"unusual traffic\" pages.",
             "prefill": { "useApifyProxy": true },
             "default": { "useApifyProxy": true }
         },

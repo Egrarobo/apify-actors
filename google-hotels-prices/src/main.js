@@ -24,9 +24,13 @@ try {
     if (proxyInput) {
         const limited = limitProxy(proxyInput);
         proxyInput = limited.proxy;
-        if (limited.removedResidential) {
+        if (limited.removedGroups.includes('RESIDENTIAL')) {
             log.warning('The Apify RESIDENTIAL proxy group is not available in this Actor (it is billed per GB). '
                 + 'Using the default Apify proxy instead. To use residential IPs, choose your own proxies (proxy URLs) in the Proxy field.');
+        }
+        if (limited.removedGroups.includes('GOOGLE_SERP')) {
+            log.warning('The Apify GOOGLE_SERP proxy group is not available in this Actor (it is billed per request). '
+                + 'Using the default Apify proxy instead. To use other IPs, choose your own proxies (proxy URLs) in the Proxy field.');
         }
     }
     if (proxyInput && (proxyInput.useApifyProxy || proxyInput.proxyUrls?.length)) {
@@ -40,11 +44,6 @@ try {
     let proxyDesc = 'none';
     if (proxyConfiguration) {
         proxyDesc = proxyInput.proxyUrls?.length ? `custom (${proxyInput.proxyUrls.length} URL(s))` : `Apify Proxy ${groups.length ? groups.join('+') : 'automatic (datacenter)'}${proxyInput.apifyProxyCountry ? ` country=${proxyInput.apifyProxyCountry}` : ''}`;
-        if (groups.includes('GOOGLE_SERP') && !isMock) {
-            // Apify's Google SERP proxy only accepts plain-http requests to Google domains.
-            cfg.baseUrl = 'http://www.google.com';
-            log.info('GOOGLE_SERP proxy selected: requests go to http://www.google.com (the SERP proxy upgrades them to HTTPS itself).');
-        }
     }
     if (!proxyConfiguration && !isMock) log.warning('Running without a proxy. Expect captcha / "unusual traffic" pages after a few requests.');
 
@@ -367,7 +366,7 @@ try {
     const total = perQuery.length;
     if (total > 0 && stats.hotelsPushed === 0 && failures.length === total) {
         throw new Error(`Google could not be read for any of the ${total} input(s). Last error: ${failures[failures.length - 1].error}. `
-            + 'Google blocks datacenter IPs quickly: use the GOOGLE_SERP proxy group, keep the browser fallback on, run fewer hotels per run, or add your own proxy URLs.');
+            + 'Google blocks datacenter IPs quickly: keep the browser fallback on, run fewer hotels per run, try again later, or add your own proxy URLs.');
     }
     let status = `${n(stats.hotelsPushed)} hotel(s) stored from ${total} input(s)${cfg.includeOffers ? `, ${n(stats.offersCharged)} with provider offers` : ''}.`;
     if (failures.length) status += ` ${failures.length} input(s) failed (see the log / OUTPUT).`;
