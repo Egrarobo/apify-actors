@@ -27,26 +27,13 @@
       "title": "…or items (JSON)",
       "type": "array",
       "editor": "json",
-      "description": "Array of objects to compare. Handy for testing or when calling the Actor from Make, Zapier or n8n.",
-      "prefill": [
-        {
-          "url": "https://shop.example.com/p/1",
-          "name": "Blue mug",
-          "price": 12.5
-        },
-        {
-          "url": "https://shop.example.com/p/2",
-          "name": "Red mug",
-          "price": 9.9
-        }
-      ]
+      "description": "Array of objects to compare. Handy for testing or when calling the Actor from Make, Zapier or n8n. If you leave every source empty, the Actor runs a free demo on built-in sample data so you can see the output format."
     },
     "monitorName": {
       "title": "Monitor name",
       "type": "string",
       "editor": "textfield",
       "description": "Each name keeps its own memory of the previous run. Use a different name for every scraper or search you track, e.g. \"amazon-laptops\". If empty, the name is taken from the source Actor or task (integration) or \"default\".",
-      "prefill": "demo-monitor",
       "sectionCaption": "2. How items are matched"
     },
     "idFields": {

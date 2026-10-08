@@ -1,5 +1,6 @@
 import { Actor, log } from 'apify';
-import { resolveSource } from './source.js';
+import { resolveSource, hasSource } from './source.js';
+import { runDemoComparison } from './demo.js';
 import { StateStore } from './state.js';
 import { project, normalize, hash, fingerprint, stableStringify, diff, keyOf } from './diff.js';
 import { sendNotifications } from './notify.js';
@@ -44,6 +45,28 @@ try {
     const storeName = (input.stateStoreName || DEFAULT_STORE).trim();
     if (!/^[a-zA-Z0-9-]{1,63}$/.test(storeName)) throw new Error('"stateStoreName" may only contain letters, digits and "-" (max 63 characters).');
     if (!reportNew && !reportChanged && !trackRemoved) throw new Error('Nothing to report: enable at least one of "Report new items", "Report changed items" or "Report removed items".');
+
+    if (!hasSource(input)) {
+        // No data source: run a free built-in demo instead of failing, so the first click in Console,
+        // the Store "Try" button and the daily Store health check always show a real result.
+        log.warning('No data source given ("datasetId", "actorRunId", "datasetUrl", "items" or an integration). '
+            + 'Running a free DEMO that compares two built-in sample snapshots of a fictional shop. No state is saved and no change events are charged.');
+        const demo = runDemoComparison({ idFields, compareFields, ignoreFields, maxChangesPerItem });
+        const detectedAt = new Date().toISOString();
+        const records = demo.changes.map((c) => ({ ...c, monitorName: 'demo', detectedAt, demo: true }));
+        await Actor.pushData(records);
+        const demoCounts = { new: 0, changed: 0, removed: 0 };
+        for (const r of records) demoCounts[r.changeType]++;
+        const status = `DEMO: ${demoCounts.new} new, ${demoCounts.changed} changed, ${demoCounts.removed} removed, ${demo.unchanged} unchanged. `
+            + 'Add a dataset ID, run ID, JSON/CSV URL or items to monitor your own data.';
+        await Actor.setValue('OUTPUT', {
+            monitorName: 'demo', demo: true, isBaseline: false, ...demoCounts, unchanged: demo.unchanged,
+            reported: records.length, previousItems: demo.previousItems, currentItems: demo.currentItems,
+            snapshotUpdated: false, finishedAt: new Date().toISOString(),
+        });
+        log.info(status);
+        await Actor.exit({ statusMessage: status });
+    }
 
     const source = await resolveSource(input);
     const monitorName = String(input.monitorName ?? '').trim()

@@ -15,6 +15,10 @@ It works with **any Apify Actor or dataset**, and also with JSON or CSV files. T
 - 📦 **Handles large datasets**: reads page by page and keeps a compact, compressed snapshot between runs
 - 💸 **Pay only for results**: a small fee per 1,000 items compared plus a fee per reported change
 
+## Try it in one click (free demo)
+
+Click **Start** with an empty input. The Actor then compares two small built-in sample snapshots of a fictional shop ("yesterday" and "today") and shows the exact output you will get on your own data: 1 new item, 2 changed items with `before → after` values (a price drop and an out-of-stock item) and 1 removed item. Demo rows have `"demo": true`; no state is saved and no change events are charged.
+
 ## Quick start: run it after every scrape (recommended)
 
 1. Open your scraper (or saved task) in Apify Console → **Integrations** → **Add integration** → **Dataset Change Monitor**.

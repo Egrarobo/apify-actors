@@ -5,6 +5,13 @@ const PAGE_SIZE = 1000;
 
 const pick = (...vals) => vals.find((v) => typeof v === 'string' && v.trim())?.trim();
 
+/** True when the input names any data to compare (or an integration payload with a finished run). */
+export function hasSource(input) {
+    const resource = input.payload?.resource ?? input.resource ?? null;
+    return (Array.isArray(input.items) && input.items.length > 0)
+        || !!pick(input.datasetId, input.actorRunId, input.datasetUrl, resource?.defaultDatasetId, resource?.id);
+}
+
 /**
  * Figures out where the items come from. Supports the webhook / integration payload that Apify sends
  * when this Actor runs after another Actor ("resource" = the finished run).
