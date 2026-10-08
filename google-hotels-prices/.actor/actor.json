@@ -1,8 +1,8 @@
 {
   "actorSpecification": 1,
   "name": "google-hotels-prices",
-  "title": "Google Hotels Scraper: Prices & Rate Parity Checker",
-  "description": "Hotel prices from Google Hotels for any city, hotel name or link and your dates: price per night and total, taxes, rating, reviews, stars, GPS and, optionally, every booking site's rate (Booking.com, Expedia, Hotels.com, official site) for rate parity checks. $3 per 1,000 hotels.",
+  "title": "Google Hotels Scraper & Price API",
+  "description": "Google Hotels scraper and API: prices for any city, hotel name or link and your dates. Per night and total, taxes, rating, reviews, stars, GPS and, optionally, every booking site's rate (Booking.com, Expedia, official site) for rate parity. $3 per 1,000 hotels, +$2 with all sites' rates.",
   "version": "1.0",
   "buildTag": "latest",
   "defaultMemoryMbytes": 1024,

@@ -1,10 +1,10 @@
-# Google Hotels Scraper: Prices & Rate Parity Checker
+# Google Hotels Scraper & Price API
 
 **See what a hotel costs on Google Hotels for your dates, and what every booking site charges for the same room.** Type a city, a hotel name or paste a Google Hotels link; get the price per night and for the stay, taxes, rating, reviews and stars, and optionally the rate on Booking.com, Expedia, Hotels.com, Agoda, Trip.com, the hotel's official site and 30+ more.
 
 - **What you get:** one row per hotel with prices, `cheapestProvider`, `officialSitePrice`, rating, address, GPS, phone and photos; with offers on, a list of every booking site's price
 - **What it costs:** $3 per 1,000 hotels with a price (`$0.003` each), plus $2 per 1,000 hotels when you also load every booking site's price. Hotels without any price are **free**; failed runs cost only Apify's $0.00005 start fee.
-- **Try it now:** the form is prefilled with `hotels in Paris` (default dates: one night, 30 days from today, 2 adults). Click **Start**; 20 hotels cost about **$0.06**.
+- **Try it now:** the form is prefilled with `hotels in Paris`, 5 hotels and **every booking site's price** on (default dates: one night, 30 days from today, 2 adults). Click **Start**; the 5 hotels with all sites' prices cost about **$0.03**.
 
 ## Rate parity in one run: is the hotel's own website the cheapest?
 
@@ -62,13 +62,17 @@ Set **check-in and check-out** (or a relative date like `+30 days`), **adults, c
 
 ## Quick start
 
-The prefilled example (20 hotels in Paris, default dates):
+The prefilled example (5 hotels in Paris with every booking site's price, default dates):
 
 ```json
 {
-  "queries": ["hotels in Paris"]
+  "queries": ["hotels in Paris"],
+  "maxHotelsPerQuery": 5,
+  "includeOffers": true
 }
 ```
+
+Without the booking sites' prices, the same search costs $3 per 1,000 hotels: set **Include prices of every booking site** off and raise **Max hotels per search**.
 
 Your dates, guests and filters:
 
@@ -99,7 +103,7 @@ All four have an official Apify integration, so you need no custom code, only yo
 3. Add a second Apify node, operation **Get Dataset Items**, Dataset ID = `defaultDatasetId` from step 2.
 
 **Make**
-1. Add the **Apify → Run an Actor** module, choose *Google Hotels Scraper: Prices & Rate Parity Checker*, paste the input JSON and let it wait for the run to finish (synchronous run).
+1. Add the **Apify → Run an Actor** module, choose *Google Hotels Scraper & Price API*, paste the input JSON and let it wait for the run to finish (synchronous run).
 2. Add **Apify → Get Dataset Items** with the dataset ID from step 1, then e.g. **Google Sheets → Add a Row**.
 
 **Zapier**
@@ -189,10 +193,12 @@ Google blocks datacenter IPs quickly. What to expect:
 | Proxy | Result |
 |---|---|
 | **GOOGLE_SERP** (Apify proxy group) | Best value for Google. Requests are sent to `http://www.google.com` as this proxy requires. |
-| **RESIDENTIAL** (Apify proxy group) | Very reliable, charged per GB. Pages are compressed and the browser does not load images, so traffic stays low. |
+| **Your own proxies** (proxy URLs) | Any provider, including residential IPs. You pay your provider directly. |
 | Default (shared datacenter) | Works for small runs. Expect `captcha=YES` in the log after some requests. Every retry uses a new IP, but the pool is small. |
 
-On the **Apify free plan** only a few shared datacenter IPs are available, and GOOGLE_SERP and RESIDENTIAL are not included. Keep runs small (a few searches, 20-50 hotels) and schedule them apart.
+The Apify **RESIDENTIAL** group is not available in this Actor: if you select it, the run continues on the default Apify proxy and says so in the log. For residential IPs, use your own proxy URLs.
+
+On the **Apify free plan** only a few shared datacenter IPs are available, and GOOGLE_SERP is not included. Keep runs small (a few searches, 20-50 hotels) and schedule them apart.
 
 ## Tips
 
@@ -233,6 +239,6 @@ Tips for agents:
 
 **Is it legal?** The scraper collects publicly visible price information, like a person using Google Hotels. You are responsible for complying with Google's terms and the laws that apply to you, including when you republish data.
 
-**Why did a run fail?** Open the log. Each request line shows `status`, `consent=`, `captcha=` and the parser used. `captcha=YES` on every retry means the proxy IPs are blocked: switch to the GOOGLE_SERP or RESIDENTIAL proxy. Saved `DEBUG-…` pages in the key-value store show exactly what Google returned.
+**Why did a run fail?** Open the log. Each request line shows `status`, `consent=`, `captcha=` and the parser used. `captcha=YES` on every retry means the proxy IPs are blocked: switch to the GOOGLE_SERP proxy group or your own proxies, keep the browser fallback on, and run fewer hotels at a time. Saved `DEBUG-…` pages in the key-value store show exactly what Google returned.
 
 **Can I get more than ~20 hotels per search?** Yes. Raise **Max hotels per search**. The scraper follows Google's result pages (about 18-20 hotels each) up to **Max result pages per search**.

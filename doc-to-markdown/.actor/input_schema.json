@@ -15,17 +15,17 @@
       ],
       "sectionCaption": "1. Documents"
     },
-    "keyValueStoreKeys": {
+    "kvStoreFileNames": {
       "title": "…or files in a key-value store",
       "type": "array",
       "editor": "stringList",
-      "description": "Keys of files uploaded to an Apify key-value store. Use 'storeIdOrName/key', or just 'key' together with the store below (default: this run's store)."
+      "description": "Names of files uploaded to an Apify key-value store. Use 'storeIdOrName/fileName', or just 'fileName' together with the store below (default: this run's store)."
     },
-    "keyValueStoreId": {
+    "kvStoreId": {
       "title": "Key-value store ID or name",
       "type": "string",
       "editor": "textfield",
-      "description": "Store that holds the keys above."
+      "description": "Store that holds the files above."
     },
     "datasetId": {
       "title": "…or dataset with URLs",

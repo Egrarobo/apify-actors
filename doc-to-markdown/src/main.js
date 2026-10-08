@@ -94,7 +94,7 @@ try {
     }
 
     let sources = await collectSources(input);
-    if (!sources.length) throw new Error('No documents to process. Add file links to "urls", key-value store keys to "keyValueStoreKeys", or a "datasetId" with URLs.');
+    if (!sources.length) throw new Error('No documents to process. Add file links to "urls", key-value store file names to "kvStoreFileNames", or a "datasetId" with URLs.');
     if (sources.length > opts.maxDocuments) {
         log.warning(`Limiting to the first ${opts.maxDocuments} of ${sources.length} documents (maxDocuments).`);
         sources = sources.slice(0, opts.maxDocuments);

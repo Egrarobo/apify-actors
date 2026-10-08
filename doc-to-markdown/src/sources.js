@@ -62,12 +62,15 @@ export async function collectSources(input) {
         const url = typeof u === 'string' ? u : u?.url;
         if (url && String(url).trim()) add({ url: String(url).trim() });
     }
-    for (const k of input.keyValueStoreKeys ?? input.files ?? []) {
+    // New field names first; the old ones (keyValueStoreKeys, keyValueStoreId) keep working for existing users.
+    const kvFiles = input.kvStoreFileNames ?? input.keyValueStoreKeys ?? input.files ?? [];
+    const kvStoreId = input.kvStoreId || input.keyValueStoreId || null;
+    for (const k of kvFiles) {
         const key = typeof k === 'string' ? k : k?.key;
         if (!key) continue;
-        // "storeId/key" or just "key" (default: input.keyValueStoreId or this run's store).
+        // "storeId/key" or just "key" (default: kvStoreId or this run's store).
         const m = String(key).match(/^([\w~.-]{5,})\/(.+)$/);
-        add(m && !input.keyValueStoreId ? { storeId: m[1], key: m[2] } : { storeId: input.keyValueStoreId || null, key: String(key) });
+        add(m && !kvStoreId ? { storeId: m[1], key: m[2] } : { storeId: kvStoreId, key: String(key) });
     }
     if (input.datasetId) {
         const field = input.datasetUrlField || 'url';

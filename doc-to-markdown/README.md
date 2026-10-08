@@ -47,7 +47,7 @@ Give it a list of links (Google Drive, Dropbox, OneDrive and GitHub links work t
 
 Other sources:
 
-- `keyValueStoreKeys`: files you uploaded to an Apify key-value store, as `"storeName/key"` or just `"key"` with `keyValueStoreId`
+- `kvStoreFileNames`: files you uploaded to an Apify key-value store, as `"storeName/fileName"` or just `"fileName"` with `kvStoreId` (the older names `keyValueStoreKeys` and `keyValueStoreId` still work)
 - `datasetId` + `datasetUrlField`: take URLs from another Actor's output (e.g. a website crawler that collected PDF links)
 
 ## Output

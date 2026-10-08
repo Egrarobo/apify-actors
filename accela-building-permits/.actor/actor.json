@@ -1,7 +1,7 @@
 {
   "actorSpecification": 1,
   "name": "accela-building-permits",
-  "title": "US Building Permits — Accela Citizen Access (Any City)",
+  "title": "US Building Permits Scraper (Accela)",
   "description": "Get new building permits from any US city or county on Accela Citizen Access: roofing, solar, pool, HVAC, new construction and remodel permits with address, dates, status, valuation and contractor. Daily monitor mode with Telegram, Slack, webhook (n8n/Make) and email alerts.",
   "version": "1.0",
   "buildTag": "latest",

@@ -1,8 +1,8 @@
 {
   "actorSpecification": 1,
   "name": "google-trends",
-  "title": "Google Trends Scraper & API (pytrends alternative)",
-  "description": "Google Trends data with a fix for pytrends 429 errors: interest over time, by country, region or city, top and rising related searches, and Trending Now, as JSON or spreadsheet rows. Compare hundreds of keywords on one scale. $4 per 1,000 keywords; failed keywords are free.",
+  "title": "Google Trends Scraper & API",
+  "description": "Google Trends scraper and API: interest over time by country, region or city, top and rising searches and Trending Now, as JSON, CSV or Excel. A pytrends alternative that retries 429 errors on new IPs. Hundreds of keywords on one scale. $3 / 1,000 keywords, $1 / 1,000 trending; failed ones free.",
   "version": "1.0",
   "buildTag": "latest",
   "defaultMemoryMbytes": 1024,

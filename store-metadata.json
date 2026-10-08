@@ -34,7 +34,9 @@
       "exampleRunInput": {
         "queries": [
           "hotels in Paris"
-        ]
+        ],
+        "maxHotelsPerQuery": 5,
+        "includeOffers": true
       },
       "description": "Google Hotels scraper and API: prices for any city, hotel name or link and your dates. Per night and total, taxes, rating, reviews, stars, GPS and, optionally, every booking site's rate (Booking.com, Expedia, official site) for rate parity. $3 per 1,000 hotels, +$2 with all sites' rates."
     },
@@ -94,7 +96,11 @@
           "smallPrivatization"
         ],
         "maxResults": 50
-      }
+      },
+      "title": "Prozorro Sale Auctions Scraper (Ukraine)",
+      "seoTitle": "Prozorro Sale Auction Scraper: Privatization & Land",
+      "seoDescription": "Prozorro.Sale auction data for Ukraine: privatization, lease, land and bank assets with prices, deadlines and winners. $3/1,000 auctions, $0.01 per new auction.",
+      "description": "Ukrainian state auctions from Prozorro.Sale open data: privatization, property lease, land, bankruptcy and bank assets. Filter by type, status, region, CAV code, price and dates. Prices, deadlines, documents, winners and alerts. $3 / 1,000 auctions; monitors $0.01 per new auction."
     },
     "accela-building-permits": {
       "dir": "accela-building-permits",
@@ -110,7 +116,8 @@
         ],
         "lastNDays": 7,
         "maxRecordsPerAgency": 25
-      }
+      },
+      "title": "US Building Permits Scraper (Accela)"
     },
     "au-grocery-prices": {
       "dir": "au-grocery-prices",
@@ -132,7 +139,11 @@
         "searchTerms": [
           "milk"
         ]
-      }
+      },
+      "title": "ALDI Australia Price Scraper",
+      "seoTitle": "ALDI Australia Price Scraper: Special Buys & Unit Prices",
+      "seoDescription": "Scrape ALDI Australia by keyword, category or product: price, unit price, price drops, Super Savers and Special Buys, as JSON or CSV. $1 / 1,000 products.",
+      "description": "ALDI Australia scraper: products by keyword, category, Special Buys date or product ID, with price, unit price, price drops, Super Savers, Special Buys, categories and images, as JSON, CSV or Excel. For grocery price trackers and comparison apps. $1 per 1,000 products; error rows free."
     },
     "dataset-change-monitor": {
       "dir": "change-monitor",
@@ -141,7 +152,9 @@
         "DEVELOPER_TOOLS",
         "INTEGRATIONS"
       ],
-      "exampleRunInput": {}
+      "exampleRunInput": {},
+      "seoTitle": "Dataset Change Monitor: New & Changed Item Alerts",
+      "seoDescription": "Compare each scraper run with the last: new, changed and removed items, field diffs and Slack, Telegram or email alerts. $2/1,000 changes, $0.01/1,000 checked."
     }
   }
 }

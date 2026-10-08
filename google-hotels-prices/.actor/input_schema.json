@@ -81,6 +81,7 @@
             "title": "Include prices of every booking site",
             "type": "boolean",
             "description": "Also load each hotel's offers list: Booking.com, Expedia, Agoda, Hotels.com, the hotel's official site and 30+ others, with price, price with taxes, official-site and sponsored flags and link. Needs one extra request per hotel and is charged as an extra event.",
+            "prefill": true,
             "default": false
         },
         "maxOffersPerHotel": {
@@ -128,6 +129,7 @@
             "description": "Stop each search after this many hotels (after filters). Google shows about 18-20 hotels per page.",
             "minimum": 1,
             "maximum": 5000,
+            "prefill": 5,
             "default": 20
         },
         "maxPagesPerQuery": {
@@ -157,7 +159,7 @@
             "title": "Proxy",
             "type": "object",
             "editor": "proxy",
-            "description": "Google blocks datacenter IPs quickly. Best: Apify Proxy group GOOGLE_SERP or RESIDENTIAL (paid Apify plans). The free plan's shared datacenter IPs work only for small runs and often get \"unusual traffic\" pages.",
+            "description": "Google blocks datacenter IPs quickly. Best: Apify Proxy group GOOGLE_SERP (paid Apify plans). The Apify RESIDENTIAL group is not available in this Actor: if selected, the run uses the default Apify proxy instead. For residential IPs, use your own proxy URLs. The free plan's shared datacenter IPs work only for small runs and often get \"unusual traffic\" pages.",
             "prefill": { "useApifyProxy": true },
             "default": { "useApifyProxy": true }
         },

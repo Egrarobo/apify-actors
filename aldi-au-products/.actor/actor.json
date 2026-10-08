@@ -1,8 +1,8 @@
 {
   "actorSpecification": 1,
   "name": "aldi-au-products",
-  "title": "ALDI Australia Scraper: Prices, Specials & Special Buys",
-  "description": "Get ALDI Australia (aldi.com.au) products by keyword, category or product ID: price, unit price, price drops, Super Savers, Special Buys by date, categories and images in a clean format. Combine with our Coles & Woolworths scraper for full Australian grocery price comparison.",
+  "title": "ALDI Australia Price Scraper",
+  "description": "ALDI Australia scraper: products by keyword, category, Special Buys date or product ID, with price, unit price, price drops, Super Savers, Special Buys, categories and images, as JSON, CSV or Excel. For grocery price trackers and comparison apps. $1 per 1,000 products; error rows free.",
   "version": "1.0",
   "buildTag": "latest",
   "input": "./input_schema.json",

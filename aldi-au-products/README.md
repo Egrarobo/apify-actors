@@ -1,4 +1,4 @@
-# ALDI Australia Scraper: Prices, Specials & Special Buys
+# ALDI Australia Price Scraper
 
 Scrape **ALDI Australia** ([aldi.com.au](https://www.aldi.com.au)) by keyword, category, **Special Buys** date or product and get **prices, unit prices, price drops, Super Savers, Lower Prices, Special Buys, categories and images** in one clean, typed format. Built for price-comparison apps, grocery price trackers, deal sites and retail analysts.
 

@@ -6,7 +6,7 @@ import { buildTs, buildQs, buildSearchUrl, buildRpcInner, buildRpcBody, parseEnt
 import {
     parseSearchPayload, parseDetailPayload, parseSearchHtml, classifyResponse, decodeBatchExecute, parsePriceText, extractInitData, RpcDecodeError,
 } from '../src/parse.js';
-import { parseInput, parseDay, buildFilter, InputError } from '../src/input.js';
+import { parseInput, parseDay, buildFilter, limitProxy, InputError } from '../src/input.js';
 
 const fx = (n) => JSON.parse(readFileSync(new URL(`./fixtures/${n}`, import.meta.url), 'utf8'));
 const search = fx('search-nyc.json');
@@ -165,4 +165,18 @@ test('filters: price, rating, class', () => {
     assert.equal(f({ pricePerNight: null, rating: 4, hotelClass: 3 }), false);
     assert.equal(f({ pricePerNight: 80, rating: 3.4, hotelClass: 3 }), false);
     assert.equal(f({ pricePerNight: 80, rating: 4, hotelClass: null }), false);
+});
+
+test('proxy: Apify RESIDENTIAL group is removed, other groups and own proxy URLs are kept', () => {
+    let r = limitProxy({ useApifyProxy: true, apifyProxyGroups: ['RESIDENTIAL'], apifyProxyCountry: 'US' });
+    assert.equal(r.removedResidential, true);
+    assert.deepEqual(r.proxy, { useApifyProxy: true, apifyProxyCountry: 'US' });
+    r = limitProxy({ useApifyProxy: true, apifyProxyGroups: ['residential', 'GOOGLE_SERP'] });
+    assert.deepEqual(r.proxy.apifyProxyGroups, ['GOOGLE_SERP']);
+    r = limitProxy({ useApifyProxy: true, apifyProxyGroups: ['GOOGLE_SERP'] });
+    assert.equal(r.removedResidential, false);
+    r = limitProxy({ useApifyProxy: false, proxyUrls: ['http://u:p@my-residential.example:8000'] });
+    assert.equal(r.removedResidential, false);
+    assert.deepEqual(r.proxy.proxyUrls, ['http://u:p@my-residential.example:8000']);
+    assert.equal(limitProxy(null).removedResidential, false);
 });

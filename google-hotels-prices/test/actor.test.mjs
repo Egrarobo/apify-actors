@@ -95,7 +95,8 @@ test('captcha on every try and no browser: run fails with a clear proxy hint', a
     const r = await runActor(base({ queries: [NYC], maxRetries: 1 }));
     assert.notEqual(r.code, 0);
     assert.match(r.log, /could not be read for any of the 1 input/);
-    assert.match(r.log, /RESIDENTIAL or GOOGLE_SERP/);
+    assert.match(r.log, /use the GOOGLE_SERP proxy group/);
+    assert.doesNotMatch(r.log, /RESIDENTIAL/);
 });
 
 test('search page without data → falls back to the RPC search method', async () => {

@@ -1,4 +1,4 @@
-# Google Trends Scraper & API (pytrends alternative)
+# Google Trends Scraper & API
 
 **Get Google Trends data as JSON or spreadsheet rows, without running pytrends and fighting "429 Too Many Requests".** Give it your keywords, a country and a time range; get back interest over time, interest by region, top and rising related searches, and today's Trending Now searches.
 

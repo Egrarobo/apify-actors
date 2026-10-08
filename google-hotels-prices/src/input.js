@@ -154,6 +154,21 @@ export function parseInput(input, { now = Date.now() } = {}) {
     };
 }
 
+/**
+ * Apify RESIDENTIAL proxy is billed per GB to the Actor owner on pay-per-event Actors, so it is not offered here.
+ * The RESIDENTIAL group is removed (the run continues on the default Apify proxy, or GOOGLE_SERP if also chosen).
+ * Your own proxy URLs ("proxyUrls"), residential or not, are used unchanged.
+ * Returns { proxy, removedResidential }.
+ */
+export function limitProxy(proxy) {
+    const groups = Array.isArray(proxy?.apifyProxyGroups) ? proxy.apifyProxyGroups : [];
+    const kept = groups.filter((g) => String(g).toUpperCase() !== 'RESIDENTIAL');
+    if (kept.length === groups.length) return { proxy, removedResidential: false };
+    const out = { ...proxy, apifyProxyGroups: kept };
+    if (!kept.length) delete out.apifyProxyGroups;
+    return { proxy: out, removedResidential: true };
+}
+
 /** Client-side filters; a hotel without a price fails price filters (it can't be compared). */
 export function buildFilter({ minPrice, maxPrice, minRating, hotelClass }) {
     return (h) => {

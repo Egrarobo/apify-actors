@@ -1,5 +1,5 @@
 import { Actor, log } from 'apify';
-import { parseInput, buildFilter, InputError } from './input.js';
+import { parseInput, buildFilter, limitProxy, InputError } from './input.js';
 import { GoogleClient, BlockedError } from './google.js';
 import { buildHotelUrl, DEFAULT_BASE_URL } from './request.js';
 
@@ -20,7 +20,15 @@ try {
     const isMock = cfg.baseUrl !== DEFAULT_BASE_URL;
     const isLocalTarget = /^https?:\/\/(localhost|127\.|\[::1\])/.test(cfg.baseUrl);
     // A local mock server can't be reached through a proxy.
-    const proxyInput = isLocalTarget ? null : (cfg.proxyConfiguration ?? { useApifyProxy: true });
+    let proxyInput = isLocalTarget ? null : (cfg.proxyConfiguration ?? { useApifyProxy: true });
+    if (proxyInput) {
+        const limited = limitProxy(proxyInput);
+        proxyInput = limited.proxy;
+        if (limited.removedResidential) {
+            log.warning('The Apify RESIDENTIAL proxy group is not available in this Actor (it is billed per GB). '
+                + 'Using the default Apify proxy instead. To use residential IPs, choose your own proxies (proxy URLs) in the Proxy field.');
+        }
+    }
     if (proxyInput && (proxyInput.useApifyProxy || proxyInput.proxyUrls?.length)) {
         try {
             proxyConfiguration = await Actor.createProxyConfiguration(proxyInput);
@@ -359,7 +367,7 @@ try {
     const total = perQuery.length;
     if (total > 0 && stats.hotelsPushed === 0 && failures.length === total) {
         throw new Error(`Google could not be read for any of the ${total} input(s). Last error: ${failures[failures.length - 1].error}. `
-            + 'Google blocks datacenter IPs quickly: use the RESIDENTIAL or GOOGLE_SERP proxy group, or enable the browser fallback.');
+            + 'Google blocks datacenter IPs quickly: use the GOOGLE_SERP proxy group, keep the browser fallback on, run fewer hotels per run, or add your own proxy URLs.');
     }
     let status = `${n(stats.hotelsPushed)} hotel(s) stored from ${total} input(s)${cfg.includeOffers ? `, ${n(stats.offersCharged)} with provider offers` : ''}.`;
     if (failures.length) status += ` ${failures.length} input(s) failed (see the log / OUTPUT).`;
