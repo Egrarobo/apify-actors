@@ -2,7 +2,7 @@
 
 Get Google News articles for any **search query**, **topic** (Business, Technology, Sports...) or **location** (Chicago, Bavaria...), in any language and country. For each article you get the **title, source, publication date and the publisher's real URL**, not the `news.google.com` redirect link. Results come as JSON, CSV or Excel, or through the Apify API.
 
-The Actor reads Google News' **public RSS feeds** with plain HTTP requests. It does not open Google Search, needs no browser and no special proxy, so runs are fast and cheap: in our test, the example run (20 articles with real URLs) finished in 3 seconds.
+The Actor reads Google News' **public RSS feeds** with plain HTTP requests. It does not open Google Search, needs no browser and no special proxy, so runs are fast and cheap: in our local test, the example run (20 articles with real URLs) finished in 3 seconds.
 
 This is an unofficial tool, not affiliated with or endorsed by Google.
 
@@ -44,7 +44,7 @@ This is an unofficial tool, not affiliated with or endorsed by Google.
 
 ## Output
 
-One row per article, newest first. A real row from 9 Oct 2026 (query `OpenAI`, US edition, past 7 days):
+One row per article, newest first. A real row scraped on 8 Oct 2026 at 21:33 UTC (query `OpenAI`, US edition, past 7 days):
 
 ```json
 {
@@ -100,7 +100,7 @@ Pay per event: you pay only for articles saved, never for failed requests.
 
 | Event | FREE | BRONZE | SILVER | GOLD |
 |---|---|---|---|---|
-| Article (with the real URL) | $1.80 / 1,000 | $1.50 / 1,000 | $1.25 / 1,000 | $0.95 / 1,000 |
+| Article (real URL included when found) | $1.80 / 1,000 | $1.50 / 1,000 | $1.25 / 1,000 | $0.95 / 1,000 |
 | Publisher details (snippet, image, author), only when found | $1.00 / 1,000 | $0.90 / 1,000 | $0.80 / 1,000 | $0.60 / 1,000 |
 
 Plus Apify's standard Actor start event ($0.00005 per run). Set a "Maximum cost per run" and the Actor stops cleanly when it is reached.
@@ -118,4 +118,4 @@ Plus Apify's standard Actor start event ($0.00005 per run). Set a "Maximum cost 
 
 **Which proxy?** The default Apify proxy. The feeds are public, so no special proxy is needed. The Apify RESIDENTIAL and GOOGLE_SERP groups are not available in this Actor: if selected, the run uses the default proxy and says so in the log. You can use your own proxy URLs.
 
-**Is it legal?** The Actor reads public feeds that Google publishes for news readers and collects headlines, links and dates. How you use the data (for example republishing articles) is your responsibility; respect publishers' copyright.
+**Is it legal?** The feeds are public, but read Google's terms before you rely on them. Each Google News RSS feed says it is "made available solely for the purpose of rendering Google News results within a personal feed reader for personal, non-commercial use" and that any other use is prohibited, and Google's `robots.txt` for news.google.com does not allow automated access to the feeds. This Actor is unofficial and not approved by Google. It collects only headlines, source names, dates and links, not article text. Whether your use fits Google's terms and publishers' copyright is your responsibility; for a commercial project, ask your lawyer.

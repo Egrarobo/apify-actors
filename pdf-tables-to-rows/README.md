@@ -188,9 +188,20 @@ Typical flow: *new invoice PDF in Gmail or Google Drive → this Actor → appen
 - The supplier name is taken from a label (`From`, `Supplier`, `Furnizor`...) or, if there is none, from the largest text at the top of page 1.
 - Very complex tables (cells merged over several rows and columns) can come out with `col_1`, `col_2`... names instead of the header text. Check `hasHeader`.
 
+## Privacy and personal data
+
+Invoices often contain personal data: names, addresses, tax IDs, bank accounts (IBAN). Here is exactly what happens to them:
+
+- **Where the file goes:** the PDF is downloaded from your link (or read from your key-value store) into your own Apify run and read there. It is not sent to any AI service or other third party, and the Actor keeps no copy outside your run.
+- **Where the results stay:** the rows, `OUTPUT.xlsx` and the run log (file names and invoice numbers) are saved in your Apify account, under your account's data retention settings. Delete the run's storage when you no longer need it.
+- **The Excel link** in `OUTPUT` opens the file without logging in for anyone who has it. Do not post it publicly.
+- **Share links:** a link set to *Anyone with the link* can be opened by anyone who gets it. For confidential invoices, upload the PDFs to a key-value store and use `kvStoreFileNames` instead.
+- **The developer of this Actor** does not see your files or results, unless you turn on *Share run data with developers* in your Apify settings.
+- You decide which documents you process; make sure you are allowed to process the personal data in them (for example under the GDPR).
+
 ## FAQ
 
-**Is my data stored or used for AI training?** No AI service sees your files. They are downloaded into your own Apify run; the results stay in your Apify storage under your retention settings.
+**Is my data stored or used for AI training?** No AI service sees your files, and they are not used for training. They are downloaded into your own Apify run; the results stay in your Apify storage under your retention settings (see *Privacy and personal data* above).
 
 **Can it read Word or Excel files?** No, only PDF. For Word, Excel and PowerPoint, use our *Document to Markdown* Actor.
 

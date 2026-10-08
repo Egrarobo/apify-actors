@@ -216,7 +216,7 @@
         "timeRange": "7d",
         "maxArticlesPerFeed": 20
       },
-      "description": "Google News scraper and API: articles for any keyword, topic or city, in any language and country, from Google's public RSS feeds. Title, source, date and the publisher's real URL, not the Google redirect. Over 100 per query, day by day. $1.80 / 1,000 articles (GOLD $0.95); snippets +$1."
+      "description": "Google News scraper and API: articles for any keyword, topic or city, in any language and country, from Google's public RSS feeds. Title, source, date and the publisher's real URL, not the Google redirect. Over 100 per query, day by day. $1.80 / 1,000 articles (GOLD $0.95); snippets +$1/1,000."
     }
   }
 }
