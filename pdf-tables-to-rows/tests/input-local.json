@@ -1,0 +1,10 @@
+{
+  "urls": [
+    { "url": "http://127.0.0.1:8766/invoice-us-ruled.pdf" },
+    { "url": "http://127.0.0.1:8766/invoice-eu-2-pages.pdf" },
+    { "url": "http://127.0.0.1:8766/usda-shell-eggs-2026-10-02.pdf" },
+    { "url": "http://127.0.0.1:8766/eia-petroleum-balance-2026-10-02.pdf" },
+    { "url": "http://127.0.0.1:8766/missing.pdf" },
+    { "url": "http://127.0.0.1:8766/" }
+  ]
+}

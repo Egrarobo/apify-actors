@@ -1,0 +1,105 @@
+{
+  "actorSpecification": 1,
+  "fields": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "sourceUrl": { "type": "string", "description": "The PDF link (or kvs://store/key)." },
+      "fileName": { "type": "string" },
+      "status": { "type": "string", "enum": ["ok", "no-data", "failed"] },
+      "error": { "type": ["string", "null"] },
+      "documentType": { "type": "string", "enum": ["invoice", "tables"] },
+      "rowType": { "type": "string", "enum": ["invoice-line", "invoice", "table-row"] },
+      "page": { "type": "integer" },
+      "lineIndex": { "type": ["integer", "null"] },
+      "description": { "type": ["string", "null"] },
+      "sku": { "type": ["string", "null"] },
+      "quantity": { "type": ["number", "null"] },
+      "unit": { "type": ["string", "null"] },
+      "unitPrice": { "type": ["number", "null"] },
+      "discount": { "type": ["number", "null"] },
+      "lineTaxRate": { "type": ["number", "null"] },
+      "lineTaxAmount": { "type": ["number", "null"] },
+      "lineTotal": { "type": ["number", "null"] },
+      "lineCheck": { "type": ["string", "null"], "description": "ok = quantity x unit price matches the amount; mismatch; computed = amount was missing and was calculated." },
+      "invoiceNumber": { "type": ["string", "null"] },
+      "invoiceDate": { "type": ["string", "null"], "description": "YYYY-MM-DD" },
+      "dueDate": { "type": ["string", "null"], "description": "YYYY-MM-DD" },
+      "poNumber": { "type": ["string", "null"] },
+      "supplierName": { "type": ["string", "null"] },
+      "supplierTaxId": { "type": ["string", "null"] },
+      "customerName": { "type": ["string", "null"] },
+      "currency": { "type": ["string", "null"] },
+      "subtotal": { "type": ["number", "null"] },
+      "taxRate": { "type": ["number", "null"] },
+      "taxAmount": { "type": ["number", "null"] },
+      "total": { "type": ["number", "null"] },
+      "linesSum": { "type": ["number", "null"] },
+      "totalsCheck": { "type": ["string", "null"], "description": "ok = the lines add up to the subtotal/total and subtotal + tax = total." },
+      "iban": { "type": ["string", "null"] },
+      "otherColumns": { "type": "object", "description": "Item-table columns that are not one of the fields above." },
+      "tableIndex": { "type": "integer" },
+      "tableTitle": { "type": ["string", "null"] },
+      "tableMethod": { "type": "string", "enum": ["lines", "text"] },
+      "hasHeader": { "type": "boolean" },
+      "rowIndex": { "type": "integer" },
+      "data": { "type": "object", "description": "One table row: column name -> value." }
+    }
+  },
+  "views": {
+    "invoiceLines": {
+      "title": "Invoice lines",
+      "description": "One row per invoice line item, with the invoice fields repeated on every row.",
+      "transformation": {
+        "fields": ["fileName", "invoiceNumber", "invoiceDate", "supplierName", "customerName", "lineIndex", "description", "sku", "quantity", "unit", "unitPrice", "lineTotal", "lineCheck", "currency", "subtotal", "taxAmount", "total", "totalsCheck", "dueDate", "page", "status", "error"]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "fileName": { "label": "File" },
+          "invoiceNumber": { "label": "Invoice no." },
+          "invoiceDate": { "label": "Date" },
+          "supplierName": { "label": "Supplier" },
+          "customerName": { "label": "Customer" },
+          "lineIndex": { "label": "Line", "format": "number" },
+          "description": { "label": "Description" },
+          "sku": { "label": "SKU" },
+          "quantity": { "label": "Qty", "format": "number" },
+          "unit": { "label": "Unit" },
+          "unitPrice": { "label": "Unit price", "format": "number" },
+          "lineTotal": { "label": "Amount", "format": "number" },
+          "lineCheck": { "label": "Qty x price" },
+          "currency": { "label": "Currency" },
+          "subtotal": { "label": "Subtotal", "format": "number" },
+          "taxAmount": { "label": "Tax", "format": "number" },
+          "total": { "label": "Total", "format": "number" },
+          "totalsCheck": { "label": "Totals check" },
+          "dueDate": { "label": "Due" },
+          "page": { "label": "Page", "format": "number" },
+          "status": { "label": "Status" },
+          "error": { "label": "Error" }
+        }
+      }
+    },
+    "tableRows": {
+      "title": "Table rows",
+      "description": "One row per table row. Export to CSV or Excel to get each column of 'data' as its own column.",
+      "transformation": {
+        "fields": ["fileName", "page", "tableIndex", "tableTitle", "rowIndex", "data", "status", "error"]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "fileName": { "label": "File" },
+          "page": { "label": "Page", "format": "number" },
+          "tableIndex": { "label": "Table", "format": "number" },
+          "tableTitle": { "label": "Table title" },
+          "rowIndex": { "label": "Row", "format": "number" },
+          "data": { "label": "Row data", "format": "object" },
+          "status": { "label": "Status" },
+          "error": { "label": "Error" }
+        }
+      }
+    }
+  }
+}

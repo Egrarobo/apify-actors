@@ -1,0 +1,122 @@
+{
+  "title": "PDF tables and invoices to rows",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "urls": {
+      "title": "PDF URLs",
+      "type": "array",
+      "editor": "requestListSources",
+      "description": "Links to PDF files: invoices, bills, purchase orders, price lists, statistical tables, reports. Google Drive, Dropbox, OneDrive/SharePoint, Box and GitHub share links are converted to direct downloads (share them as 'Anyone with the link').",
+      "prefill": [
+        { "url": "https://raw.githubusercontent.com/Egrarobo/apify-actors/main/pdf-tables-to-rows/samples/invoice-us-ruled.pdf" },
+        { "url": "https://raw.githubusercontent.com/Egrarobo/apify-actors/main/pdf-tables-to-rows/samples/usda-shell-eggs-2026-10-02.pdf" }
+      ],
+      "sectionCaption": "1. PDFs"
+    },
+    "kvStoreFileNames": {
+      "title": "…or PDFs in a key-value store",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Names of PDF files uploaded to an Apify key-value store. Use 'storeIdOrName/fileName', or just 'fileName' together with the store below (default: this run's store)."
+    },
+    "kvStoreId": {
+      "title": "Key-value store ID or name",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Store that holds the files above."
+    },
+    "datasetId": {
+      "title": "…or dataset with PDF URLs",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Apify dataset (for example the output of a crawler) whose items contain PDF URLs."
+    },
+    "datasetUrlField": {
+      "title": "Dataset URL field",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Field of the dataset items that holds the PDF URL.",
+      "default": "url"
+    },
+    "mode": {
+      "title": "What to extract",
+      "type": "string",
+      "editor": "select",
+      "enum": ["auto", "invoice", "tables"],
+      "enumTitles": [
+        "Auto: invoices as line items, other PDFs as table rows",
+        "Invoices: one row per line item, with supplier, number, dates, VAT and totals",
+        "Tables: one row per table row, for any PDF"
+      ],
+      "default": "auto",
+      "description": "Auto treats a PDF as an invoice when page 1 says invoice / bill to / factura / Rechnung / facture and an item table or invoice fields are found; otherwise every table becomes rows.",
+      "sectionCaption": "2. Extraction"
+    },
+    "tableDetection": {
+      "title": "Table detection",
+      "type": "string",
+      "editor": "select",
+      "enum": ["auto", "lines", "text"],
+      "enumTitles": [
+        "Auto: tables with borders, then tables without borders",
+        "Only tables drawn with borders (cell lines)",
+        "Only borderless tables (aligned columns)"
+      ],
+      "default": "auto",
+      "description": "Keep 'Auto' unless you get extra small tables you do not need."
+    },
+    "parseNumbers": {
+      "title": "Convert numbers",
+      "type": "boolean",
+      "default": true,
+      "description": "Turn '1,234.50', '1.234,50', '$12.00' and '(15.00)' into numbers (decimal comma or point is detected per document), so they sum correctly in Excel. Percentages and codes with leading zeros stay as text."
+    },
+    "dateOrder": {
+      "title": "Date order for dates like 03/04/2026",
+      "type": "string",
+      "editor": "select",
+      "enum": ["auto", "DMY", "MDY"],
+      "enumTitles": ["Auto (day first for 03.04.2026 and decimal-comma documents, month first for US 03/04/2026)", "Day / month / year", "Month / day / year"],
+      "default": "auto",
+      "description": "Invoice dates are returned as YYYY-MM-DD. Only matters when day and month are both 12 or less."
+    },
+    "saveExcel": {
+      "title": "Save one Excel file for the run",
+      "type": "boolean",
+      "default": true,
+      "description": "Also saves OUTPUT.xlsx in the run's key-value store: a sheet with all invoice lines, a sheet with one row per invoice, and one sheet per table. The dataset itself can be exported to CSV, Excel or JSON as usual."
+    },
+    "pdfPassword": {
+      "title": "PDF password",
+      "type": "string",
+      "editor": "textfield",
+      "isSecret": true,
+      "description": "Only for password-protected PDFs (the same password is tried on every file).",
+      "sectionCaption": "3. Limits"
+    },
+    "maxPagesPerDocument": {
+      "title": "Max pages per PDF",
+      "type": "integer",
+      "minimum": 0,
+      "default": 0,
+      "description": "Read only the first N pages of each PDF (0 = all pages)."
+    },
+    "maxDocuments": {
+      "title": "Max PDFs",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100000,
+      "default": 1000,
+      "description": "Maximum number of PDFs in one run."
+    },
+    "maxFileSizeMb": {
+      "title": "Max file size (MB)",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 500,
+      "default": 50,
+      "description": "Larger files are skipped (not charged)."
+    }
+  }
+}

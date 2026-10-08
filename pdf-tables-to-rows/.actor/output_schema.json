@@ -1,0 +1,30 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "title": "Output",
+  "properties": {
+    "invoiceLines": {
+      "type": "string",
+      "title": "Invoice lines",
+      "description": "One row per invoice line item.",
+      "template": "{{links.apiDefaultDatasetUrl}}/items?view=invoiceLines"
+    },
+    "tableRows": {
+      "type": "string",
+      "title": "Table rows",
+      "description": "One row per table row.",
+      "template": "{{links.apiDefaultDatasetUrl}}/items?view=tableRows"
+    },
+    "excel": {
+      "type": "string",
+      "title": "Excel file (all invoices and tables)",
+      "description": "OUTPUT.xlsx: invoice lines, invoices and one sheet per table.",
+      "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/OUTPUT.xlsx"
+    },
+    "summary": {
+      "type": "string",
+      "title": "Run summary",
+      "description": "Counts, pages charged and errors.",
+      "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/OUTPUT"
+    }
+  }
+}

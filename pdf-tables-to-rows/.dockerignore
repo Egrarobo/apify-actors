@@ -1,0 +1,9 @@
+storage
+__pycache__
+*.pyc
+.venv
+.pytest_cache
+.git
+tests
+scripts
+samples
