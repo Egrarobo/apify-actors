@@ -45,7 +45,11 @@ async def main() -> None:
             sources = sources[:max_docs]
 
         cm = Actor.get_charging_manager()
-        is_ppe = cm.get_pricing_info().is_pay_per_event
+        pricing = cm.get_pricing_info()
+        is_ppe = pricing.is_pay_per_event
+        if is_ppe and Actor.is_at_home() and EVENT_PAGE not in pricing.per_event_prices:
+            # Would mean pages are not charged (event missing or tier-priced in the run's pricing info): visible in the log.
+            Actor.log.warning(f'Pricing: event "{EVENT_PAGE}" has no price in this run\'s pricing info.')
         kvs = await Actor.open_key_value_store()
         summary = {'documentsTotal': len(sources), 'documentsSucceeded': 0, 'documentsWithoutData': 0, 'documentsFailed': 0,
                    'invoices': 0, 'tables': 0, 'rows': 0, 'pagesRead': 0, 'pagesWithData': 0, 'stoppedBySpendingLimit': False,
