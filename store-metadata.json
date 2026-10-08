@@ -1,0 +1,146 @@
+{
+  "_readme": "Store settings that actor.json cannot carry (categories, SEO title/description, example run input). Applied with tools/apply_store_metadata.py through the Apify API (PUT /v2/acts/{id}). Category names: apify-shared-js ACTOR_CATEGORIES.",
+  "actors": {
+    "google-trends-reliable": {
+      "dir": "google-trends",
+      "title": "Google Trends Scraper & API (pytrends alternative)",
+      "categories": [
+        "SEO_TOOLS",
+        "MARKETING",
+        "DEVELOPER_TOOLS"
+      ],
+      "seoTitle": "Google Trends Scraper & API: pytrends Alternative, No 429",
+      "seoDescription": "Google Trends interest over time, regions, rising searches and Trending Now as JSON or CSV. No pytrends 429 errors. $4 per 1,000 keywords.",
+      "exampleRunInput": {
+        "searchTerms": [
+          "coffee",
+          "tea"
+        ],
+        "geo": "US",
+        "trendingNow": true,
+        "maxTrendingItems": 10
+      },
+      "description": "Google Trends data without pytrends 429 errors: interest over time, by country, region or city, top and rising related searches, and Trending Now, as JSON or spreadsheet rows. Compare hundreds of keywords on one scale. $4 per 1,000 keywords; failed keywords are free."
+    },
+    "google-hotels-prices": {
+      "dir": "google-hotels-prices",
+      "title": "Google Hotels Scraper: Prices & Rate Parity Checker",
+      "categories": [
+        "TRAVEL",
+        "ECOMMERCE"
+      ],
+      "seoTitle": "Google Hotels Scraper: Hotel Prices & Rate Parity",
+      "seoDescription": "Hotel prices from Google Hotels for any city and dates, with every booking site's rate (Booking.com, Expedia, official site) for rate parity.",
+      "exampleRunInput": {
+        "queries": [
+          "hotels in Paris"
+        ]
+      },
+      "description": "Hotel prices from Google Hotels for any city, hotel name or link and your dates: price per night and total, taxes, rating, reviews, stars, GPS and, optionally, every booking site's rate (Booking.com, Expedia, Hotels.com, official site) for rate parity checks. $3 per 1,000 hotels."
+    },
+    "website-screenshot-pro": {
+      "dir": "website-screenshot",
+      "title": "Website Screenshot Pro: Bulk Screenshots & PDF",
+      "categories": [
+        "DEVELOPER_TOOLS",
+        "AUTOMATION",
+        "SEO_TOOLS"
+      ],
+      "seoTitle": "Bulk Website Screenshots to PNG, JPEG & PDF",
+      "seoDescription": "Screenshot hundreds of URLs in one run: full page, desktop or mobile, PNG/JPEG/WebP/PDF in one ZIP. No cookie banners. Failed URLs are free.",
+      "exampleRunInput": {
+        "urls": [
+          "https://apify.com",
+          "https://www.wikipedia.org"
+        ]
+      },
+      "description": "Screenshot hundreds of URLs in one run: full page or viewport, desktop, tablet or mobile, PNG, JPEG, WebP or PDF, all in one ZIP. Cookie banners hidden, ads blocked, lazy images loaded. $5 per 1,000 screenshots; failed URLs are free."
+    },
+    "document-to-markdown": {
+      "dir": "doc-to-markdown",
+      "categories": [
+        "AI",
+        "DEVELOPER_TOOLS",
+        "AUTOMATION"
+      ],
+      "exampleRunInput": {
+        "urls": [
+          {
+            "url": "https://arxiv.org/pdf/1706.03762"
+          }
+        ]
+      }
+    },
+    "bulk-certificate-pdf-generator": {
+      "dir": "certificates",
+      "categories": [
+        "AUTOMATION",
+        "EDUCATION",
+        "BUSINESS"
+      ],
+      "exampleRunInput": {
+        "csvText": "name,course,date\nMaria Popescu,Intro to Python,September 20 2026\nJohn Smith,Intro to Python,September 20 2026"
+      }
+    },
+    "prozorro-sale-auctions": {
+      "dir": "prozorro-sale",
+      "categories": [
+        "BUSINESS",
+        "REAL_ESTATE",
+        "LEAD_GENERATION"
+      ],
+      "exampleRunInput": {
+        "sellingMethods": [
+          "smallPrivatization"
+        ],
+        "maxResults": 50
+      }
+    },
+    "accela-building-permits": {
+      "dir": "accela-building-permits",
+      "categories": [
+        "REAL_ESTATE",
+        "LEAD_GENERATION",
+        "BUSINESS"
+      ],
+      "exampleRunInput": {
+        "agencies": [
+          "PINELLAS"
+        ],
+        "lastNDays": 7,
+        "maxRecordsPerAgency": 50
+      }
+    },
+    "au-grocery-prices": {
+      "dir": "au-grocery-prices",
+      "categories": [
+        "ECOMMERCE"
+      ],
+      "exampleRunInput": {
+        "searchTerms": [
+          "milk"
+        ]
+      }
+    },
+    "aldi-au-products": {
+      "dir": "aldi-au-products",
+      "categories": [
+        "ECOMMERCE"
+      ],
+      "exampleRunInput": {
+        "searchTerms": [
+          "milk"
+        ]
+      }
+    },
+    "dataset-change-monitor": {
+      "dir": "change-monitor",
+      "categories": [
+        "AUTOMATION",
+        "DEVELOPER_TOOLS",
+        "INTEGRATIONS"
+      ],
+      "exampleRunInput": {}
+    }
+  }
+}
