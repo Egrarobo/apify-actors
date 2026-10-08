@@ -65,6 +65,27 @@ The run's key-value store also contains:
 - `all-documents-merged.pdf`: all certificates in one file (if enabled)
 - `OUTPUT`: summary with links
 
+## How AI agents call this Actor
+
+**Through the Apify MCP server** (Claude, ChatGPT, Cursor, VS Code, the n8n AI Agent): connect `https://mcp.apify.com?tools=egra_van/bulk-certificate-pdf-generator` and the agent sees this Actor as one tool, with its input schema. With the default `https://mcp.apify.com`, an agent finds Actors with `search-actors`, reads the input with `fetch-actor-details`, runs them with `call-actor` and reads the results with `get-dataset-items`.
+
+**Through the REST API, in one HTTP call** (waits for the run and returns the dataset items):
+
+```bash
+curl -X POST "https://api.apify.com/v2/acts/egra_van~bulk-certificate-pdf-generator/run-sync-get-dataset-items" \
+  -H "Authorization: Bearer $APIFY_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"csvText": "name,course,date\nMaria Popescu,Intro to Python,September 20 2026"}'
+```
+
+**Agents without an Apify account** can pay per run through Apify's [agentic payments](https://docs.apify.com/platform/integrations/x402) (x402, Skyfire).
+
+Tips for agents:
+
+- The `csvText` example has one person; add one line per person to get one PDF each.
+- The JSON above is a complete, working input; every other field has a default (see the input section above).
+- Set `maxTotalChargeUsd` in the run options to cap the cost of a run.
+
 ## Pricing
 
 **Pay per document.** You only pay for PDFs that are actually generated. Empty rows are skipped for free. You can set a maximum spend per run, and the Actor stops cleanly when it is reached.

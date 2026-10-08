@@ -111,6 +111,27 @@ The bot token, Slack URL and webhook URL are stored as **secret inputs** and are
 
 A failed notification never fails the run: the result is shown in the log and in `OUTPUT.notifications`.
 
+## How AI agents call this Actor
+
+**Through the Apify MCP server** (Claude, ChatGPT, Cursor, VS Code, the n8n AI Agent): connect `https://mcp.apify.com?tools=egra_van/dataset-change-monitor` and the agent sees this Actor as one tool, with its input schema. With the default `https://mcp.apify.com`, an agent finds Actors with `search-actors`, reads the input with `fetch-actor-details`, runs them with `call-actor` and reads the results with `get-dataset-items`.
+
+**Through the REST API, in one HTTP call** (waits for the run and returns the dataset items):
+
+```bash
+curl -X POST "https://api.apify.com/v2/acts/egra_van~dataset-change-monitor/run-sync-get-dataset-items" \
+  -H "Authorization: Bearer $APIFY_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"monitorName": "my-shop", "idFields": ["url"], "items": [{"url": "https://shop.example.com/p/1", "price": 12.5}]}'
+```
+
+**Agents without an Apify account** can pay per run through Apify's [agentic payments](https://docs.apify.com/platform/integrations/x402) (x402, Skyfire).
+
+Tips for agents:
+
+- Run it again with the same `monitorName` and new data: the second run returns only `new`, `changed` (with `changes[]`: field, before, after) and `removed` items. With an empty input it runs a free demo.
+- The JSON above is a complete, working input; every other field has a default (see the input section above).
+- Set `maxTotalChargeUsd` in the run options to cap the cost of a run.
+
 ## Pricing
 
 Pay per event:

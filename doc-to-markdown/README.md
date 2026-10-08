@@ -87,6 +87,26 @@ One dataset item per chunk (or per document when chunking is off):
 
 The key-value store record `OUTPUT` has a run summary: documents succeeded/failed, pages, OCR pages, chunks and all errors.
 
+## How AI agents call this Actor
+
+**Through the Apify MCP server** (Claude, ChatGPT, Cursor, VS Code, the n8n AI Agent): connect `https://mcp.apify.com?tools=egra_van/document-to-markdown` and the agent sees this Actor as one tool, with its input schema. With the default `https://mcp.apify.com`, an agent finds Actors with `search-actors`, reads the input with `fetch-actor-details`, runs them with `call-actor` and reads the results with `get-dataset-items`.
+
+**Through the REST API, in one HTTP call** (waits for the run and returns the dataset items):
+
+```bash
+curl -X POST "https://api.apify.com/v2/acts/egra_van~document-to-markdown/run-sync-get-dataset-items" \
+  -H "Authorization: Bearer $APIFY_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"urls": [{"url": "https://arxiv.org/pdf/1706.03762"}]}'
+```
+
+**Agents without an Apify account** can pay per run through Apify's [agentic payments](https://docs.apify.com/platform/integrations/x402) (x402, Skyfire).
+
+Tips for agents:
+
+- The JSON above is a complete, working input; every other field has a default (see the input section above).
+- Set `maxTotalChargeUsd` in the run options to cap the cost of a run.
+
 ## Pricing
 
 **Pay per page.** You pay only for pages that are converted:

@@ -114,6 +114,26 @@ The Actor reads the same JSON API the ALDI website uses (no HTML parsing), so ev
 
 The Actor uses fast plain HTTP requests to ALDI's JSON API. When a request is blocked it switches headers and IP, then (if `browserFallback` is on) loads the data from inside a real Chrome browser — and logs every step (HTTP status, detected block page, exit IP). The default **Apify Proxy** should work; if the log shows `BLOCKED` on every attempt, use proxy group **RESIDENTIAL** with country **AU**.
 
+## How AI agents call this Actor
+
+**Through the Apify MCP server** (Claude, ChatGPT, Cursor, VS Code, the n8n AI Agent): connect `https://mcp.apify.com?tools=egra_van/aldi-au-products` and the agent sees this Actor as one tool, with its input schema. With the default `https://mcp.apify.com`, an agent finds Actors with `search-actors`, reads the input with `fetch-actor-details`, runs them with `call-actor` and reads the results with `get-dataset-items`.
+
+**Through the REST API, in one HTTP call** (waits for the run and returns the dataset items):
+
+```bash
+curl -X POST "https://api.apify.com/v2/acts/egra_van~aldi-au-products/run-sync-get-dataset-items" \
+  -H "Authorization: Bearer $APIFY_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"searchTerms": ["milk"]}'
+```
+
+**Agents without an Apify account** can pay per run through Apify's [agentic payments](https://docs.apify.com/platform/integrations/x402) (x402, Skyfire).
+
+Tips for agents:
+
+- The JSON above is a complete, working input; every other field has a default (see the input section above).
+- Set `maxTotalChargeUsd` in the run options to cap the cost of a run.
+
 ## Pricing
 
 Pay per event: **$1.00 per 1,000 products** saved (`product` event). Error rows, retries and blocked attempts are free. Set a maximum cost per run and the Actor stops cleanly when it is reached.

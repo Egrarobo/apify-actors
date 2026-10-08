@@ -163,6 +163,26 @@ Both supermarkets protect their sites against bots (Coles: Imperva; Woolworths: 
 
 The default **Apify Proxy** works for most runs. If the log shows `BLOCKED` for every attempt, choose proxy group **RESIDENTIAL** with country **Australia (AU)** — residential Australian IPs are the most reliable option, especially for Coles.
 
+## How AI agents call this Actor
+
+**Through the Apify MCP server** (Claude, ChatGPT, Cursor, VS Code, the n8n AI Agent): connect `https://mcp.apify.com?tools=egra_van/au-grocery-prices` and the agent sees this Actor as one tool, with its input schema. With the default `https://mcp.apify.com`, an agent finds Actors with `search-actors`, reads the input with `fetch-actor-details`, runs them with `call-actor` and reads the results with `get-dataset-items`.
+
+**Through the REST API, in one HTTP call** (waits for the run and returns the dataset items):
+
+```bash
+curl -X POST "https://api.apify.com/v2/acts/egra_van~au-grocery-prices/run-sync-get-dataset-items" \
+  -H "Authorization: Bearer $APIFY_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"searchTerms": ["milk"]}'
+```
+
+**Agents without an Apify account** can pay per run through Apify's [agentic payments](https://docs.apify.com/platform/integrations/x402) (x402, Skyfire).
+
+Tips for agents:
+
+- The JSON above is a complete, working input; every other field has a default (see the input section above).
+- Set `maxTotalChargeUsd` in the run options to cap the cost of a run.
+
 ## Pricing
 
 Pay per event: **$1.00 per 1,000 products** saved (`product` event). Error rows, retries, blocked attempts and the browser warm-up are not charged. Set a maximum cost per run and the Actor stops cleanly when it is reached.
