@@ -25,7 +25,7 @@ Typical jobs: a **monthly snapshot of competitor homepages and pricing pages**, 
 }
 ```
 
-Put up to hundreds of URLs in `urls` (or read them from another Actor's dataset with `startUrlsDatasetId`). With `outputZip` you get one `screenshots.zip` with every image and PDF. 100 pages with PDFs cost $0.60.
+Put up to hundreds of URLs in `urls` (or read them from another Actor's dataset with `startUrlsDatasetId`). With `outputZip` you get one `screenshots.zip` with every image and PDF. 100 pages with PDFs cost $0.40.
 
 A real result from 8 Oct 2026 (the prefilled pages plus `stripe.com/pricing`, full page, PNG + PDF): all 3 captured in about 15 seconds on our test machine. `wikipedia.org` is 1920×1100 px (199 kB), `apify.com` 1920×10036 px (1.2 MB). `stripe.com/pricing` is 22,334 px tall, so it was cut at the 15,000 px limit and the row says so in `warnings`.
 

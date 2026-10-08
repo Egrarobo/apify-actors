@@ -4,6 +4,8 @@ Search, track and get alerts for **Ukrainian public auctions on [Prozorro.Sale](
 
 Data comes from the **official Prozorro.Sale open-data API** (no scraping, no login, no proxies). Every auction is returned as one clean record with **English field names**, starting price, minimal step, guarantee, bidding deadline, auction date, organizer, items with CAV/CPV codes and addresses, **document download links**, and, for finished auctions, **the winner and final price**. Each record links to its public auction page.
 
+This Actor is not affiliated with Prozorro.Sale or any Ukrainian government body; it reads their public open-data API.
+
 ## Українською коротко
 
 **Що це:** інструмент для пошуку та моніторингу аукціонів **Prozorro.Sale** — мала та велика приватизація, оренда державного й комунального майна, оренда та продаж землі, активи банкрутів, активи банків і NPL від ФГВФО.
@@ -207,9 +209,8 @@ Pay per event:
 |---|---|---|
 | `auction-result` | $0.003 | Each auction returned by search or details mode ($3 per 1,000). |
 | `new-auction-alert` | $0.01 | Each **new** auction found by a monitor, including its alerts. Monitors are not charged `auction-result` as well. |
-| `feed-page` (optional) | $0.0005 | Each change-feed page read (up to 100 auctions). Covers scanning cost for frequent monitors that often find nothing new. |
 
-A monitor that finds nothing costs only the pages it read. Listing auction types is free. Email alerts run `apify/send-mail` on your own account.
+A monitor that finds nothing costs only Apify's $0.00005 start fee; reading the change feed is free. Listing auction types is free. Email alerts run `apify/send-mail` on your own account.
 
 **Spending limit**: if a run reaches your maximum cost per run, it stops cleanly and keeps what it already delivered. A monitor does **not** advance past undelivered auctions, so they are reported by the next run; nothing is lost and nothing is reported twice.
 

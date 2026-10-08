@@ -195,7 +195,7 @@ Google blocks datacenter IPs quickly. What to expect:
 | Default (Apify datacenter) | Works for small runs. Expect `captcha=YES` in the log after some requests. Every retry uses a new IP, and the browser fallback takes over when HTTP is blocked. |
 | **Your own proxies** (proxy URLs) | Any provider, including residential IPs. You pay your provider directly. |
 
-The Apify **RESIDENTIAL** and **GOOGLE_SERP** groups are not available in this Actor: if you select one, the run continues on the default Apify proxy and says so in the log. For residential or other IPs, use your own proxy URLs.
+The Apify **RESIDENTIAL** and **GOOGLE_SERP** groups are not available in this Actor: if you select one, it is dropped and the log says so. The run continues on your other selected Apify proxy groups or, if none are left, on the default Apify proxy. If the proxy cannot be set up (for example, no Apify IPs for the chosen country), the run continues without a proxy and the log warns you. For residential or other IPs, use your own proxy URLs.
 
 On the **Apify free plan** only a few shared datacenter IPs are available. Keep runs small (a few searches, 20-50 hotels) and schedule them apart.
 
