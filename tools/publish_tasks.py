@@ -35,13 +35,22 @@ def call(method, path, token, body=None):
     req = urllib.request.Request(API + path, data=json.dumps(body).encode() if body is not None else None, method=method)
     req.add_header("Content-Type", "application/json")
     req.add_header("Authorization", f"Bearer {token}")
-    try:
-        with urllib.request.urlopen(req, timeout=120) as res:
-            return json.load(res).get("data")
-    except urllib.error.HTTPError as e:
-        if e.code == 404:
-            return None
-        raise SystemExit(f"{method} {path}: HTTP {e.code} {e.read().decode()[:300]}")
+    for attempt in range(5):
+        try:
+            with urllib.request.urlopen(req, timeout=120) as res:
+                return json.load(res).get("data")
+        except urllib.error.HTTPError as e:
+            if e.code == 404:
+                return None
+            if e.code >= 500 and attempt < 4:  # Apify gateway hiccups (502/503) are transient
+                time.sleep(5 * (attempt + 1))
+                continue
+            raise SystemExit(f"{method} {path}: HTTP {e.code} {e.read().decode()[:300]}")
+        except urllib.error.URLError:
+            if attempt < 4:
+                time.sleep(5 * (attempt + 1))
+                continue
+            raise
 
 
 def main():
