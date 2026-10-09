@@ -1,7 +1,8 @@
 # Google Hotels Scraper & Price API
 
-**See what a hotel costs on Google Hotels for your dates, and what every booking site charges for the same room.** Type a city, a hotel name or paste a Google Hotels link; get the price per night and for the stay, taxes, rating, reviews and stars, and optionally the rate on Booking.com, Expedia, Hotels.com, Agoda, Trip.com, the hotel's official site and 30+ more.
+**Track what your hotels cost on Google Hotels every day, and what every booking site charges for the same room.** Type a city, a hotel name or paste a Google Hotels link; get the price per night and for the stay, taxes, rating, reviews and stars, and optionally the rate on Booking.com, Expedia, Hotels.com, Agoda, Trip.com, the hotel's official site and 30+ more.
 
+- **Daily price tracking:** put your hotels' links in **Google Hotels links**, schedule the run, and connect [Dataset Change Monitor](https://apify.com/egra_van/dataset-change-monitor) as an integration (`idFields`: `entityId`, `compareFields`: `pricePerNight`, `priceLowest`) to get a Telegram, Slack, email or webhook message only when a price changes.
 - **What you get:** one row per hotel with prices, `cheapestProvider`, `officialSitePrice`, rating, address, GPS, phone and photos; with offers on, a list of every booking site's price
 - **What it costs:** $3 per 1,000 hotels with a price (`$0.003` each), plus $2 per 1,000 hotels when you also load every booking site's price. Hotels without any price are **free**; failed runs cost only Apify's $0.00005 start fee.
 - **Try it now:** the form is prefilled with `hotels in Paris`, 5 hotels and **every booking site's price** on (default dates: one night, 30 days from today, 2 adults). Click **Start**; the 5 hotels with all sites' prices cost about **$0.03**.

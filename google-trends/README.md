@@ -1,7 +1,8 @@
 # Google Trends Scraper & API
 
-**Get Google Trends data as JSON or spreadsheet rows, without running pytrends and fighting "429 Too Many Requests".** Give it your keywords, a country and a time range; get back interest over time, interest by region, top and rising related searches, and today's Trending Now searches.
+**Get Google Trends data as JSON or spreadsheet rows in seconds: the prefilled run (2 keywords plus 10 Trending Now searches) took 11 to 26 seconds in our tests on 8 Oct 2026.** Give it your keywords, a country and a time range; get back interest over time, interest by region, top and rising related searches, and today's Trending Now searches.
 
+- **Runs end instead of hanging:** every request to Google has a time limit (30 s by default) and a fixed number of retries (5 by default). A keyword that Google keeps refusing is marked as failed, is **free**, and the run moves on.
 - **What you get:** one row per keyword with the 0-100 timeline, average, peak date, latest value, top region, related and rising queries, and a link to the same chart on trends.google.com
 - **What it costs:** $3 per 1,000 keywords (`$0.003` each; less on Silver and higher Apify plans, down to $1.50), $1 per 1,000 Trending Now searches. Keywords that fail or come back incomplete are **free**.
 - **Try it now:** the form is prefilled with `coffee` vs `tea` in the US over 12 months plus the top 10 Trending Now searches. Click **Start**; that run costs about **$0.02**.
