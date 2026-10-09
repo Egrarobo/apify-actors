@@ -20,7 +20,7 @@
         "trendingNow": true,
         "maxTrendingItems": 10
       },
-      "description": "Google Trends scraper and API: interest over time by country, region or city, top and rising searches and Trending Now, as JSON, CSV or Excel. A pytrends alternative that retries 429 errors on new IPs. Hundreds of keywords on one scale. $3 / 1,000 keywords, $1 / 1,000 trending; failed ones free."
+      "description": "Google Trends scraper and API: interest over time by country, region or city, top and rising searches and Trending Now, as JSON, CSV or Excel. A pytrends alternative with paced retries for 429 errors. Hundreds of keywords on one scale. $3 / 1,000 keywords, $1 / 1,000 trending; failed ones free."
     },
     "google-hotels-prices": {
       "dir": "google-hotels-prices",

@@ -89,13 +89,13 @@
     "actor": "egra_van/google-trends-reliable",
     "name": "us-trending-searches-today",
     "title": "Get today's trending Google searches in the US",
-    "description": "Returns the top 25 searches trending on Google in the United States right now, from Google's official Trending Now feed, with approximate search volume, start time, picture and related news articles. Run it on a schedule to keep a daily history of what America searches for.",
+    "description": "Returns the searches trending on Google in the United States right now (Google's official Trending Now feed lists about 10 at a time), with approximate search volume, start time, picture and related news articles. Run it on a schedule to keep a daily history of what America searches for.",
     "seoTitle": "Today's Trending Google Searches in the US (JSON/CSV)",
-    "seoDescription": "The top 25 Google Trending Now searches in the US with search volume and news links, as JSON, CSV or Excel. Schedule it for a daily history.",
+    "seoDescription": "Today's Google Trending Now searches in the US (about 10) with search volume and news links, as JSON, CSV or Excel. Schedule it for a daily history.",
     "input": {
       "trendingNow": true,
       "trendingGeo": "US",
-      "maxTrendingItems": 25,
+      "maxTrendingItems": 10,
       "includeNews": true
     },
     "fields": [
@@ -104,13 +104,13 @@
       "maxTrendingItems"
     ],
     "view": "trending",
-    "cost": "25 searches × $0.001 = $0.025"
+    "cost": "10 searches × $0.001 = $0.01"
   },
   {
     "actor": "egra_van/google-trends-reliable",
     "name": "pytrends-alternative-interest-by-country",
     "title": "Google Trends interest by country (pytrends 429 fix)",
-    "description": "Compares five programming languages (Python, JavaScript, TypeScript, Rust, Go) worldwide over 12 months and returns interest over time and interest by country as JSON. The same data pytrends returns from interest_over_time() and interest_by_region(), with a fix for pytrends' '429 Too Many Requests': requests are paced and retried on new IPs, and failed keywords are free.",
+    "description": "Compares five programming languages (Python, JavaScript, TypeScript, Rust, Go) worldwide over 12 months and returns interest over time and interest by country as JSON. The same data pytrends returns from interest_over_time() and interest_by_region(), with a fix for pytrends' '429 Too Many Requests': requests are paced and retried after a pause, and failed keywords are free.",
     "seoTitle": "pytrends Alternative: Google Trends by Country (429 Fix)",
     "seoDescription": "Google Trends interest over time and by country as JSON, with retries and backoff for pytrends 429 errors. Works from Python, n8n, Make or any HTTP client.",
     "input": {

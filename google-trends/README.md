@@ -10,7 +10,7 @@
 
 [pytrends](https://github.com/GeneralMills/pytrends) is archived and Google answers its requests with `429 Too Many Requests` very quickly. This Actor runs the same Google Trends requests from Apify's infrastructure:
 
-- every request is paced (1.5 s by default), and a refused request (HTTP 429, captcha, network error) is retried with **a new proxy IP and new Google cookies**;
+- every request is paced (1.5 s by default), and a refused request (HTTP 429, captcha, network error) is retried after a pause, with a fresh session;
 - if Google's explore endpoint stays blocked, chart data comes from Google's **embeddable widget pages**, and as a last resort from a **real Chrome browser**;
 - you only pay for keywords that came back complete.
 
@@ -313,7 +313,7 @@ Tips for agents:
 ## Limitations
 
 - Google Trends has no public API for this data (the official Trends API launched in 2025 is an alpha with limited access), so this Actor reads the same internal endpoints the Google Trends website uses. Google can change them without notice; the Actor logs which step failed and saves the response for diagnosis.
-- Heavy use from shared datacenter IPs can be rate-limited by Google for a while. Retries with new IPs, the embed and browser fallbacks cover most cases; very large runs work best split into smaller runs or with your own proxies.
+- Heavy use from shared datacenter IPs can be rate-limited by Google for a while. Paced retries and the embed and browser fallbacks cover most cases; very large runs work best split into smaller runs or with your own proxies.
 - Values are relative and sampled by Google, not absolute search volumes.
 
 ## Legal
