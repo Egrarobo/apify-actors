@@ -185,7 +185,7 @@ Tips for agents:
 
 ## Pricing
 
-Pay per event: **$1.00 per 1,000 products** saved (`product` event). Error rows, retries, blocked attempts and the browser warm-up are not charged. Set a maximum cost per run and the Actor stops cleanly when it is reached.
+Pay per event: **$0.60 per 1,000 products** saved (`product` event) on the Free plan, down to $0.45 per 1,000 on higher Apify plans (Bronze $0.55, Silver $0.50, Gold $0.45), plus $0.00005 per run start. Error rows, retries, blocked attempts and the browser warm-up are not charged. Set a maximum cost per run and the Actor stops cleanly when it is reached.
 
 ## Good to know
 
