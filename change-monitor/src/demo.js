@@ -18,7 +18,10 @@ export const DEMO_CURRENT = [
 
 /** Compares the two demo snapshots in memory. No state is read or written. */
 export function runDemoComparison({ idFields, compareFields, ignoreFields, maxChangesPerItem }) {
-    const keyFields = idFields.length ? idFields : ['url'];
+    // The sample items only have url/name/price/inStock. If the user's key fields are not in them
+    // (e.g. "asin"), every key would be empty and the demo would collapse to one item: use "url" instead.
+    const usable = idFields.length && DEMO_CURRENT.every((item) => keyOf(item, idFields, item) !== null);
+    const keyFields = usable ? idFields : ['url'];
     const ignore = compareFields.length ? [] : [...new Set([...ignoreFields, 'scrapedAt'])];
     const index = (items) => {
         const map = new Map();
