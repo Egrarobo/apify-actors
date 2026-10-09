@@ -10,6 +10,7 @@ import argparse
 import json
 import os
 import sys
+import urllib.error
 import urllib.request
 
 API = "https://api.apify.com/v2"
@@ -30,8 +31,11 @@ def call(method, path, token, body=None):
                                  data=json.dumps(body).encode() if body is not None else None)
     req.add_header("Content-Type", "application/json")
     req.add_header("Authorization", f"Bearer {token}")
-    with urllib.request.urlopen(req, timeout=60) as res:
-        return json.load(res)["data"]
+    try:
+        with urllib.request.urlopen(req, timeout=60) as res:
+            return json.load(res)["data"]
+    except urllib.error.HTTPError as e:
+        sys.exit(f"{method} {path}: HTTP {e.code} {e.read().decode(errors='replace')}")
 
 
 def main():
