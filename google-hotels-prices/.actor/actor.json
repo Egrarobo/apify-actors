@@ -2,7 +2,7 @@
   "actorSpecification": 1,
   "name": "google-hotels-prices",
   "title": "Google Hotels Scraper & Price API",
-  "description": "Google Hotels scraper and price API for daily hotel price tracking: per night and per stay, taxes, rating, stars and, optionally, every booking site's rate (Booking.com, Expedia, official site) for your hotels and dates. Price alerts via Dataset Change Monitor. $3 / 1,000 hotels, +$2 with rates.",
+  "description": "Google Hotels scraper and price API for daily hotel price tracking: per night and per stay, taxes, rating, stars and, optionally, every booking site's rate (Booking.com, Expedia, official site) for your hotels and fixed dates. Schedule it daily. $3 / 1,000 hotels, +$2 with rates.",
   "version": "1.0",
   "buildTag": "latest",
   "defaultMemoryMbytes": 1024,
