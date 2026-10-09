@@ -1,0 +1,12 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "title": "Output",
+  "properties": {
+    "articles": {
+      "type": "string",
+      "title": "Articles",
+      "description": "One row per news article: title, source, date and the publisher's URL.",
+      "template": "{{links.apiDefaultDatasetUrl}}/items?view=overview"
+    }
+  }
+}
