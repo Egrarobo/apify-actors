@@ -1,4 +1,4 @@
-# Bulk Website Screenshot API & PDF
+# Website Screenshot API: Bulk, Full Page & PDF
 
 **Paste a list of URLs and get a clean screenshot of every page, in one run.** Full page or just the visible window, on desktop, laptop, tablet or mobile, as PNG, JPEG, WebP and optionally PDF, with cookie banners hidden, ads blocked and lazy-loaded images loaded before the capture. Download everything as one ZIP.
 

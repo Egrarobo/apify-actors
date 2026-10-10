@@ -1,8 +1,8 @@
 {
   "actorSpecification": 1,
   "name": "website-screenshot",
-  "title": "Bulk Website Screenshot API & PDF",
-  "description": "Bulk website screenshot API: paste hundreds of URLs and get full-page or viewport captures on desktop, tablet or mobile as PNG, JPEG or WebP, plus optional PDF, in one ZIP. Cookie banners hidden, ads blocked, lazy images loaded. $3 per 1,000 screenshots, +$1 per 1,000 PDFs; failed URLs free.",
+  "title": "Website Screenshot API: Bulk, Full Page & PDF",
+  "description": "Website screenshot API in bulk: paste hundreds of URLs and get full-page or viewport screenshots on desktop, tablet or mobile as PNG, JPEG or WebP, plus optional PDF, in one ZIP. Cookie banners hidden, ads blocked, lazy images loaded. $3 per 1,000 screenshots, +$1 per 1,000 PDFs; failed URLs free.",
   "version": "1.0",
   "buildTag": "latest",
   "input": "./input_schema.json",

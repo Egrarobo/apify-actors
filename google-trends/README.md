@@ -1,4 +1,4 @@
-# Google Trends Scraper & API
+# Google Trends Scraper API & Trending Now
 
 **Get Google Trends data as JSON or spreadsheet rows in seconds: the prefilled run (2 keywords plus 10 Trending Now searches) took 11 to 26 seconds in our tests on 8 Oct 2026.** Give it your keywords, a country and a time range; get back interest over time, interest by region, top and rising related searches, and today's Trending Now searches.
 

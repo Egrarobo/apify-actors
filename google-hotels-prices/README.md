@@ -1,4 +1,4 @@
-# Google Hotels Scraper & Price API
+# Google Hotels Prices API & Scraper: Rate Parity
 
 **Track what your hotels cost on Google Hotels every day, and what every booking site charges for the same room.** Type a city, a hotel name or paste a Google Hotels link; get the price per night and for the stay, taxes, rating, reviews and stars, and optionally the rate on Booking.com, Expedia, Hotels.com, Agoda, Trip.com, the hotel's official site and 30+ more.
 

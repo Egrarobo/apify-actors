@@ -3,13 +3,13 @@
   "actors": {
     "google-trends-reliable": {
       "dir": "google-trends",
-      "title": "Google Trends Scraper & API",
+      "title": "Google Trends Scraper API & Trending Now",
       "categories": [
         "SEO_TOOLS",
         "MARKETING",
         "DEVELOPER_TOOLS"
       ],
-      "seoTitle": "Google Trends Scraper & API: Fast pytrends Alternative",
+      "seoTitle": "Google Trends API & Scraper: Fast pytrends Alternative",
       "seoDescription": "Fast Google Trends data: interest over time, regions, rising searches and Trending Now as JSON or CSV. Bounded retries; failed keywords free. $3/1,000.",
       "exampleRunInput": {
         "searchTerms": [
@@ -20,17 +20,17 @@
         "trendingNow": true,
         "maxTrendingItems": 10
       },
-      "description": "Google Trends scraper and API with fast, bounded runs: interest over time by country, region or city, top and rising searches and Trending Now, as JSON, CSV or Excel. Fixed retries and time limits, so runs end instead of hanging. $3 / 1,000 keywords, $1 / 1,000 trending; failed ones free."
+      "description": "Google Trends scraper API with fast, bounded runs: interest over time by country, region or city, top and rising searches and Google Trends Trending Now, as JSON, CSV or Excel. Fixed retries and time limits, so runs end instead of hanging. $3 / 1,000 keywords, $1 / 1,000 trending; failed ones free."
     },
     "google-hotels-prices": {
       "dir": "google-hotels-prices",
-      "title": "Google Hotels Scraper & Price API",
+      "title": "Google Hotels Prices API & Scraper: Rate Parity",
       "categories": [
         "TRAVEL",
         "ECOMMERCE"
       ],
-      "seoTitle": "Google Hotels Price Tracker: Daily Hotel Rates & OTA Prices",
-      "seoDescription": "Track Google Hotels prices daily for your hotels and fixed dates: per night, total, taxes and each booking site's rate. $3 / 1,000 hotels, +$2 with all rates.",
+      "seoTitle": "Google Hotels Prices API: Daily Hotel Rates & Rate Parity",
+      "seoDescription": "Google Hotels prices API: track your hotels daily for fixed dates, per night, total, taxes and each booking site's rate. $3 / 1,000 hotels, +$2 with all rates.",
       "exampleRunInput": {
         "queries": [
           "hotels in Paris"
@@ -38,17 +38,17 @@
         "maxHotelsPerQuery": 5,
         "includeOffers": true
       },
-      "description": "Google Hotels scraper and price API for daily hotel price tracking: per night and per stay, taxes, rating, stars and, optionally, every booking site's rate (Booking.com, Expedia, official site) for your hotels and fixed dates. Schedule it daily. $3 / 1,000 hotels, +$2 with rates."
+      "description": "Google Hotels prices API and scraper for daily hotel price tracking and rate parity checks: per night and per stay, taxes, rating, stars and, optionally, every booking site's rate (Booking.com, Expedia, official site) for your hotels and fixed dates. $3 / 1,000 hotels, +$2 with rates."
     },
     "website-screenshot-pro": {
       "dir": "website-screenshot",
-      "title": "Bulk Website Screenshot API & PDF",
+      "title": "Website Screenshot API: Bulk, Full Page & PDF",
       "categories": [
         "DEVELOPER_TOOLS",
         "AUTOMATION",
         "SEO_TOOLS"
       ],
-      "seoTitle": "Bulk Website Screenshot API: Full Page PNG, JPEG & PDF",
+      "seoTitle": "Website Screenshot API: Bulk Full Page PNG, JPEG & PDF",
       "seoDescription": "Screenshot hundreds of URLs in one run: full page, desktop or mobile, PNG, JPEG or WebP plus optional PDF, in one ZIP. $3 / 1,000 screenshots, +$1 / 1,000 PDFs.",
       "exampleRunInput": {
         "urls": [
@@ -56,7 +56,7 @@
           "https://www.wikipedia.org"
         ]
       },
-      "description": "Bulk website screenshot API: paste hundreds of URLs and get full-page or viewport captures on desktop, tablet or mobile as PNG, JPEG or WebP, plus optional PDF, in one ZIP. Cookie banners hidden, ads blocked, lazy images loaded. $3 per 1,000 screenshots, +$1 per 1,000 PDFs; failed URLs free."
+      "description": "Website screenshot API in bulk: paste hundreds of URLs and get full-page or viewport screenshots on desktop, tablet or mobile as PNG, JPEG or WebP, plus optional PDF, in one ZIP. Cookie banners hidden, ads blocked, lazy images loaded. $3 per 1,000 screenshots, +$1 per 1,000 PDFs; failed URLs free."
     },
     "document-to-markdown": {
       "dir": "doc-to-markdown",
