@@ -16,7 +16,7 @@
 //   entry[6][2][1]      [displayPrice "$68", displayPriceWithTaxes "$80", price 67.57, null, rounded 68]
 //   entry[6][2][8]      [[Y,M,D],[Y,M,D],nights,…] dates the price is for
 //   entry[6][2][15]     currency code
-//   entry[6][2][44]     [base rate, taxes, fees, total with taxes and fees]  (52.7 + 12.4 + 14.87 = 79.97)
+//   entry[6][2][44]     [base rate, taxes, fees, total with taxes and fees] FOR THE WHOLE STAY (52.7 + 12.4 + 14.87 = 79.97 on 1 night)
 //   entry[6][2][2|12|21|22] provider offers (detail responses; [21] = full "All options" list)
 //   entry[7][0]         [rating, reviews]
 //   entry[9]            Google Maps feature id "0x…:0x…"
@@ -320,8 +320,16 @@ export function parseHotel(entry, { nights = 1, withOffers = false } = {}) {
     const display = get(offerBlock, 1);
     const breakdown = get(offerBlock, 44);
     const pricePerNight = num(get(display, 2)) ?? num(get(display, 4)) ?? parsePriceText(get(display, 0));
-    const pricePerNightWithTaxes = num(get(breakdown, 3)) ?? parsePriceText(get(display, 1));
     const rateDates = get(offerBlock, 8);
+    // entry[6][2][44] is for the WHOLE stay (base, taxes, fees, total), not per night: on a 3-night stay
+    // (Lisbon, 18–21 Dec 2026, run of 10 Oct 2026) base 421.32 = 3 × 140.44 per night. Divide by the nights the
+    // price is for (rateDates[2], else the requested nights). With 1 night both readings are the same.
+    const rateNights = Number.isInteger(get(rateDates, 2)) && get(rateDates, 2) > 0 ? get(rateDates, 2) : (nights || 1);
+    const stayWithTaxes = num(get(breakdown, 3));
+    const perNight = (v) => (v === null ? null : v / rateNights);
+    const pricePerNightWithTaxes = stayWithTaxes !== null ? stayWithTaxes / rateNights : parsePriceText(get(display, 1));
+    const priceTotal = stayWithTaxes !== null ? stayWithTaxes
+        : (pricePerNightWithTaxes !== null ? pricePerNightWithTaxes * rateNights : null);
     const currency = str(get(offerBlock, 15)) ?? str(get(entry, 6, 1, 3));
     const classArr = entry[3];
     const photos = [];
@@ -361,10 +369,10 @@ export function parseHotel(entry, { nights = 1, withOffers = false } = {}) {
         pricePerNight: round2(pricePerNight),
         pricePerNightText: str(get(display, 0)),
         pricePerNightWithTaxes: round2(pricePerNightWithTaxes),
-        priceBeforeTaxes: round2(num(get(breakdown, 0))),
-        taxes: round2(num(get(breakdown, 1))),
-        fees: round2(num(get(breakdown, 2))),
-        priceTotal: pricePerNightWithTaxes !== null ? round2(pricePerNightWithTaxes * nights) : null,
+        priceBeforeTaxes: round2(perNight(num(get(breakdown, 0)))),
+        taxes: round2(perNight(num(get(breakdown, 1)))),
+        fees: round2(perNight(num(get(breakdown, 2)))),
+        priceTotal: round2(priceTotal),
         currency,
         priceCheckIn: dateFrom(get(rateDates, 0)),
         priceCheckOut: dateFrom(get(rateDates, 1)),

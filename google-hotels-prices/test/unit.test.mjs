@@ -61,7 +61,8 @@ test('search payload: 18 real NYC hotels with prices, taxes, rating, class, GPS,
     assert.equal(h.priceBeforeTaxes, 52.7);
     assert.equal(h.taxes, 12.4);
     assert.equal(h.fees, 14.87);
-    assert.equal(h.priceTotal, 159.94, '2 nights × price with taxes');
+    // The fixture's rate is for 1 night (rateDates 27–28 Apr 2026), so the total is the 1-night total even if 2 were asked.
+    assert.equal(h.priceTotal, 79.97, 'total = stay total from the breakdown (1 night in this capture)');
     assert.equal(h.currency, 'USD');
     assert.equal(h.rating, 2.8);
     assert.equal(h.reviews, 66);
@@ -185,4 +186,26 @@ test('proxy: Apify RESIDENTIAL and GOOGLE_SERP groups are removed, other groups 
     assert.deepEqual(r.removedGroups, []);
     assert.deepEqual(r.proxy.proxyUrls, ['http://u:p@my-residential.example:8000']);
     assert.deepEqual(limitProxy(null).removedGroups, []);
+});
+
+test('multi-night stay: the price breakdown is for the whole stay and is divided per night (Lisbon, 3 nights, 10 Oct 2026)', () => {
+    // Same real entry, with the rate block changed to the shape Google returned for a 3-night stay on 10 Oct 2026:
+    // display $140 per night (140.44), breakdown [421.32, 52.18, 0, 473.5] = whole stay (421.32 = 3 × 140.44).
+    const tree = structuredClone(search);
+    let entry = null;
+    (function walk(n) {
+        if (entry) return;
+        if (Array.isArray(n)) { if (n[1] === 'Mayfair Inn and Suites' && Array.isArray(n[6])) { entry = n; return; } n.forEach(walk); }
+        else if (n && typeof n === 'object') Object.values(n).forEach(walk);
+    })(tree);
+    assert.ok(entry, 'fixture entry found');
+    entry[6][2][1] = ['$140', '$158', 140.44, null, 140];
+    entry[6][2][8] = [[2026, 12, 18], [2026, 12, 21], 3, null, 0];
+    entry[6][2][44] = [421.32, 52.18, 0, 473.5];
+    const h = parseSearchPayload(tree, { nights: 3 }).hotels.find((x) => x.hotelName === 'Mayfair Inn and Suites');
+    assert.equal(h.pricePerNight, 140.44);
+    assert.equal(h.pricePerNightWithTaxes, 157.83);
+    assert.equal(h.priceBeforeTaxes, 140.44);
+    assert.equal(h.taxes, 17.39);
+    assert.equal(h.priceTotal, 473.5, 'not 3 × 473.5');
 });

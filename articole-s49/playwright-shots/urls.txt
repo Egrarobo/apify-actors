@@ -1,0 +1,6 @@
+https://example.com
+https://www.python.org/this-page-does-not-exist
+https://en.wikipedia.org/wiki/List_of_sovereign_states
+https://www.theguardian.com/international
+https://playwright.dev/python/docs/screenshots
+https://no-such-host.invalid

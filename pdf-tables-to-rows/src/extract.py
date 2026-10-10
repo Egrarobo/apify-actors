@@ -30,8 +30,12 @@ def _is_password_error(err: BaseException) -> bool:
     return False
 
 
-def _cell_value(raw: str, decimal_comma: bool, parse_numbers: bool, first_column: bool = False):
-    if not parse_numbers or raw == '':
+# Columns of identifiers stay text even when they look like numbers ("NAICS code" 4411, "SKU" 1200, "ZIP" 02134)
+CODE_COL_RE = re.compile(r'\bcode\b|\bid\b|naics|\bzip\b|\bsku\b|part\s*(no|number|#)|item\s*(no|number|#)|phone', re.I)
+
+
+def _cell_value(raw: str, decimal_comma: bool, parse_numbers: bool, first_column: bool = False, code_column: bool = False):
+    if not parse_numbers or raw == '' or code_column:
         return raw
     # keep codes with leading zeros ("00123") as text, and "(18)" in the first column (a line number, not -18)
     if re.fullmatch(r'0\d+', raw) or (first_column and re.fullmatch(r'\(\d+\)', raw)):
@@ -143,8 +147,10 @@ def process_pdf(data: bytes, *, mode: str = 'auto', table_method: str = 'auto', 
     data_pages = set()
     for ti, t in enumerate(tables, 1):
         names = t.header or [f'col_{k + 1}' for k in range(len(t.rows[0]))]
+        codes = {k for k, h in enumerate(names) if t.header and CODE_COL_RE.search(h or '')}
         for ri, r in enumerate(t.rows, 1):
-            data = {names[k]: _cell_value(r[k] if k < len(r) else '', decimal_comma, parse_numbers, k == 0) for k in range(len(names))}
+            data = {names[k]: _cell_value(r[k] if k < len(r) else '', decimal_comma, parse_numbers, k == 0, k in codes)
+                    for k in range(len(names))}
             result['rows'].append({'rowType': 'table-row', 'page': t.page, 'tableIndex': ti, 'tableTitle': t.title or None,
                                    'tableMethod': t.method, 'hasHeader': bool(t.header), 'rowIndex': ri, 'data': data})
         data_pages.add(t.page)

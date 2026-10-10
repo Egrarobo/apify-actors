@@ -1,0 +1,399 @@
+{
+  "name": "Save monthly full-page screenshots of your pages to Google Drive",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Save monthly full-page screenshots of your pages to Google Drive\n\n### Who's it for\nMarketers who keep a dated record of competitors' homepages and pricing pages, agencies that send clients a monthly visual report, and anyone who needs proof of what a page showed on a given day.\n\n### How it works\n1. On the 1st of every month **Monthly run** starts the workflow.\n2. **Pages to capture** reads the URLs from Google Sheets (column `url`).\n3. **Take screenshots** runs **Bulk Website Screenshot API & PDF** on Apify: one full-page image per URL (optionally a PDF too), lazy images loaded, cookie banners hidden, ads blocked, all in one ZIP.\n4. **Download ZIP** and **Save ZIP to Google Drive** keep the ZIP in your Drive (Apify deletes run files after its retention period, 7 days on the free plan).\n5. **Make log row** and **Log the run** add one row to Google Sheets: date, pages, saved, failed, the Drive link and the link to the run's results on Apify.\n\n### How to set up\n1. Create a Google Sheet with a tab `Pages` (column `url`, one page per row) and an empty tab `Runs`. Pick them in **Pages to capture** and **Log the run**.\n2. Create a **Header Auth** credential named `Apify API token`: name `Authorization`, value `Bearer YOUR_APIFY_TOKEN` (Apify Console → Settings → API & Integrations). Select it in **Take screenshots** and **Download ZIP**.\n3. Connect Google Sheets and Google Drive. Pick the folder in **Save ZIP to Google Drive**.\n4. Run the workflow once, open the ZIP, then activate it.\n\n### Requirements\nApify account (the free plan includes $5 of usage a month), Google Sheets, Google Drive. Apify cost: $0.003 per screenshot on the free plan, plus $0.001 per PDF; failed URLs are not charged. 50 pages a month with PDFs cost about $0.20.\n\n### How to customize\n- Change the device (`desktop`, `laptop`, `tablet`, `mobile`), the format or `savePdf` in **Settings**.\n- Run it every week by changing **Monthly run**.\n- The run waits up to 5 minutes. For lists longer than about 50 pages, split them across two sheets or two runs.\n- Rows for failed URLs (404, timeouts, blocked pages) are in the Apify results link of each run.",
+        "height": 1160,
+        "width": 460
+      },
+      "id": "b8a04cd6-42a4-4581-8c78-ff2e57eccac0",
+      "name": "Template description",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -560,
+        -40
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### 1. Your pages\nPut the URLs in a Google Sheet (column `url`). Device, format and PDF are in **Settings**.",
+        "height": 380,
+        "width": 640,
+        "color": 7
+      },
+      "id": "e6c58942-5859-4b42-8981-cd97c530fd10",
+      "name": "Step 1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -60,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### 2. Take the screenshots\nBulk Website Screenshot API & PDF on Apify returns one ZIP. Uses the `Apify API token` Header Auth credential.",
+        "height": 380,
+        "width": 440,
+        "color": 7
+      },
+      "id": "241807c0-124c-44d7-a36c-3be114e6b5ed",
+      "name": "Step 2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        600,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### 3. Keep and log them\nSaves the ZIP to Google Drive and adds one row per run to Google Sheets.",
+        "height": 380,
+        "width": 880,
+        "color": 7
+      },
+      "id": "99118909-2ef3-4679-916e-9f7921bed79c",
+      "name": "Step 3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1060,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "months",
+              "monthsInterval": 1,
+              "triggerAtDayOfMonth": 1,
+              "triggerAtHour": 8
+            }
+          ]
+        }
+      },
+      "id": "9255faa6-461e-4ca4-8085-67a76721c077",
+      "name": "Monthly run",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -20,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6377d368-58fd-49b9-8906-3923eefa3e94",
+              "name": "device",
+              "type": "string",
+              "value": "desktop"
+            },
+            {
+              "id": "3c7a0bf4-1cd0-4443-8e79-cee770805e13",
+              "name": "format",
+              "type": "string",
+              "value": "jpeg"
+            },
+            {
+              "id": "692f789b-0638-4c9b-93ad-9303f0d9b818",
+              "name": "savePdf",
+              "type": "boolean",
+              "value": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "00a9cf87-1e18-4d17-acb3-d6d1c2a0e0d7",
+      "name": "Settings",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        180,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "mode": "url",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "options": {}
+      },
+      "id": "e44ff311-cfc8-4216-adf6-fc2918b7b8b3",
+      "name": "Pages to capture",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        400,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Collect the URLs from the sheet into one Apify input\nconst urls = $input.all()\n  .map(i => String(i.json.url || '').trim())\n  .filter(u => /^https?:\\/\\//i.test(u));\nif (!urls.length) throw new Error('No URLs found. Put the pages in a column named \"url\".');\nconst s = $('Settings').first().json;\nreturn [{ json: { actorInput: {\n  urls,\n  fullPage: true,\n  device: s.device,\n  format: s.format,\n  quality: 80,\n  savePdf: s.savePdf,\n  hideCookieBanners: true,\n  blockAds: true,\n  outputZip: true,\n} } }];"
+      },
+      "id": "cd6903c6-b2aa-4717-aa74-0a44463047e1",
+      "name": "Collect URLs",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        640,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/acts/egra_van~website-screenshot-pro/run-sync?timeout=290",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.actorInput) }}",
+        "options": {
+          "timeout": 300000
+        }
+      },
+      "id": "116173f8-b5f3-4683-af2b-99fedc017bc4",
+      "name": "Take screenshots",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        860,
+        300
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "",
+          "name": "Apify API token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.zipUrl }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "data"
+            }
+          }
+        }
+      },
+      "id": "a7a44e00-9561-4b18-8b2b-84333a196ca6",
+      "name": "Download ZIP",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1100,
+        300
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "",
+          "name": "Apify API token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "=screenshots-{{ $now.toFormat('yyyy-MM-dd') }}.zip",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "root",
+          "cachedResultName": "/ (Root folder)"
+        },
+        "options": {}
+      },
+      "id": "f1334e65-9734-4b96-98b3-1c9e3d14e60a",
+      "name": "Save ZIP to Google Drive",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1320,
+        300
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// One row per run\nconst run = $('Take screenshots').first().json;\nconst file = $input.first().json;\nreturn [{ json: {\n  date: new Date().toISOString().slice(0, 10),\n  pages: run.totalUrls,\n  saved: run.succeeded,\n  failed: (run.failed || 0) + (run.invalidUrls || 0),\n  zipInDrive: file.id ? `https://drive.google.com/file/d/${file.id}/view` : '',\n  apifyResults: run.resultsUrl || '',\n} }];"
+      },
+      "id": "94b25445-42e7-49ea-b990-1e839273e136",
+      "name": "Make log row",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1540,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "url",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": []
+        },
+        "options": {}
+      },
+      "id": "62fb9318-e9d2-4e29-849a-63111850edbb",
+      "name": "Log the run",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1760,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Monthly run": {
+      "main": [
+        [
+          {
+            "node": "Settings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Settings": {
+      "main": [
+        [
+          {
+            "node": "Pages to capture",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pages to capture": {
+      "main": [
+        [
+          {
+            "node": "Collect URLs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Collect URLs": {
+      "main": [
+        [
+          {
+            "node": "Take screenshots",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Take screenshots": {
+      "main": [
+        [
+          {
+            "node": "Download ZIP",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download ZIP": {
+      "main": [
+        [
+          {
+            "node": "Save ZIP to Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save ZIP to Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Make log row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Make log row": {
+      "main": [
+        [
+          {
+            "node": "Log the run",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

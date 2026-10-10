@@ -5,6 +5,7 @@ import io
 import re
 
 from openpyxl import Workbook
+from openpyxl.cell import WriteOnlyCell
 
 INVOICE_LINE_COLS = ['fileName', 'page', 'lineIndex', 'description', 'sku', 'quantity', 'unit', 'unitPrice', 'discount',
                      'lineTaxRate', 'lineTaxAmount', 'lineTotal', 'lineCheck', 'invoiceNumber', 'invoiceDate', 'dueDate',
@@ -14,27 +15,36 @@ INVOICE_COLS = ['fileName', 'invoiceNumber', 'invoiceDate', 'dueDate', 'poNumber
 MAX_SHEETS = 200
 
 
+_WS = None  # the sheet being written (WriteOnlyCell needs it)
+
+
 def _safe(v):
-    if v is None:
-        return None
-    if isinstance(v, (int, float)):
+    """Text that starts like a formula ("-", "+", "=", "@") is stored as plain text with Excel's hidden quote prefix:
+    the cell shows "- 4.5" and not "'- 4.5", and nothing is ever run as a formula."""
+    if v is None or isinstance(v, (int, float)):
         return v
     s = str(v)
-    return "'" + s if s[:1] in ('=', '+', '-', '@') and not re.fullmatch(r'-?\d+(\.\d+)?', s) else s
+    if s[:1] in ('=', '+', '-', '@'):
+        cell = WriteOnlyCell(_WS, value=s)
+        cell.data_type = 's'
+        cell.quotePrefix = True
+        return cell
+    return s
 
 
 def build_workbook(rows: list[dict], invoices: list[dict]) -> bytes | None:
+    global _WS
     if not rows and not invoices:
         return None
     wb = Workbook(write_only=True)
     lines = [r for r in rows if r.get('rowType') == 'invoice-line']
     if lines:
-        ws = wb.create_sheet('Invoice lines')
+        ws = _WS = wb.create_sheet('Invoice lines')
         ws.append(INVOICE_LINE_COLS)
         for r in lines:
             ws.append([_safe(r.get(c)) for c in INVOICE_LINE_COLS])
     if invoices:
-        ws = wb.create_sheet('Invoices')
+        ws = _WS = wb.create_sheet('Invoices')
         ws.append(INVOICE_COLS)
         for inv in invoices:
             ws.append([_safe(inv.get(c)) for c in INVOICE_COLS])
@@ -53,7 +63,7 @@ def build_workbook(rows: list[dict], invoices: list[dict]) -> bytes | None:
             name = f'{base[:16]} t{ti}-{k}'[:31]
             k += 1
         used.add(name)
-        ws = wb.create_sheet(name)
+        ws = _WS = wb.create_sheet(name)
         first = trows[0]
         if first.get('tableTitle'):
             ws.append([_safe(first['tableTitle'])])

@@ -1,0 +1,3 @@
+{ "Pages to capture": [{ "url": "https://example.com" }, { "url": "https://www.wikipedia.org" }, { "url": "not a url" }],
+  "Save ZIP to Google Drive": [{ "id": "TEST_FILE_ID", "name": "screenshots-2026-10-10.zip" }],
+  "Log the run": [{ "ok": true }] }

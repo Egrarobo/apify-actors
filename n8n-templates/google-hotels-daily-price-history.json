@@ -1,0 +1,275 @@
+{
+  "name": "Track hotel prices daily from Google Hotels to Google Sheets",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Track hotel prices daily from Google Hotels to Google Sheets\n\n### Who's it for\nTravelers watching a stay, small travel agencies, hotel revenue managers watching competitors, and analysts who need a price history for fixed dates. Google Hotels shows today's price; this keeps every day's price in your own sheet.\n\n### How it works\n1. Every morning **Daily check** starts the workflow.\n2. **Settings** holds the hotels (Google Hotels links) and one fixed stay: check-in, check-out, guests, currency, country.\n3. **Check hotel prices** runs the **Google Hotels Scraper & Price API** on Apify for those hotels and dates.\n4. **Make sheet rows** keeps one row per hotel: date checked, hotel, price per night, price per night with taxes, total for the stay, deal label and, if enabled, the cheapest booking site.\n5. **Add to price history** appends the rows to Google Sheets. After a week, a line chart of the sheet is your price history.\n\n### How to set up\n1. Find each hotel on Google Hotels and copy its link (it looks like `https://www.google.com/travel/hotels/entity/...`). Paste the links in **Settings** → `hotelUrls`, one per line, and set the stay.\n2. Create a **Header Auth** credential named `Apify API token`: name `Authorization`, value `Bearer YOUR_APIFY_TOKEN` (Apify Console → Settings → API & Integrations). Select it in **Check hotel prices**.\n3. Create a Google Sheet with an empty tab, for example `Prices`, connect Google Sheets and pick it in **Add to price history**.\n4. Run the workflow once to check the first rows, then activate it.\n\n### Requirements\nApify account (the free plan includes $5 of usage a month), Google Sheets. Apify cost: $0.003 per hotel with a price on the free plan, so 5 hotels checked every day for 30 days cost about $0.45. Turning on `includeOffers` adds $0.002 per hotel.\n\n### How to customize\n- Keep the stay fixed. A different stay every day is not a price history.\n- Watch several stays by duplicating **Settings** and **Check hotel prices**, or run the workflow at several times a day by changing **Daily check**.\n- Set `includeOffers` to true to also record the cheapest booking site (Booking.com, Expedia, the hotel's own site...).\n- A hotel that is sold out for your dates has no price that day; its cells stay empty.",
+        "height": 1100,
+        "width": 460
+      },
+      "id": "67c32940-c9b8-400f-a0da-23d2fde799a9",
+      "name": "Template description",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -560,
+        -40
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### 1. Your hotels and stay\nPaste the Google Hotels links in **Settings** (one per line) and set the fixed stay.",
+        "height": 380,
+        "width": 440,
+        "color": 7
+      },
+      "id": "5d5f56ec-c6dd-4573-bb99-c561bce63061",
+      "name": "Step 1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -60,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### 2. Check the prices\nRuns the Google Hotels Scraper & Price API on Apify. Uses the `Apify API token` Header Auth credential.",
+        "height": 380,
+        "width": 440,
+        "color": 7
+      },
+      "id": "0f4c39f6-9afa-4ea3-8240-a2a2863d2c20",
+      "name": "Step 2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        400,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### 3. Save the history\nOne row per hotel per day in Google Sheets.",
+        "height": 380,
+        "width": 440,
+        "color": 7
+      },
+      "id": "4229db83-e280-40a8-aefc-5229bdbe484f",
+      "name": "Step 3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        860,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "days",
+              "daysInterval": 1,
+              "triggerAtHour": 8
+            }
+          ]
+        }
+      },
+      "id": "cffe8c8e-a632-4fe6-8086-0b087935b009",
+      "name": "Daily check",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -20,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "85f8675f-8e15-4f0e-b104-2a6dedaa0bf4",
+              "name": "hotelUrls",
+              "type": "string",
+              "value": "https://www.google.com/travel/hotels/entity/ChkIhLCQwvjO2IYWGg0vZy8xMXE0bTZieDkyEAE\nhttps://www.google.com/travel/hotels/entity/ChgI4--UnavF4akXGgwvZy8xaG01YnJ6NXMQAQ\nhttps://www.google.com/travel/hotels/entity/ChgIrYeF1aLy5vM5GgwvZy8xamt2dDlkdmcQAQ"
+            },
+            {
+              "id": "0f2f48d4-4760-4b1a-9452-aebfbf413509",
+              "name": "checkInDate",
+              "type": "string",
+              "value": "2026-12-18"
+            },
+            {
+              "id": "a8c6131d-2c3d-499b-baad-bee9a4c696a9",
+              "name": "checkOutDate",
+              "type": "string",
+              "value": "2026-12-21"
+            },
+            {
+              "id": "d803f376-8b77-4ccc-919d-2a5f3f0c9700",
+              "name": "adults",
+              "type": "number",
+              "value": 2
+            },
+            {
+              "id": "e99a02dc-cd95-49c4-8677-853a2126e77f",
+              "name": "currency",
+              "type": "string",
+              "value": "USD"
+            },
+            {
+              "id": "6825c9d1-7b09-4009-ad7e-5e70050f9e51",
+              "name": "country",
+              "type": "string",
+              "value": "us"
+            },
+            {
+              "id": "0a693e27-0e31-4be1-90f4-944b30c78906",
+              "name": "includeOffers",
+              "type": "boolean",
+              "value": false
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ca6d4f13-920a-42df-a961-049e482a91e0",
+      "name": "Settings",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        180,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/acts/egra_van~google-hotels-prices/run-sync-get-dataset-items?timeout=280",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ queries: [], hotelUrls: String($json.hotelUrls).split(/\\s+/).filter(u => u.startsWith('http')), checkInDate: $json.checkInDate, checkOutDate: $json.checkOutDate, adults: $json.adults, currency: $json.currency, country: $json.country, includeOffers: $json.includeOffers }) }}",
+        "options": {
+          "timeout": 300000
+        }
+      },
+      "id": "4b6046bf-bfd3-4efa-8aad-f8b768db8b10",
+      "name": "Check hotel prices",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        460,
+        300
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "",
+          "name": "Apify API token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// One sheet row per hotel. Empty cells mean Google showed no price for these dates (for example, sold out).\nconst rows = [];\nfor (const { json: h } of $input.all()) {\n  if (!h.hotelName) continue; // skip empty responses\n  rows.push({\n    json: {\n      checkedAt: (h.scrapedAt || new Date().toISOString()).slice(0, 16).replace('T', ' '),\n      hotel: h.hotelName,\n      checkIn: h.checkIn,\n      checkOut: h.checkOut,\n      nights: h.nights,\n      currency: h.currency,\n      pricePerNight: h.pricePerNight ?? '',\n      pricePerNightWithTaxes: h.pricePerNightWithTaxes ?? '',\n      totalForStay: h.priceTotal ?? '',\n      deal: h.dealLabel ?? '',\n      cheapestSite: h.cheapestProvider ?? '',\n      hotelId: h.entityId,\n    },\n  });\n}\nreturn rows;"
+      },
+      "id": "00e84952-4d7d-4ab9-be34-7ed6e2f80297",
+      "name": "Make sheet rows",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        680,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "url",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": []
+        },
+        "options": {}
+      },
+      "id": "97fdba91-0340-47e9-88c6-251005580b8a",
+      "name": "Add to price history",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        920,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Daily check": {
+      "main": [
+        [
+          {
+            "node": "Settings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Settings": {
+      "main": [
+        [
+          {
+            "node": "Check hotel prices",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check hotel prices": {
+      "main": [
+        [
+          {
+            "node": "Make sheet rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Make sheet rows": {
+      "main": [
+        [
+          {
+            "node": "Add to price history",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}
