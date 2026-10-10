@@ -104,7 +104,7 @@ All four have an official Apify integration, so you need no custom code, only yo
 3. Add a second Apify node, operation **Get Dataset Items**, Dataset ID = `defaultDatasetId` from step 2.
 
 **Make**
-1. Add the **Apify → Run an Actor** module, choose *Google Hotels Scraper & Price API*, paste the input JSON and let it wait for the run to finish (synchronous run).
+1. Add the **Apify → Run an Actor** module, choose *Google Hotels Prices API & Scraper: Rate Parity* (or search for `egra_van/google-hotels-prices`), paste the input JSON and let it wait for the run to finish (synchronous run).
 2. Add **Apify → Get Dataset Items** with the dataset ID from step 1, then e.g. **Google Sheets → Add a Row**.
 
 **Zapier**
@@ -231,7 +231,7 @@ Tips for agents:
 
 ## Limitations
 
-- Google Hotels is not an official API. Google can change its internal data format at any time, and the scraper is updated when that happens. The log always says which data path was used, so a change is easy to spot.
+- Google Hotels is not an official API. This Actor is not affiliated with or endorsed by Google. Google can change its internal data format at any time, and the scraper is updated when that happens. The log always says which data path was used, so a change is easy to spot.
 - Prices depend on the country you search from (`country`), dates, guests and currency, just like on google.com.
 - The number of offers per hotel and their order are decided by Google.
 

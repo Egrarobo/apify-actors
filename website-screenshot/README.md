@@ -160,7 +160,7 @@ All four have an official Apify integration, so you need no custom code, only yo
 4. Ready-made workflow: [competitor website monitor](https://github.com/Egrarobo/apify-actors/blob/main/n8n-templates/competitor-website-monitor.json): checks competitor pages every day, takes a screenshot of every changed page, summarizes the changes with OpenAI, emails them and logs them in Google Sheets.
 
 **Make**
-1. Add the **Apify → Run an Actor** module, choose *Bulk Website Screenshot API & PDF*, paste the input JSON and let it wait for the run to finish (synchronous run).
+1. Add the **Apify → Run an Actor** module, choose *Website Screenshot API: Bulk, Full Page & PDF* (or search for `egra_van/website-screenshot-pro`), paste the input JSON and let it wait for the run to finish (synchronous run).
 2. Add **Apify → Get Dataset Items** with the dataset ID from step 1, then e.g. **Google Drive → Upload a File (from `screenshotUrl`)**.
 
 **Zapier**

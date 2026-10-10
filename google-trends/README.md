@@ -2,6 +2,8 @@
 
 **Get Google Trends data as JSON or spreadsheet rows in seconds: the prefilled run (2 keywords plus 10 Trending Now searches) took 11 to 26 seconds in our tests on 8 Oct 2026.** Give it your keywords, a country and a time range; get back interest over time, interest by region, top and rising related searches, and today's Trending Now searches.
 
+This Actor is not affiliated with or endorsed by Google. It is not Google's official Trends API; it collects the publicly visible Google Trends data.
+
 - **Runs end instead of hanging:** every request to Google has a time limit (30 s by default) and a fixed number of retries (5 by default). A keyword that Google keeps refusing is marked as failed, is **free**, and the run moves on.
 - **What you get:** one row per keyword with the 0-100 timeline, average, peak date, latest value, top region, related and rising queries, and a link to the same chart on trends.google.com
 - **What it costs:** $3 per 1,000 keywords (`$0.003` each; less on Silver and higher Apify plans, down to $1.50), $1 per 1,000 Trending Now searches. Keywords that fail or come back incomplete are **free**.
@@ -113,7 +115,7 @@ All four have an official Apify integration, so you need no custom code, only yo
 4. Ready-made workflow: [weekly content ideas from rising searches](https://github.com/Egrarobo/apify-actors/blob/main/n8n-templates/google-trends-content-ideas.json): every Monday it gets rising searches for your seed keywords, keeps only new ones, writes an SEO brief for each with OpenAI and saves them to Google Sheets. It uses a plain HTTP Request node, so it also works without the Apify node.
 
 **Make**
-1. Add the **Apify → Run an Actor** module, choose *Google Trends Scraper & API*, paste the input JSON and let it wait for the run to finish (synchronous run).
+1. Add the **Apify → Run an Actor** module, choose *Google Trends Scraper API & Trending Now* (or search for `egra_van/google-trends-reliable`), paste the input JSON and let it wait for the run to finish (synchronous run).
 2. Add **Apify → Get Dataset Items** with the dataset ID from step 1, then e.g. **Google Sheets → Add a Row**.
 
 **Zapier**
